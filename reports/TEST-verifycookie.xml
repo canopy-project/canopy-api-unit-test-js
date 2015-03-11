@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<testsuites>
+<testsuite name="verify cookie" errors="0" tests="1" failures="0" time="0.001" timestamp="2015-03-11T12:49:51">
+  <testcase classname="verify cookie" name="should not be null" time="0.001"></testcase>
+</testsuite>
+</testsuites>

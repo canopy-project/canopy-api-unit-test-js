@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<testsuites>
+<testsuite name="Frisby Test: users/session-login-logout_spec: Create" errors="0" tests="1" failures="0" time="1.01" timestamp="2015-03-11T16:06:07">
+  <testcase classname="Frisby Test: users/session-login-logout_spec: Create" name="
+	[ POST https://dev02.canopy.link/api/create_account ]" time="1.009"></testcase>
+</testsuite>
+</testsuites>

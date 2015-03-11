@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<testsuites>
+<testsuite name="Frisby Test: auth/session-based-login-cookie-logout_spec: Session-based AUTH: POST user api/login, verify cookie provided,  and POST user api/logout" errors="0" tests="1" failures="1" time="0.23" timestamp="2015-03-11T15:38:15">
+  <testcase classname="Frisby Test: auth/session-based-login-cookie-logout_spec: Session-based AUTH: POST user api/login, verify cookie provided,  and POST user api/logout" name="
+	[ POST https://dev02.canopy.link/api/login ]" time="0.229"><failure type="expect" message="Expected 401 to equal 200.">Error: Expected 401 to equal 200.
+    at new jasmine.ExpectationResult (/home/robert/Projects/canopy/canopy-api-unit-test-js/node_modules/jasmine-node/lib/jasmine-node/jasmine-1.3.1.js:114:32)
+    at null.toEqual (/home/robert/Projects/canopy/canopy-api-unit-test-js/node_modules/jasmine-node/lib/jasmine-node/jasmine-1.3.1.js:1316:29)
+    at null.&amp;lt;anonymous&amp;gt; (/home/robert/Projects/canopy/canopy-api-unit-test-js/node_modules/frisby/lib/frisby.js:493:42)
+    at null.&amp;lt;anonymous&amp;gt; (/home/robert/Projects/canopy/canopy-api-unit-test-js/node_modules/frisby/lib/frisby.js:1074:43)
+    at jasmine.Block.execute (/home/robert/Projects/canopy/canopy-api-unit-test-js/node_modules/jasmine-node/lib/jasmine-node/jasmine-1.3.1.js:1145:17)
+    at jasmine.Queue.next_ (/home/robert/Projects/canopy/canopy-api-unit-test-js/node_modules/jasmine-node/lib/jasmine-node/jasmine-1.3.1.js:2177:31)
+    at onComplete (/home/robert/Projects/canopy/canopy-api-unit-test-js/node_modules/jasmine-node/lib/jasmine-node/jasmine-1.3.1.js:2173:18)
+    at jasmine.WaitsForBlock.execute (/home/robert/Projects/canopy/canopy-api-unit-test-js/node_modules/jasmine-node/lib/jasmine-node/jasmine-1.3.1.js:2659:5)
+    at null._onTimeout (/home/robert/Projects/canopy/canopy-api-unit-test-js/node_modules/jasmine-node/lib/jasmine-node/jasmine-1.3.1.js:2673:12)
+    at Timer.listOnTimeout [as ontimeout] (timers.js:112:15)</failure><failure type="expect" message="Error: Expected string &amp;apos;error&amp;apos; to match string &amp;apos;ok&amp;apos; on key &amp;apos;result&amp;apos;">Error: Expected string &amp;apos;error&amp;apos; to match string &amp;apos;ok&amp;apos; on key &amp;apos;result&amp;apos;
+    at _jsonContains (/home/robert/Projects/canopy/canopy-api-unit-test-js/node_modules/frisby/lib/frisby.js:1271:17)
+    at jasmine.Matchers.toContainJson (/home/robert/Projects/canopy/canopy-api-unit-test-js/node_modules/frisby/lib/frisby.js:1186:12)
+    at null.&amp;lt;anonymous&amp;gt; (/home/robert/Projects/canopy/canopy-api-unit-test-js/node_modules/frisby/lib/frisby.js:717:24)
+    at null.&amp;lt;anonymous&amp;gt; (/home/robert/Projects/canopy/canopy-api-unit-test-js/node_modules/frisby/lib/frisby.js:1074:43)
+    at jasmine.Block.execute (/home/robert/Projects/canopy/canopy-api-unit-test-js/node_modules/jasmine-node/lib/jasmine-node/jasmine-1.3.1.js:1145:17)
+    at jasmine.Queue.next_ (/home/robert/Projects/canopy/canopy-api-unit-test-js/node_modules/jasmine-node/lib/jasmine-node/jasmine-1.3.1.js:2177:31)
+    at onComplete (/home/robert/Projects/canopy/canopy-api-unit-test-js/node_modules/jasmine-node/lib/jasmine-node/jasmine-1.3.1.js:2173:18)
+    at jasmine.WaitsForBlock.execute (/home/robert/Projects/canopy/canopy-api-unit-test-js/node_modules/jasmine-node/lib/jasmine-node/jasmine-1.3.1.js:2659:5)
+    at null._onTimeout (/home/robert/Projects/canopy/canopy-api-unit-test-js/node_modules/jasmine-node/lib/jasmine-node/jasmine-1.3.1.js:2673:12)
+    at Timer.listOnTimeout [as ontimeout] (timers.js:112:15)</failure><failure type="expect" message="TypeError: Cannot read property &amp;apos;0&amp;apos; of undefined">TypeError: Cannot read property &amp;apos;0&amp;apos; of undefined
+    at Frisby.frisby.create.post.expectStatus.expectHeaderContains.inspectJSON.expectJSON.after.after.frisby.create.post.expectStatus.expectHeaderContains.expectJSON.result (/home/robert/Projects/canopy/canopy-api-unit-test-js/spec/api/users/session-based-login-cookie-logout_spec.js:41:43)
+    at Frisby.&amp;lt;anonymous&amp;gt; (/home/robert/Projects/canopy/canopy-api-unit-test-js/node_modules/frisby/lib/frisby.js:940:8)
+    at null.&amp;lt;anonymous&amp;gt; (/home/robert/Projects/canopy/canopy-api-unit-test-js/node_modules/frisby/lib/frisby.js:1112:18)
+    at jasmine.Block.execute (/home/robert/Projects/canopy/canopy-api-unit-test-js/node_modules/jasmine-node/lib/jasmine-node/jasmine-1.3.1.js:1145:17)
+    at jasmine.Queue.next_ (/home/robert/Projects/canopy/canopy-api-unit-test-js/node_modules/jasmine-node/lib/jasmine-node/jasmine-1.3.1.js:2177:31)
+    at onComplete (/home/robert/Projects/canopy/canopy-api-unit-test-js/node_modules/jasmine-node/lib/jasmine-node/jasmine-1.3.1.js:2173:18)
+    at jasmine.WaitsForBlock.execute (/home/robert/Projects/canopy/canopy-api-unit-test-js/node_modules/jasmine-node/lib/jasmine-node/jasmine-1.3.1.js:2659:5)
+    at null._onTimeout (/home/robert/Projects/canopy/canopy-api-unit-test-js/node_modules/jasmine-node/lib/jasmine-node/jasmine-1.3.1.js:2673:12)
+    at Timer.listOnTimeout [as ontimeout] (timers.js:112:15)</failure></testcase>
+</testsuite>
+</testsuites>

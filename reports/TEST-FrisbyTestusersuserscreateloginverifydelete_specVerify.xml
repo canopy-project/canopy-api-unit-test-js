@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<testsuites>
+<testsuite name="Frisby Test: users/users/create-login-verify-delete_spec: Verify" errors="0" tests="1" failures="0" time="0.148" timestamp="2015-03-11T15:39:42">
+  <testcase classname="Frisby Test: users/users/create-login-verify-delete_spec: Verify" name="
+	[ GET https://dev02.canopy.link/api/me ]" time="0.148"></testcase>
+</testsuite>
+</testsuites>
