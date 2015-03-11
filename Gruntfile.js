@@ -18,8 +18,7 @@ module.exports = function(grunt) {
     all: ['spec/']
     }
   });
-
-  require('load-grunt-tasks')(grunt);
+  grunt.loadNpmTasks('grunt-jasmine-node');
 
   grunt.registerTask('default', ['jasmine_node']);
 };
