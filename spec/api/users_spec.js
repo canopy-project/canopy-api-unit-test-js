@@ -9,7 +9,7 @@ var url = 'https://dev02.canopy.link/api/';
 process.env.NODE_TLS_REJECT_UNAUTHORIZED = "0";
 
 //  Initialize 'New User' credentials
-var nUsrNum = 21;
+var nUsrNum = 26;
 
 var nUsr = 'newuser' + nUsrNum;
 var nUsrEmail = 'newuser' + nUsrNum+ '@user.user';
@@ -20,15 +20,13 @@ var eUsr = 'exists';
 var eUsrEmail = 'exists@user.user';
 var eUsrPW = 'exists'
 
-
 /*
     Test: Create a User
 */
 
-// Expect 'create_account' to return 200 if username and
-// email are unique
-
-/*frisby.create('POST account create')
+//  Expect 'create_account' to return 200 if username and
+//  email are unique 
+frisby.create('POST account create')
   .post( url + 'create_account',
     { "username" : nUsr, "email" : nUsrEmail,  "password" : nUsrPW },
     { json: true },
@@ -37,8 +35,8 @@ var eUsrPW = 'exists'
   .expectHeaderContains('content-type', 'application/json')
   .toss()
 
-// Expect 'create_account' to fail with 400 if username and email
-// already exists
+//  Expect 'create_account' to fail with 400 if username and email
+//  already exists
 
 frisby.create('POST account create with existing un/email')
   .post( url + 'create_account',
@@ -47,7 +45,7 @@ frisby.create('POST account create with existing un/email')
    { headers: { "Content-Type":"application/json"}})
   .expectStatus(400)
   .expectHeaderContains('content-type', 'application/json')
-  .toss()*/
+  .toss()
 
 /*
     Test: Get Current User
@@ -64,8 +62,6 @@ frisby.create('POST account create with existing un/email')
     2) GET Current user
     3) Logout
 */
-
-
 
 frisby.create('POST user login')
   .post( url + 'login',
@@ -100,7 +96,15 @@ frisby.create('POST user login')
       .inspectJSON()
       .expectJSON(  {
         "result" : "ok",
-        "validated" : true,
+        /*
+          api documentation specifies key "validated", 
+          but this may have updated to "activated"
+
+          I assume activated occurs after an email activation,
+          so I am passing in 'false' for the time being.
+
+        */
+        "activated" : false,
         "username" : eUsr,
         "email" : eUsrEmail
        })
@@ -119,3 +123,8 @@ frisby.create('POST user login')
       .toss()
   })
 .toss()
+
+
+/*
+    Test: Update User Profile
+*/

@@ -25,8 +25,8 @@ var eDevSecretKey;
 	Session-based AUTH is for users only
 
 	Endpoints: 
-				Session-based AUTH Login: /api/login
-				Session-based AUTH Logout: /api/logout
+				Session-based AUTH Login POST to: /api/login
+				Session-based AUTH Logout POST to: /api/logout
 		
 	Implementation:
 		1) Log in to existing user account,
