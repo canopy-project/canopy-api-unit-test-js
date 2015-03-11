@@ -13,26 +13,12 @@ var nUsr = 'newuser' + nNum;
 var nEmail = 'newuser' + nNum + '@user.user';
 var nPW = 'newuser' + nNum;
 
-//  Initialize 'Existing User' credentials
-var eUsr = 'newuser' + (nNum - 1) ;
-var eEmail = 'newuser' + (nNum - 1) + '@user.user';
-var ePW = 'newuser' + (nNum - 1);
-
-//  Initialize 'Disposable User' credentials
-var dUsr = 'disposableuser' + nNum;
-var dEmail = 'disposableuser' + nNum + '@user.user';
-var dPW = 'disposableuser' + nNum;
+var selfEndpoint = 'me'
 
 module.exports.url = url;
-
-module.exports.eUsr   = eUsr;
-module.exports.eEmail = eEmail;
-module.exports.ePW    = ePW;
 
 module.exports.nUsr   = nUsr;
 module.exports.nEmail = nEmail;
 module.exports.nPW    = nPW;
 
-module.exports.dUsr = dUsr;
-module.exports.dEmail = dEmail;
-module.exports.dPW = dPW;
+module.exports.selfEndpoint = selfEndpoint;

@@ -30,7 +30,7 @@ frisby.create('users/session-login-logout_spec: Create')
 // 2) Login  
 
   .afterJSON(function(err, body, res){
-      frisby.create('users/users/session-login-logout_spec: Login')
+      frisby.create('users/session-login-logout_spec: Login')
         .post( g.url + 'login',
          { "username" : dUsr, "email" : dEmail,  "password" : dPW },
          { json: true },
@@ -49,9 +49,9 @@ frisby.create('users/session-login-logout_spec: Create')
         .after(function(body, res){
             var cookie = res.headers['set-cookie'][0].split(';')[0];
             console.log('cookie: ' + cookie);
-            frisby.create('users/users/session-login-logout_spec: Verify')
+            frisby.create('users/session-login-logout_spec: Verify')
              .addHeader('cookie', cookie)
-             .get( g.url + 'me')
+             .get( g.url + g.selfEndpointEndpoint)
              .expectStatus(200)
              .expectHeaderContains('content-type', 'application/json')      
              .inspectJSON()
@@ -75,7 +75,7 @@ frisby.create('users/session-login-logout_spec: Create')
 // 5) Log Back in  
 
                     .afterJSON(function(err, body, res){
-                        frisby.create('users/users/session-login-logout_spec: Login')
+                        frisby.create('users/session-login-logout_spec: Login')
                           .post( g.url + 'login',
                            { "username" : dUsr, "email" : dEmail,  "password" : dPW },
                            { json: true },
@@ -91,9 +91,9 @@ frisby.create('users/session-login-logout_spec: Create')
 // 6) Delete              
                         .after(function(body, res){
                           console.log('deleting user');
-                          frisby.create('users/users/session-login-logout_spec: Delete')
+                          frisby.create('users/session-login-logout_spec: Delete')
                              .addHeader('cookie', cookie)
-                             .delete( g.url + 'me')
+                             .delete( g.url + g.selfEndpointEndpoint)
                              .expectStatus(200)
                              .expectHeaderContains('content-type', 'application/json')      
                              .inspectJSON()
