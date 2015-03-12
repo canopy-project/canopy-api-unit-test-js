@@ -18,14 +18,14 @@ var nPW = 'disposableuser' + nNum;
     Test: Session-Based Login, Account Update
 */
 
-//  Expect g.createUserEndpoint to return 200 if username and
+//  Expect g.createUser to return 200 if username and
 //  email are unique
 console.log('creating test user');
 frisby.create('UPDATE users/session-login-update_spec: Create')
 
 // 1) Create  
 
-  .post( g.url + g.createUserEndpoint,
+  .post( g.url + g.createUser,
     { "username" : dUsr, "email" : dEmail,  "password" : dPW },
     { json: true },
     { headers: { "Content-Type":"application/json", "skip-email" : true }})
@@ -37,7 +37,7 @@ frisby.create('UPDATE users/session-login-update_spec: Create')
   .afterJSON(function(err, body, res){
       console.log('login in test user');
       frisby.create('users/session-login-update_spec: Login')
-        .post( g.url + g.loginEndpoint,
+        .post( g.url + g.login,
          { "username" : dUsr, "email" : dEmail,  "password" : dPW },
          { json: true },
          { headers: { "Content-Type":"application/json"}})
@@ -58,7 +58,7 @@ frisby.create('UPDATE users/session-login-update_spec: Create')
             console.log('cookie: ' + cookie);
             frisby.create('users/session-login-update_spec: Verify')
              .addHeader('cookie', cookie)
-             .get( g.url + g.userSelfEndpoint)
+             .get( g.url + g.userSelf)
              .expectStatus(200)
              .expectHeaderContains('content-type', 'application/json')      
              .inspectJSON()
@@ -75,7 +75,7 @@ frisby.create('UPDATE users/session-login-update_spec: Create')
                 console.log('updating test user');
                 frisby.create('users/session-login-update_spec: Update')
                    .addHeader('cookie', cookie)
-                   .post( g.url + g.userSelfEndpoint,{
+                   .post( g.url + g.userSelf,{
                       "email" : nEmail,
                       "new_password" : nPW,
                       "old_password" : dPW                   
@@ -95,7 +95,7 @@ frisby.create('UPDATE users/session-login-update_spec: Create')
                         console.log('verifying data update');
                         frisby.create('users/session-login-update_spec: Verify Data Update')
                          .addHeader('cookie', cookie)
-                         .get( g.url + g.userSelfEndpoint)
+                         .get( g.url + g.userSelf)
                          .expectStatus(200)
                          .expectHeaderContains('content-type', 'application/json')      
                          .inspectJSON()
@@ -112,7 +112,7 @@ frisby.create('UPDATE users/session-login-update_spec: Create')
                             frisby.create('users/session-login-update_spec: Delete')
                                .addHeader('cookie', cookie)
                                .addHeader('skip-email', true)                               
-                               .delete( g.url + g.userSelfEndpoint)
+                               .delete( g.url + g.userSelf)
                                .expectStatus(200)
                                .expectHeaderContains('content-type', 'application/json')      
                                .inspectJSON()

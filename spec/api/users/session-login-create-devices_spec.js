@@ -11,15 +11,19 @@ var g = require('../globals');
 //  email are unique
 
 //  Initialize 'Disposable User' credentials
-var dNum = 72865;
+var dNum = 9284570;
 var dUsr = 'disposableuser' + dNum;
 var dEmail = 'disposableuser' + dNum + '@user.user';
 var dPW = 'disposableuser' + dNum;
 
 //  Initialize Devices Details
 
-var quantity = 1;
-var friendlyNames = ['Jake' + dNum];
+var quantity = 40;
+var friendlyNames = [];
+for(var i=0;i<quantity;i++){
+    friendlyNames.push('Device' + dNum+i);
+}
+console.log('friendlyNames: ' + friendlyNames);
 
 
 console.log('g.createUser: ' + g.createUser);
@@ -59,7 +63,6 @@ frisby.create('CREATE USER-LINKED DEVICE users/session-login-create-device_spec:
         .after(function(body, res){
             var cookie = res.headers['set-cookie'][0].split(';')[0];
             console.log('cookie: ' + cookie);
-
             frisby.create('users/session-login-create-device_spec:Verify')
              .addHeader('cookie', cookie)
              .get( g.url + g.userSelf)
@@ -91,36 +94,12 @@ frisby.create('CREATE USER-LINKED DEVICE users/session-login-create-device_spec:
                   .expectJSON({
                       "result" : "ok"
                   })
-// 5) Verify Device Created
+// 5) Verify Devices Created
+              
 
-// GET /api/device/<UUID>
-
-                  .after(function(err, body, res){
-                      console.log('\nDevice Created res.body.devices[0].device_id: \n');
-                      //console.log(res.body.devices[0].device_id);
-                      var deviceId =  res.devices[0].device_id
-                      console.log('deviceId: ' + deviceId);
-                      console.log('\nDevice Created res.body.devices[0].device_secret_key: \n');
-                      //console.log(res.body.devices[0].device_secret_key);
-                      var secretKey = res.devices[0].device_secret_key;
-                      console.log('secretKey: ' + secretKey);
-                      console.log('Checking device created');
-                      frisby.create('users/session-login-create-device_spec:Verify Device Created')
-                       .addHeader('cookie', cookie)
-                       .get( g.url + g.devicepath + deviceId)
-                       .expectStatus(200)
-                       .expectHeaderContains('content-type', 'application/json')      
-                       .inspectJSON()
-                       .expectJSON(  {
-                         "result" : "ok",
-                         "device_id" : deviceId,
-                         "friendly_name" : friendlyNames[0]                         
-                        })
-
-
-// 6) Delete              
+// 5) Delete              
                        .after(function(body, res){
-                         console.log('\ndeleting user');
+                         console.log('deleting user');
                          frisby.create('users/session-login-create-device_spec:Delete')
                             .addHeader('cookie', cookie)
                             .addHeader('skip-email', true)
@@ -129,11 +108,10 @@ frisby.create('CREATE USER-LINKED DEVICE users/session-login-create-device_spec:
                             .expectHeaderContains('content-type', 'application/json')      
                             .inspectJSON()
                             .expectJSON({
-                              "result" : "ok"
+                              "result" : "ok",
                              })
                              .toss()
-                        })
-                      .toss()
+
                   })
                   .toss()
             })

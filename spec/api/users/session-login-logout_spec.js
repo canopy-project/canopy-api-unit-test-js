@@ -7,7 +7,7 @@ var g = require('../globals');
     Test: Session-Based Login/Logout
 */
 
-//  Expect g.createUserEndpoint to return 200 if username and
+//  Expect g.createUser to return 200 if username and
 //  email are unique
 
 //  Initialize 'Disposable User' credentials
@@ -15,14 +15,14 @@ var dNum = 0870679;
 var dUsr = 'disposableuser' + dNum;
 var dEmail = 'disposableuser' + dNum + '@user.user';
 var dPW = 'disposableuser' + dNum;
-console.log('g.createUserEndpoint: ' + g.createUserEndpoint);
+console.log('g.createUser: ' + g.createUser);
 console.log('g.url: ' + g.url);
 
 frisby.create('LOGIN/LOGOUT users/session-login-logout_spec: Create')
 
 // 1) Create  
 
-  .post( g.url + g.createUserEndpoint,
+  .post( g.url + g.createUser,
     { "username" : dUsr, "email" : dEmail,  "password" : dPW },
     { json: true },
     { headers: { "Content-Type":"application/json", "skip-email" : true }})  
@@ -33,7 +33,7 @@ frisby.create('LOGIN/LOGOUT users/session-login-logout_spec: Create')
 
   .afterJSON(function(err, body, res){
       frisby.create('users/session-login-logout_spec: Login')
-        .post( g.url + g.loginEndpoint,
+        .post( g.url + g.login,
          { "username" : dUsr, "email" : dEmail,  "password" : dPW },
          { json: true },
          { headers: { "Content-Type":"application/json"}})
@@ -53,7 +53,7 @@ frisby.create('LOGIN/LOGOUT users/session-login-logout_spec: Create')
             console.log('cookie: ' + cookie);
             frisby.create('users/session-login-logout_spec: Verify')
              .addHeader('cookie', cookie)
-             .get( g.url + g.userSelfEndpoint)
+             .get( g.url + g.userSelf)
              .expectStatus(200)
              .expectHeaderContains('content-type', 'application/json')      
              .inspectJSON()
@@ -78,7 +78,7 @@ frisby.create('LOGIN/LOGOUT users/session-login-logout_spec: Create')
 
                     .afterJSON(function(err, body, res){
                         frisby.create('users/session-login-logout_spec: Login')
-                          .post( g.url + g.loginEndpoint,
+                          .post( g.url + g.login,
                            { "username" : dUsr, "email" : dEmail,  "password" : dPW },
                            { json: true },
                            { headers: { "Content-Type":"application/json"}})
@@ -96,7 +96,7 @@ frisby.create('LOGIN/LOGOUT users/session-login-logout_spec: Create')
                           frisby.create('users/session-login-logout_spec: Delete')
                              .addHeader('cookie', cookie)
                              .addHeader('skip-email', true)
-                             .delete( g.url + g.userSelfEndpoint)
+                             .delete( g.url + g.userSelf)
                              .expectStatus(200)
                              .expectHeaderContains('content-type', 'application/json')      
                              .inspectJSON()
