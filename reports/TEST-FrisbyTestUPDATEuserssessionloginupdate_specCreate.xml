@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<testsuites>
+<testsuite name="Frisby Test: UPDATE users/session-login-update_spec: Create" errors="0" tests="1" failures="0" time="0.543" timestamp="2015-03-12T15:40:21">
+  <testcase classname="Frisby Test: UPDATE users/session-login-update_spec: Create" name="
+	[ POST https://dev02.canopy.link/api/create_user ]" time="0.543"></testcase>
+</testsuite>
+</testsuites>

@@ -23,9 +23,9 @@ frisby.create('LOGIN/LOGOUT users/session-login-logout_spec: Create')
 // 1) Create  
 
   .post( g.url + g.createUser,
-    { "username" : dUsr, "email" : dEmail,  "password" : dPW },
+    { "username" : dUsr, "email" : dEmail,  "password" : dPW, "skip-email" : true },
     { json: true },
-    { headers: { "Content-Type":"application/json", "skip-email" : true }})  
+    { headers: { "Content-Type":"application/json"}})  
   .expectStatus(200)
   .expectHeaderContains('content-type', 'application/json')
 
