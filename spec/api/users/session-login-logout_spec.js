@@ -11,12 +11,12 @@ var g = require('../globals');
 //  email are unique
 
 //  Initialize 'Disposable User' credentials
-var dNum = 27544;
+var dNum = 0870679;
 var dUsr = 'disposableuser' + dNum;
 var dEmail = 'disposableuser' + dNum + '@user.user';
 var dPW = 'disposableuser' + dNum;
 
-frisby.create('users/session-login-logout_spec: Create')
+frisby.create('LOGIN/LOGOUT users/session-login-logout_spec: Create')
 
 // 1) Create  
 

@@ -4,7 +4,7 @@ var frisby = require('frisby');
 var g = require('../globals');
 
 //  Initialize 'Disposable User' credentials
-var dNum = 48474;
+var dNum = 765887;
 var dUsr = 'disposableuser' + dNum;
 var dEmail = 'disposableuser' + dNum + '@user.user';
 var dPW = 'disposableuser' + dNum;
@@ -15,7 +15,7 @@ var dPW = 'disposableuser' + dNum;
 //  Expect 'create_account' to return 200 if username and
 //  email are unique
 
-frisby.create('users/session-login-verify_spec: Create')
+frisby.create('LOGIN/VERIFY  users/session-login-verify_spec: Create')
 
 // 1) Create  
 

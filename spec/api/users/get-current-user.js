@@ -19,10 +19,10 @@ var g = require('../globals');
     3) Logout
 */
 
-frisby.create('users/get-current-user_spec: POST user login, user get "me", user logout')
+frisby.create(' users/get-current-user_spec: POST user login, user get "/user/self", user logout')
   /* 1) Login: */
   .post( g.url + 'login',
-   { "username" : g.nUsr, "email" : g.nEmail,  "password" : g.nPW },
+   { "username" : g.eUsr, "email" : g.eEmail,  "password" : g.ePW },
    { json: true },
    { headers: { "Content-Type":"application/json"}})
   .expectStatus(200)
@@ -30,8 +30,8 @@ frisby.create('users/get-current-user_spec: POST user login, user get "me", user
   .inspectJSON()
   .expectJSON({
       "result" : "ok",
-      "username" : g.nUsr,
-      "email" : g.nEmail
+      "username" : g.eUsr,
+      "email" : g.eEmail
     })
   .after(function(body, res){
     var cookie = res.headers['set-cookie'][0].split(';')[0];    
@@ -50,15 +50,15 @@ frisby.create('users/get-current-user_spec: POST user login, user get "me", user
 */
     frisby.create('users/get-current-user_spec: Get /api/user/self')
       .addHeader('cookie', cookie)
-      .get( g.url + g.userSelfEndpoin)
+      .get( g.url + g.userSelfEndpoint)
       .expectStatus(200)
       .expectHeaderContains('content-type', 'application/json')      
       .inspectJSON()
       .expectJSON(  {
         "result" : "ok",
         "validated" : false,
-        "username" : g.nUsr,
-        "email" : g.nEmail
+        "username" : g.eUsr,
+        "email" : g.eEmail
        })
       .toss()
   })   
