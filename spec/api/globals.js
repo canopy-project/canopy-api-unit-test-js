@@ -18,9 +18,11 @@ var eNum = 8235;
 var eUsr = 'disposableuser' + eNum;
 var eEmail = 'disposableuser' + eNum + '@user.user';
 var ePW = 'disposableuser' + eNum;
-var basicUserAuth = 'Basic ' + new Buffer( eUsr + ':' + ePW ).toString("base64")
+var basicUserAuth = 'Basic ' + new Buffer( eUsr + ':' + ePW ).toString("base64");
 
-var userSelfEndpoint = 'user/self' // 'me'
+var userSelfEndpoint = 'user/self'; // 'me'
+
+var createUserEndpoint =  'create_user';
 
 module.exports.url = url;
 
@@ -35,3 +37,4 @@ module.exports.ePW = ePW;
 module.exports.basicUserAuth = basicUserAuth;
 
 module.exports.userSelfEndpoint = userSelfEndpoint;
+module.exports.createUserEndpoint = createUserEndpoint;

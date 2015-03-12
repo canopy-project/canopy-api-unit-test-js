@@ -12,17 +12,17 @@ var dPW = 'disposableuser' + dNum;
     Test: Session-Based Login, userSelfEndpoint-verification
 */
 
-//  Expect 'create_account' to return 200 if username and
+//  Expect g.createUserEndpoint to return 200 if username and
 //  email are unique
 
 frisby.create('LOGIN/VERIFY  users/session-login-verify_spec: Create')
 
 // 1) Create  
 
-  .post( g.url + 'create_account',
+  .post( g.url + g.createUserEndpoint,
     { "username" : dUsr, "email" : dEmail,  "password" : dPW },
     { json: true },
-    { headers: { "Content-Type":"application/json"}})
+    { headers: { "Content-Type":"application/json", "skip-email" : true }})
   .expectStatus(200)
   .expectHeaderContains('content-type', 'application/json')
 
@@ -67,6 +67,7 @@ frisby.create('LOGIN/VERIFY  users/session-login-verify_spec: Create')
                 console.log('deleting user');
                 frisby.create('users/session-login-verify_spec: Delete')
                    .addHeader('cookie', cookie)
+                   .addHeader('skip-email', true)                   
                    .delete( g.url + g.userSelfEndpoint)
                    .expectStatus(200)
                    .expectHeaderContains('content-type', 'application/json')      
