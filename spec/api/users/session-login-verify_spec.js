@@ -30,7 +30,7 @@ frisby.create('LOGIN/VERIFY  users/session-login-verify_spec: Create')
 
   .afterJSON(function(err, body, res){
       frisby.create('users/session-login-verify_spec: Login')
-        .post( g.url + 'login',
+        .post( g.url + g.loginEndpoint,
          { "username" : dUsr, "email" : dEmail,  "password" : dPW },
          { json: true },
          { headers: { "Content-Type":"application/json"}})

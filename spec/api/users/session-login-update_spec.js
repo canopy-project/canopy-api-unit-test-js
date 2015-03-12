@@ -24,6 +24,7 @@ console.log('creating test user');
 frisby.create('UPDATE users/session-login-update_spec: Create')
 
 // 1) Create  
+
   .post( g.url + g.createUserEndpoint,
     { "username" : dUsr, "email" : dEmail,  "password" : dPW },
     { json: true },
@@ -36,7 +37,7 @@ frisby.create('UPDATE users/session-login-update_spec: Create')
   .afterJSON(function(err, body, res){
       console.log('login in test user');
       frisby.create('users/session-login-update_spec: Login')
-        .post( g.url + 'login',
+        .post( g.url + g.loginEndpoint,
          { "username" : dUsr, "email" : dEmail,  "password" : dPW },
          { json: true },
          { headers: { "Content-Type":"application/json"}})
@@ -69,6 +70,7 @@ frisby.create('UPDATE users/session-login-update_spec: Create')
               })
 
 // 4) Update  
+
               .after(function(body, res){
                 console.log('updating test user');
                 frisby.create('users/session-login-update_spec: Update')
@@ -86,7 +88,9 @@ frisby.create('UPDATE users/session-login-update_spec: Create')
                       "username" : dUsr,
                       "email" : nEmail
                     })
+
 // 5) Verify Data Update
+
                     .after(function(body, res){
                         console.log('verifying data update');
                         frisby.create('users/session-login-update_spec: Verify Data Update')

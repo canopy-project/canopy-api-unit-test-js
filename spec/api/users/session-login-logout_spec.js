@@ -33,7 +33,7 @@ frisby.create('LOGIN/LOGOUT users/session-login-logout_spec: Create')
 
   .afterJSON(function(err, body, res){
       frisby.create('users/session-login-logout_spec: Login')
-        .post( g.url + 'login',
+        .post( g.url + g.loginEndpoint,
          { "username" : dUsr, "email" : dEmail,  "password" : dPW },
          { json: true },
          { headers: { "Content-Type":"application/json"}})
@@ -78,7 +78,7 @@ frisby.create('LOGIN/LOGOUT users/session-login-logout_spec: Create')
 
                     .afterJSON(function(err, body, res){
                         frisby.create('users/session-login-logout_spec: Login')
-                          .post( g.url + 'login',
+                          .post( g.url + g.loginEndpoint,
                            { "username" : dUsr, "email" : dEmail,  "password" : dPW },
                            { json: true },
                            { headers: { "Content-Type":"application/json"}})
