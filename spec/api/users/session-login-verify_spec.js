@@ -4,12 +4,12 @@ var frisby = require('frisby');
 var g = require('../globals');
 
 //  Initialize 'Disposable User' credentials
-var dNum = 174829;
+var dNum = 48474;
 var dUsr = 'disposableuser' + dNum;
 var dEmail = 'disposableuser' + dNum + '@user.user';
 var dPW = 'disposableuser' + dNum;
 /*
-    Test: Session-Based Login, selfEndpoint-verification
+    Test: Session-Based Login, userSelfEndpoint-verification
 */
 
 //  Expect 'create_account' to return 200 if username and
@@ -48,15 +48,16 @@ frisby.create('users/session-login-verify_spec: Create')
         .after(function(body, res){
             var cookie = res.headers['set-cookie'][0].split(';')[0];
             console.log('cookie: ' + cookie);
+            console.log('verifying... ')
             frisby.create('users/session-login-verify_spec: Verify')
              .addHeader('cookie', cookie)
-             .get( g.url + g.selfEndpoint)
+             .get( g.url + g.userSelfEndpoint)
              .expectStatus(200)
              .expectHeaderContains('content-type', 'application/json')      
              .inspectJSON()
              .expectJSON(  {
                "result" : "ok",
-               "activated" : false,
+               "validated" : false,
                "username" : dUsr,
                "email" : dEmail
               })
@@ -66,7 +67,7 @@ frisby.create('users/session-login-verify_spec: Create')
                 console.log('deleting user');
                 frisby.create('users/session-login-verify_spec: Delete')
                    .addHeader('cookie', cookie)
-                   .delete( g.url + g.selfEndpoint)
+                   .delete( g.url + g.userSelfEndpoint)
                    .expectStatus(200)
                    .expectHeaderContains('content-type', 'application/json')      
                    .inspectJSON()

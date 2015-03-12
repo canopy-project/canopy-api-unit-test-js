@@ -10,6 +10,8 @@ var g = require('../globals');
 //  Expect 'create_account' to return 200 if username and
 //  email are unique 
 
+//  Initialize 'Disposable User' credentials
+
 frisby.create('users/create-user-account_spec: POST account create')
   .post( g.url + 'create_account',
     { "username" : g.nUsr, "email" : g.nEmail,  "password" : g.nPW },

@@ -11,7 +11,7 @@ var g = require('../globals');
 //  email are unique
 
 //  Initialize 'Disposable User' credentials
-var dNum = 7842913;
+var dNum = 27544;
 var dUsr = 'disposableuser' + dNum;
 var dEmail = 'disposableuser' + dNum + '@user.user';
 var dPW = 'disposableuser' + dNum;
@@ -51,13 +51,13 @@ frisby.create('users/session-login-logout_spec: Create')
             console.log('cookie: ' + cookie);
             frisby.create('users/session-login-logout_spec: Verify')
              .addHeader('cookie', cookie)
-             .get( g.url + g.selfEndpointEndpoint)
+             .get( g.url + g.userSelfEndpoint)
              .expectStatus(200)
              .expectHeaderContains('content-type', 'application/json')      
              .inspectJSON()
              .expectJSON(  {
                "result" : "ok",
-               "activated" : false,
+               "validated" : false,
                "username" : dUsr,
                "email" : dEmail
               })
@@ -93,7 +93,7 @@ frisby.create('users/session-login-logout_spec: Create')
                           console.log('deleting user');
                           frisby.create('users/session-login-logout_spec: Delete')
                              .addHeader('cookie', cookie)
-                             .delete( g.url + g.selfEndpointEndpoint)
+                             .delete( g.url + g.userSelfEndpoint)
                              .expectStatus(200)
                              .expectHeaderContains('content-type', 'application/json')      
                              .inspectJSON()

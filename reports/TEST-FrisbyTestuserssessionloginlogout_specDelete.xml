@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<testsuites>
+<testsuite name="Frisby Test: users/session-login-logout_spec: Delete" errors="0" tests="1" failures="0" time="0.397" timestamp="2015-03-11T17:23:08">
+  <testcase classname="Frisby Test: users/session-login-logout_spec: Delete" name="
+	[ DELETE https://dev02.canopy.link/api/user/self ]" time="0.397"></testcase>
+</testsuite>
+</testsuites>

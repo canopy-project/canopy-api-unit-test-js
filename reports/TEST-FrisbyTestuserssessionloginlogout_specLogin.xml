@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <testsuites>
-<testsuite name="Frisby Test: users/session-login-logout_spec: Login" errors="0" tests="1" failures="0" time="0.318" timestamp="2015-03-11T16:36:35">
+<testsuite name="Frisby Test: users/session-login-logout_spec: Login" errors="0" tests="1" failures="0" time="0.311" timestamp="2015-03-11T17:23:08">
   <testcase classname="Frisby Test: users/session-login-logout_spec: Login" name="
-	[ POST https://dev02.canopy.link/api/login ]" time="0.318"></testcase>
+	[ POST https://dev02.canopy.link/api/login ]" time="0.311"></testcase>
 </testsuite>
 </testsuites>

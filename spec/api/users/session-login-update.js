@@ -15,7 +15,7 @@ var dPW = 'disposableuser' + dNum;
 //  Expect 'create_account' to return 200 if username and
 //  email are unique
 
-frisby.create('users/session-login-verify_spec: Create')
+frisby.create('users/session-login-update_spec: Create')
 
 // 1) Create  
 
@@ -29,7 +29,7 @@ frisby.create('users/session-login-verify_spec: Create')
 // 2) Login  
 
   .afterJSON(function(err, body, res){
-      frisby.create('users/session-login-verify_spec: Login')
+      frisby.create('users/session-login-update_spec: Login')
         .post( g.url + 'login',
          { "username" : dUsr, "email" : dEmail,  "password" : dPW },
          { json: true },
@@ -48,7 +48,7 @@ frisby.create('users/session-login-verify_spec: Create')
         .after(function(body, res){
             var cookie = res.headers['set-cookie'][0].split(';')[0];
             console.log('cookie: ' + cookie);
-            frisby.create('users/session-login-verify_spec: Verify')
+            frisby.create('users/session-login-update_spec: Verify')
              .addHeader('cookie', cookie)
              .get( g.url + g.self)
              .expectStatus(200)
@@ -56,7 +56,7 @@ frisby.create('users/session-login-verify_spec: Create')
              .inspectJSON()
              .expectJSON(  {
                "result" : "ok",
-               "activated" : false,
+               "validated" : false,
                "username" : dUsr,
                "email" : dEmail
               })
@@ -64,7 +64,7 @@ frisby.create('users/session-login-verify_spec: Create')
 // 4) Update             
               .after(function(body, res){
                 console.log('deleting user');
-                frisby.create('users/session-login-verify_spec: Delete')
+                frisby.create('users/session-login-update_spec: Delete')
                    .addHeader('cookie', cookie)
                    .delete( g.url + 'user/g.self')
                    .expectStatus(200)
@@ -74,9 +74,9 @@ frisby.create('users/session-login-verify_spec: Create')
                      "result" : "ok",
                     })
 // 5) Delete             
-                   .after(function(body, res){
+/*                   .after(function(body, res){
                      console.log('deleting user');
-                     frisby.create('users/session-login-verify_spec: Delete')
+                     frisby.create('users/session-login-update_spec: Delete')
                         .addHeader('cookie', cookie)
                         .delete( g.url + g.self)
                         .expectStatus(200)
@@ -86,7 +86,7 @@ frisby.create('users/session-login-verify_spec: Create')
                           "result" : "ok",
                          })
                         .toss()
-                    })
+                    })*/
                    .toss()
               })
              .toss()
