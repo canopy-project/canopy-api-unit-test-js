@@ -4,7 +4,7 @@ var frisby = require('frisby');
 var g = require('../globals');
 
 //  Initialize 'Disposable User' credentials
-var dNum = 72818;
+var dNum = 7273378;
 var dUsr = 'disposableuser' + dNum;
 var dEmail = 'disposableuser' + dNum + '@user.user';
 var dPW = 'disposableuser' + dNum;
