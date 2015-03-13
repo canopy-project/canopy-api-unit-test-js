@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <testsuites>
-<testsuite name="Frisby Test: users/session-login-create-device_spec:Verify Device Created" errors="0" tests="1" failures="1" time="0.339" timestamp="2015-03-12T17:37:09">
+<testsuite name="Frisby Test: users/session-login-create-device_spec:Verify Device Created" errors="0" tests="1" failures="1" time="0.349" timestamp="2015-03-12T17:46:00">
   <testcase classname="Frisby Test: users/session-login-create-device_spec:Verify Device Created" name="
-	[ GET https://dev02.canopy.link/api/device/7a973828-e255-41e2-8dff-3ee63baab2f9 ]" time="0.339"><failure type="expect" message="Error: Expected &amp;apos;null&amp;apos; to be type &amp;apos;object&amp;apos; for comparison">Error: Expected &amp;apos;null&amp;apos; to be type &amp;apos;object&amp;apos; for comparison
+	[ GET https://dev02.canopy.link/api/device/289a501f-91bf-48fd-beef-75a3b9a8da62 ]" time="0.349"><failure type="expect" message="Error: Expected &amp;apos;null&amp;apos; to be type &amp;apos;object&amp;apos; for comparison">Error: Expected &amp;apos;null&amp;apos; to be type &amp;apos;object&amp;apos; for comparison
     at _jsonContains (/home/robert/Projects/canopy/canopy-api-unit-test-js/node_modules/frisby/lib/frisby.js:1238:11)
     at jasmine.Matchers.toContainJson (/home/robert/Projects/canopy/canopy-api-unit-test-js/node_modules/frisby/lib/frisby.js:1186:12)
     at null.&amp;lt;anonymous&amp;gt; (/home/robert/Projects/canopy/canopy-api-unit-test-js/node_modules/frisby/lib/frisby.js:717:24)

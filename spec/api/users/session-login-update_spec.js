@@ -4,8 +4,8 @@ var frisby = require('frisby');
 var g = require('../globals');
 
 //  Initialize 'Disposable User' credentials
-var dNum = 65674;
-var nNum = 38943;
+var dNum = 237506;
+var nNum = 7827552;
 var dUsr = 'disposableuser' + dNum;
 var dEmail = 'disposableuser' + dNum + '@user.user';
 var dPW = 'disposableuser' + dNum;
@@ -78,7 +78,8 @@ frisby.create('UPDATE users/session-login-update_spec: Create')
                    .post( g.url + g.userSelf,{
                       "email" : nEmail,
                       "new_password" : nPW,
-                      "old_password" : dPW                   
+                      "old_password" : dPW,
+                      "skip-email" : true                 
                    },
                        { json: true },
                        { headers: { "Content-Type":"application/json"}})

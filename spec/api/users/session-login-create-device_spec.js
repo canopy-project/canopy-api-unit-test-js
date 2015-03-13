@@ -11,7 +11,7 @@ var g = require('../globals');
 //  email are unique
 
 //  Initialize 'Disposable User' credentials
-var dNum = 72865;
+var dNum = 7827935;
 var dUsr = 'disposableuser' + dNum;
 var dEmail = 'disposableuser' + dNum + '@user.user';
 var dPW = 'disposableuser' + dNum;
@@ -103,10 +103,11 @@ frisby.create('CREATE USER-LINKED DEVICE users/session-login-create-device_spec:
                       console.log('\nDevice Created res.body.devices[0].device_secret_key: \n');
                       //console.log(res.body.devices[0].device_secret_key);
                       var secretKey = res.devices[0].device_secret_key;
+                      var auth = "Basic " + new Buffer( deviceId + ':' + secretKey ).toString("base64");
                       console.log('secretKey: ' + secretKey);
                       console.log('Checking device created');
                       frisby.create('users/session-login-create-device_spec:Verify Device Created')
-                       .addHeader('cookie', cookie)
+                       .addHeader('Authorization', auth)
                        .get( g.url + g.devicepath + deviceId)
                        .expectStatus(200)
                        .expectHeaderContains('content-type', 'application/json')      

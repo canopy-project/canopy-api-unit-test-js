@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <testsuites>
-<testsuite name="Frisby Test: UPDATE users/session-login-update_spec: Create" errors="0" tests="1" failures="0" time="0.521" timestamp="2015-03-12T17:36:56">
+<testsuite name="Frisby Test: UPDATE users/session-login-update_spec: Create" errors="0" tests="1" failures="0" time="0.554" timestamp="2015-03-12T17:45:45">
   <testcase classname="Frisby Test: UPDATE users/session-login-update_spec: Create" name="
-	[ POST https://dev02.canopy.link/api/create_user ]" time="0.521"></testcase>
+	[ POST https://dev02.canopy.link/api/create_user ]" time="0.554"></testcase>
 </testsuite>
 </testsuites>
