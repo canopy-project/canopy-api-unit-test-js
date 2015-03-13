@@ -90,19 +90,21 @@ frisby.create('LOGIN/LOGOUT users/session-login-logout_spec: Create')
                               "username" : dUsr,
                               "email" : dEmail
                           })
-// 6) Delete              
-                        .after(function(body, res){
-                          console.log('deleting test user');
-                          frisby.create('users/session-login-logout_spec: Delete')
-                             .addHeader('cookie', cookie)
-                             .addHeader('skip-email', true)
-                             .delete( g.url + g.userSelf)
-                             .expectStatus(200)
-                             .expectHeaderContains('content-type', 'application/json')      
-                             
-                             .expectJSON({
-                               "result" : "ok",
-                              })
+// 6) Delete             
+              .after(function(body, res){
+                console.log('deleting user');
+                frisby.create('users/session-login-verify_spec: Delete')
+                   .addHeader('cookie', cookie)             
+                   .delete( g.url + g.userSelf,
+                       {'skip-email':true },
+                       { json: true },
+                       { headers: { "Content-Type":"application/json"}})
+                   .expectStatus(200)
+                   .expectHeaderContains('content-type', 'application/json')      
+                   .inspectJSON()
+                   .expectJSON({
+                     "result" : "ok"
+                    })
                             .toss()
                         })
                        .toss()

@@ -4,7 +4,7 @@ var frisby = require('frisby');
 var g = require('../globals');
 
 //  Initialize 'Disposable User' credentials
-var dNum = 79228;
+var dNum = 72818;
 var dUsr = 'disposableuser' + dNum;
 var dEmail = 'disposableuser' + dNum + '@user.user';
 var dPW = 'disposableuser' + dNum;
@@ -66,14 +66,16 @@ frisby.create('LOGIN/VERIFY  users/session-login-verify_spec: Create')
               .after(function(body, res){
                 console.log('deleting user');
                 frisby.create('users/session-login-verify_spec: Delete')
-                   .addHeader('cookie', cookie)
-                   .addHeader('skip-email', true)                   
-                   .delete( g.url + g.userSelf)
+                   .addHeader('cookie', cookie)             
+                   .delete( g.url + g.userSelf,
+                       {'skip-email':true },
+                       { json: true },
+                       { headers: { "Content-Type":"application/json"}})
                    .expectStatus(200)
                    .expectHeaderContains('content-type', 'application/json')      
                    .inspectJSON()
                    .expectJSON({
-                     "result" : "ok",
+                     "result" : "ok"
                     })
                    .toss()
               })

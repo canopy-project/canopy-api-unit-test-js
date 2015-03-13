@@ -108,14 +108,16 @@ frisby.create('UPDATE users/session-login-update_spec: Create')
                            "username" : dUsr,
                            "email" : nEmail
                           })
-
+             
 // 6) Delete             
                           .after(function(body, res){
-                            console.log('deleting test user');
-                            frisby.create('users/session-login-update_spec: Delete')
-                               .addHeader('cookie', cookie)
-                               .addHeader('skip-email', true)                               
-                               .delete( g.url + g.userSelf)
+                            console.log('deleting user');
+                            frisby.create('users/session-login-verify_spec: Delete')
+                               .addHeader('cookie', cookie)             
+                               .delete( g.url + g.userSelf,
+                                   {'skip-email':true },
+                                   { json: true },
+                                   { headers: { "Content-Type":"application/json"}})
                                .expectStatus(200)
                                .expectHeaderContains('content-type', 'application/json')      
                                .inspectJSON()
