@@ -79,7 +79,9 @@ frisby.create('UPDATE users/session-login-update_spec: Create')
                       "email" : nEmail,
                       "new_password" : nPW,
                       "old_password" : dPW                   
-                   })
+                   },
+                       { json: true },
+                       { headers: { "Content-Type":"application/json"}})
                    .expectStatus(200)
                    .expectHeaderContains('content-type', 'application/json')      
                    .inspectJSON()

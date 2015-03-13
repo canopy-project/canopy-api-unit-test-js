@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <testsuites>
-<testsuite name="Frisby Test: users/session-login-verify_spec: Delete" errors="0" tests="1" failures="0" time="0.434" timestamp="2015-03-11T17:40:49">
+<testsuite name="Frisby Test: users/session-login-verify_spec: Delete" errors="0" tests="1" failures="0" time="0.634" timestamp="2015-03-12T17:37:07">
   <testcase classname="Frisby Test: users/session-login-verify_spec: Delete" name="
-	[ DELETE https://dev02.canopy.link/api/user/self ]" time="0.434"></testcase>
+	[ DELETE https://dev02.canopy.link/api/user/self ]" time="0.634"></testcase>
 </testsuite>
 </testsuites>
