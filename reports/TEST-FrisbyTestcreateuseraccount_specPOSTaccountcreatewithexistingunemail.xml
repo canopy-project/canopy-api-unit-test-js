@@ -1,7 +1,0 @@
-<?xml version="1.0" encoding="UTF-8" ?>
-<testsuites>
-<testsuite name="Frisby Test: create-user-account_spec: POST account create with existing un/email" errors="0" tests="1" failures="0" time="0.235" timestamp="2015-03-11T12:40:47">
-  <testcase classname="Frisby Test: create-user-account_spec: POST account create with existing un/email" name="
-	[ POST https://dev02.canopy.link/api/create_account ]" time="0.235"></testcase>
-</testsuite>
-</testsuites>

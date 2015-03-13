@@ -1,7 +1,0 @@
-<?xml version="1.0" encoding="UTF-8" ?>
-<testsuites>
-<testsuite name="Frisby Test: users/session-login-update_spec: Delete" errors="0" tests="1" failures="0" time="0.864" timestamp="2015-03-12T17:46:05">
-  <testcase classname="Frisby Test: users/session-login-update_spec: Delete" name="
-	[ DELETE https://dev02.canopy.link/api/user/self ]" time="0.864"></testcase>
-</testsuite>
-</testsuites>

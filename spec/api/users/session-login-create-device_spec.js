@@ -109,8 +109,8 @@ frisby.create('CREATE USER-LINKED DEVICE users/session-login-create-device_spec:
                       console.log(g.url + g.devicepath + deviceId);
                       console.log(auth);
                       frisby.create('users/session-login-create-device_spec:Verify Device Created')
-                       .addHeader('authorization', auth)
                        .get( g.url + g.devicepath + deviceId)
+                       .addHeader('Authentication', auth)
                        .expectStatus(200)
                        .expectHeaderContains('content-type', 'application/json')      
                        .inspectJSON()
