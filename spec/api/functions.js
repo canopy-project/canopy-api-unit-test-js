@@ -1,6 +1,13 @@
 'use strict'
 var Q = require('q');
+var frisby = require('frisby');
+var g = require('./globals');
 
+var dNum = 233633;
+var dUsr = 'disposableuser' + dNum;
+var dEmail = 'disposableuser' + dNum + '@user.user';
+var dPW = 'disposableuser' + dNum;
+var cookie = null;
 var deleteUser = function(){      
               var deferred = Q.defer();
                             console.log('deleting user');

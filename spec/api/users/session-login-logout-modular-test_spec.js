@@ -21,13 +21,13 @@ console.log('g.url: ' + g.url);
 var cookie = null;
 
 f.initUser()
-  .when( console.log('loggin'))
+/*  .when( console.log('loggin'))
   .when( f.deleteUser() )
   .fail(function(err){
       log('error', 'something broke', err);
       cb(err);
   })
-
+*/
 
 
   
