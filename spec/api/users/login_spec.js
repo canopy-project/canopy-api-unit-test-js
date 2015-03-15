@@ -4,7 +4,7 @@ var Q = require('q');
 var testUser = require('../testUser');
 
 /*
-    Test: Create a test user and login
+    Test: Create a test user, register and login
 */
 //
 var user = testUser;

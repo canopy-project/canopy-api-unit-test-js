@@ -46,10 +46,9 @@ var TestUser = function(){
                 }
             })
             .toss();
-        }
-    that.login = function(){
-/*        var deferred = Q.defer();*/
-        console.log('logging in');
+        };
+    that.login = function(callback){
+        console.log('logging in user: ' + that.username);
         frisby.create('LOGIN USER ' + that.username)
             .post( that.baseURL + that.loginPath,
                 { "username" : that.username, "email" : that.email,  "password" : that.password },
@@ -64,16 +63,35 @@ var TestUser = function(){
                 "email" : that.email
             })
             .after(function(body, res){
-                //console.log(res);
                 that.cookie = res.headers['set-cookie'][0].split(';')[0];
                 console.log('COOKIE FROM LOGIN: ' + that.cookie);
-/*                deferred.resolve(cookie);*/
-            })      
+                if(callback){
+                    callback();
+                }
+            })   
             .toss();
-/*        return deferred.promise;*/
     };
+    that.verify = function(callback){    
+        frisby.create('VERIFY user: ' + that.user)
+             .addHeader('cookie', that.cookie)
+             .get( baseURL + selfPath )
+             .expectStatus(200)
+             .expectHeaderContains('content-type', 'application/json')      
+             .inspectJSON()
+             .expectJSON(  {
+               "result" : "ok",
+               "validated" : false,
+               "username" : that.username,
+               "email" : that.email
+              })
+             .after(function(){
+                if(callback){
+                    callback();
+                })
+             .toss()
+        };
     that.init = function(){
-        that.register();
+        that.register( that.login );
     }
 }
 
