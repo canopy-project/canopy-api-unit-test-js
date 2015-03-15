@@ -1,23 +1,14 @@
 'use strict'
 var Q = require('q');
 var frisby = require('frisby');
+var h = require('./helper-functions');
 process.env.NODE_TLS_REJECT_UNAUTHORIZED = "0";
 
 var TestUser = function(){
     var that = this;
-    that.generateUsername = function(){
-        return  'user' + Math.floor( Math.random()*100000 );
-    };
-    that.generateEmail = function(){
-        var randomString = Math.random().toString(36).substring(2,10);
-        return randomString + '@' + randomString + '.com';
-    }
-    that.generatePassword = function(){
-        return 'password' + Math.floor( Math.random()*100000 );
-    }
-    that.username = that.generateUsername();
-    that.email = that.generateEmail();
-    that.password = that.generatePassword();
+    that.username = h.generateUsername();
+    that.email = h.generateEmail();
+    that.password = h.generatePassword();
     that.baseURL = 'https://dev02.canopy.link/api/';
     that.loginPath = 'login';
     that.selfPath = 'user/self';
@@ -96,4 +87,4 @@ var TestUser = function(){
     }
 }
 
-module.exports = new TestUser();
+module.exports = TestUser;
