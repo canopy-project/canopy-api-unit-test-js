@@ -1,7 +1,0 @@
-<?xml version="1.0" encoding="UTF-8" ?>
-<testsuites>
-<testsuite name="Frisby Test: users/session-login-verify_spec: Login" errors="0" tests="1" failures="0" time="0.391" timestamp="2015-03-13T13:37:27">
-  <testcase classname="Frisby Test: users/session-login-verify_spec: Login" name="
-	[ POST https://dev02.canopy.link/api/login ]" time="0.391"></testcase>
-</testsuite>
-</testsuites>

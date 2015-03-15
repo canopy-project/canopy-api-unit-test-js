@@ -1,7 +1,0 @@
-<?xml version="1.0" encoding="UTF-8" ?>
-<testsuites>
-<testsuite name="Frisby Test: DELETE user: user24468" errors="0" tests="1" failures="0" time="5.264" timestamp="2015-03-15T11:35:03">
-  <testcase classname="Frisby Test: DELETE user: user24468" name="
-	[ DELETE https://dev02.canopy.link/api/user/self ]" time="5.264"></testcase>
-</testsuite>
-</testsuites>

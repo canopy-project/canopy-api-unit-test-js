@@ -1,7 +1,0 @@
-<?xml version="1.0" encoding="UTF-8" ?>
-<testsuites>
-<testsuite name="Frisby Test: LOGIN USER user53216" errors="0" tests="1" failures="0" time="0.381" timestamp="2015-03-15T11:22:18">
-  <testcase classname="Frisby Test: LOGIN USER user53216" name="
-	[ POST https://dev02.canopy.link/api/login ]" time="0.381"></testcase>
-</testsuite>
-</testsuites>
