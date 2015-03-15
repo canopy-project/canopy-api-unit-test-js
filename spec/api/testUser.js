@@ -48,7 +48,7 @@ var TestUser = function(){
             .toss();
         }
     that.login = function(){
-        var deferred = Q.defer();
+/*        var deferred = Q.defer();*/
         console.log('logging in');
         frisby.create('LOGIN USER ' + that.username)
             .post( that.baseURL + that.loginPath,
@@ -63,13 +63,14 @@ var TestUser = function(){
                 "username" : that.username,
                 "email" : that.email
             })
-/*            .afterJSON(function(body, res){
-                cookie = res.headers['set-cookie'][0].split(';')[0];
-                console.log('COOKIE FROM LOGIN: ' + cookie);
-                deferred.resolve(cookie);
-            })     */ 
+            .after(function(body, res){
+                //console.log(res);
+                that.cookie = res.headers['set-cookie'][0].split(';')[0];
+                console.log('COOKIE FROM LOGIN: ' + that.cookie);
+/*                deferred.resolve(cookie);*/
+            })      
             .toss();
-        return deferred.promise;
+/*        return deferred.promise;*/
     };
     that.init = function(){
         that.register();
