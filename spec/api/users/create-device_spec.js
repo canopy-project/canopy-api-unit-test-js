@@ -3,7 +3,7 @@
 var testUser = require('../testUser');
 
 /*
-    Test: Create a test user, register, login, and logout
+    Test: Create a test user, register, login, verifies self, then deletes self 
 */
 
 var Test = function(){
@@ -13,13 +13,13 @@ var Test = function(){
         that.user.register( that.login );
     }
     that.login = function(){
-        that.user.usernameLogin( that.user.logout );
+        that.user.usernameLogin( that.createDevices );
     }
-    that.logout = function(){
-        that.user.logout( that.delete );
+    that.createDevices = function(){
+        that.user.createDevices( 1, ['BananaJoe'], that.delete );
     }
     that.delete = function(){
-        that.user.usernameLogin( that.user.delete );
+        that.user.delete();
     }
 }
 

@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<testsuites>
+<testsuite name="Frisby Test: REGISTERING USER user66310" errors="0" tests="1" failures="0" time="0.409" timestamp="2015-03-15T10:24:25">
+  <testcase classname="Frisby Test: REGISTERING USER user66310" name="
+	[ POST https://dev02.canopy.link/api/create_user ]" time="0.409"></testcase>
+</testsuite>
+</testsuites>

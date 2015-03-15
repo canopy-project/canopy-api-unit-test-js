@@ -1,23 +1,23 @@
 'use strict'
 
-var Q = require('q');
 var testUser = require('../testUser');
 
 /*
-    Test: Create a test user, register, login, and verify self
+    Test: Create a test user, register, login, verifies self, then deletes self 
 */
-//
 
 var Test = function(){
     var that = this;
     that.user = new testUser();
     that.test = function(){
-        var user = new testUser();
-        user.register( user.login );
+        that.user.register( that.login );
     }
-/*    that.verify = function(){
-        user.login( user.verify );
-    }*/
+    that.login = function(){
+        that.user.usernameLogin( that.verify );
+    }
+    that.verify = function(){
+        that.user.verify( that.user.delete );
+    }
 }
 
 var test = new Test();

@@ -13,13 +13,7 @@ var Test = function(){
         that.user.register( that.login );
     }
     that.login = function(){
-        that.user.usernameLogin( that.user.logout );
-    }
-    that.logout = function(){
-        that.user.logout( that.delete );
-    }
-    that.delete = function(){
-        that.user.usernameLogin( that.user.delete );
+        that.user.emailLogin( that.user.delete );
     }
 }
 
