@@ -8,9 +8,15 @@ var testUser = require('../testUser');
 */
 //
 
-var test = function(){
-    var user = new testUser();
-    user.register( user.login );
+var Test = function(){
+    var that = this;
+    that.user = new testUser();
+    that.test = function(){
+        var user = new testUser();
+        user.register( user.login );
+    }
 }
 
-test();
+var test = new Test();
+
+test.test();

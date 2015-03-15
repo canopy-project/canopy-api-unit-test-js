@@ -7,9 +7,15 @@ var testUser = require('../testUser');
     Test: Create a test user and register
 */
 
-var test = function(){
-    var user = new testUser();
-    user.register();
+var Test = function(){
+    var that = this;
+    that.user = new testUser();
+    that.test = function(){
+        var user = new testUser();
+        user.register( );
+    }
 }
 
-test();
+var test = new Test();
+
+test.test();

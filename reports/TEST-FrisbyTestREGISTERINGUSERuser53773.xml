@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<testsuites>
+<testsuite name="Frisby Test: REGISTERING USER user53773" errors="0" tests="1" failures="1" time="0.327" timestamp="2015-03-15T10:17:03">
+  <testcase classname="Frisby Test: REGISTERING USER user53773" name="
+	[ POST https://dev02.canopy.link/api/create_user ]" time="0.327"><failure type="expect" message="ReferenceError: user is not defined">ReferenceError: user is not defined
+    at that.verify (/home/robert/Projects/canopy/canopy-api-unit-test-js/spec/api/users/verify_spec.js:19:9)
+    at Frisby.&amp;lt;anonymous&amp;gt; (/home/robert/Projects/canopy/canopy-api-unit-test-js/spec/api/testUser.js:36:21)
+    at Frisby.&amp;lt;anonymous&amp;gt; (/home/robert/Projects/canopy/canopy-api-unit-test-js/node_modules/frisby/lib/frisby.js:949:8)
+    at null.&amp;lt;anonymous&amp;gt; (/home/robert/Projects/canopy/canopy-api-unit-test-js/node_modules/frisby/lib/frisby.js:1110:18)
+    at jasmine.Block.execute (/home/robert/Projects/canopy/canopy-api-unit-test-js/node_modules/jasmine-node/lib/jasmine-node/jasmine-1.3.1.js:1145:17)
+    at jasmine.Queue.next_ (/home/robert/Projects/canopy/canopy-api-unit-test-js/node_modules/jasmine-node/lib/jasmine-node/jasmine-1.3.1.js:2177:31)
+    at null._onTimeout (/home/robert/Projects/canopy/canopy-api-unit-test-js/node_modules/jasmine-node/lib/jasmine-node/jasmine-1.3.1.js:2167:18)
+    at Timer.listOnTimeout [as ontimeout] (timers.js:112:15)</failure></testcase>
+</testsuite>
+</testsuites>
