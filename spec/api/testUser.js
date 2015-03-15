@@ -84,11 +84,12 @@ var TestUser = function(){
                "username" : that.username,
                "email" : that.email
               })
-             .after(function(){
-                if(callback){
-                    callback();
-                })
-             .toss()
+              .after(function(body, res){
+                  if(callback){
+                      callback();
+                  }
+              })   
+              .toss();
         };
     that.init = function(){
         that.register( that.login );
