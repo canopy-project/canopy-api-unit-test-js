@@ -13,7 +13,7 @@ return Q.when(f.initUser(), function (cookie) {
 
 
 
-  console.log("COOOOOKIEES: " + cookie)
+  console.log("COOKIE: " + cookie)
 
 
 

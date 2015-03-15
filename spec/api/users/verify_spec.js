@@ -8,4 +8,5 @@ var testUser = require('../testUser');
 */
 //
 var user = testUser;
-user.register( user.login( user.verify ) );
+user.register( user.login );
+

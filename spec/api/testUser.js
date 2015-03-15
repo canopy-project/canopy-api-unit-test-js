@@ -74,7 +74,7 @@ var TestUser = function(){
     that.verify = function(callback){    
         frisby.create('VERIFY user: ' + that.user)
              .addHeader('cookie', that.cookie)
-             .get( baseURL + selfPath )
+             .get( that.baseURL + that.selfPath )
              .expectStatus(200)
              .expectHeaderContains('content-type', 'application/json')      
              .inspectJSON()
