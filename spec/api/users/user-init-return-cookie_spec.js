@@ -1,5 +1,5 @@
 'use strict'
-
+process.env.NODE_TLS_REJECT_UNAUTHORIZED = "0";
 var frisby = require('frisby');
 var Q = require('q');
 /*var f = require('../functions');*/

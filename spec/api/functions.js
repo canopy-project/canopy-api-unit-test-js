@@ -58,7 +58,6 @@ var getRandomInt = function(min, max) {
   return Math.floor(Math.random() * (max - min)) + min;
 }
 
-
 // variables I need: cookie
 
 var deleteUser = function(){      

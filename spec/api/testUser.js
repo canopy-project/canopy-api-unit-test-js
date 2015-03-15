@@ -5,14 +5,14 @@ process.env.NODE_TLS_REJECT_UNAUTHORIZED = "0";
 
 var TestUser = function(){
     this.generateUsername = function(){
-        return  'user' + Math.floor( Math.random()*10000000000 );
+        return  'user' + Math.floor( Math.random()*100000 );
     };
     this.generateEmail = function(){
-        var randomInteger = Math.floor( Math.random()*10000000000 );
-        return randomInteger + '@' + randomInteger + '.com';
+        var randomString = Math.random().toString(36).substring(2,10);
+        return randomString + '@' + randomString + '.com';
     }
     this.generatePassword = function(){
-        return 'password' + Math.floor( Math.random()*10000000000 );
+        return 'password' + Math.floor( Math.random()*100000 );
     }
     this.username = this.generateUsername();
     this.email = this.generateEmail();
@@ -23,10 +23,58 @@ var TestUser = function(){
     this.selfDevicesPath = 'user/self/devices'; 
     this.createUserPath = 'create_user';
     this.createUserLinkedDevicesPath = 'create_devices';
+    this.register = function(){
+        var deferred =  Q.defer();
+        console.log('creating user: ' + this.username);
+        frisby.create('REGISTERING USER ' + this.username)
+            .post( this.baseURL + this.createUserPath,
+                { "username" : this.username, "email" : this.email,  "password" : this.password, "skip-email" : true },
+                { json: true },
+                { headers: { "Content-Type":"application/json"}})  
+            .expectStatus(200)
+            .expectHeaderContains('content-type', 'application/json')
+            .inspectJSON()
+            .expectJSON(  {
+                "result" : "ok",
+                "activated" : false,
+                "username" : this.username,
+                "email" : this.email
+            })
+            .afterJSON(function(){
+                deferred.resolve('user created');
+            })
+            .toss();
+        return deferred.promise;
+        }
+    this.login = function(){
+        var deferred = Q.defer();
+        console.log('logging in');
+        frisby.create('LOGIN USER ' + this.username)
+            .post( this.baseURL + this.loginPath,
+                { "username" : this.username, "email" : this.email,  "password" : this.password },
+                { json: true },
+                { headers: { "Content-Type":"application/json"}})
+            .expectStatus(200)
+            .expectHeaderContains('content-type', 'application/json')
+            .inspectJSON()
+            .expectJSON({
+                "result" : "ok",
+                "username" : this.username,
+                "email" : this.email
+            })
+            .afterJSON(function(body, res){
+                cookie = res.headers['set-cookie'][0].split(';')[0];
+                console.log('COOKIE FROM LOGIN: ' + cookie);
+                deferred.resolve(cookie);
+            })      
+            .toss();
+        return deferred.promise;
+    };
     this.initUser = function(){
         console.log('this: ');
         console.dir(this);
         var deferred =  Q.defer();
+        console.log('creating user: ' + this.username);
         frisby.create('CREATE USER')
         .post( this.baseURL + this.createUserPath,
             { "username" : this.username, "email" : this.email,  "password" : this.password, "skip-email" : true },
@@ -35,7 +83,12 @@ var TestUser = function(){
         .expectStatus(200)
         .expectHeaderContains('content-type', 'application/json')
         .afterJSON(function(err, body, res){
-            frisby.create('LOGIN USER')
+            if(err){
+                console.log(err)
+            } else { 
+                console.log(res)
+            }            
+/*            frisby.create('LOGIN USER')
             .post( this.baseURL + this.loginPath,
                 { "username" : this.username, "email" : this.email,  "password" : this.password },
                 { json: true },
@@ -63,7 +116,7 @@ var TestUser = function(){
                 })
                 .toss()
             })
-            .toss()
+            .toss()*/
         })
         .toss();
         return deferred.promise;
