@@ -4,23 +4,17 @@ var Q = require('q');
 var testUser = require('../testUser');
 
 /*
-    Test: Create a test user
+    Test: Create a test user and login
 */
-// Initialize user creates a user, logs it in, verifies it, and returns a cookie
-// You can then use that cookie for the remainder of your session requests
+//
+var user = testUser;
+user.register(user.login);
 
-function test(callback){
-    var user = testUser;
-    Q.when(user.register(),
-        function(value){
-            console.log(value);
-      }).then(user.login(),
-            function(value){
-              console.log(value);
-            }
-      );
+function showBananas(){
+    console.log('BANANASS');
+}
 
-};
-
-test();
-
+function showMe(){
+    console.log('THIS: ');
+    console.dir(this);
+}
