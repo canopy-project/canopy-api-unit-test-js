@@ -8,7 +8,7 @@ var testUser = require('../testUser');
 
 var Test = function(){
     var that = this;
-    that.user = new testUser();
+    that.user = new testUser( 'Unit Test: Logout User' );
     that.test = function(){
         that.user.register( that.login );
     }

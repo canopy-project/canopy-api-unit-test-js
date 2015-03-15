@@ -6,9 +6,9 @@ var testUser = require('../testUser');
     Test: Create a test user, register, login, verifies self, then deletes self 
 */
 
-var Test = function(){
+var Test = function( ){
     var that = this;
-    that.user = new testUser( 'Unit Test: Create One User-Linked Device ' );
+    that.user = new testUser( 'Unit Test: Verify User-Linked Device ' );
     that.test = function(){
         that.user.register( that.login );
     }
@@ -16,10 +16,10 @@ var Test = function(){
         that.user.usernameLogin( that.createDevices );
     }
     that.createDevices = function(){
-        that.user.createDevice( that.delete );
+        that.user.createDevice( that.verifyDevice );
     }
-    that.delete = function(){
-        that.user.delete; 
+    that.verifyDevice= function(){
+        that.user.verifyDevice( that.user.delete );
     }
 }
 

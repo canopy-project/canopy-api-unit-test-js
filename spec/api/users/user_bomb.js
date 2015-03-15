@@ -8,7 +8,7 @@ var testUser = require('../testUser');
 
 var Test = function(){
     var that = this;
-    that.user = new testUser( 'Unit Test: Verify User ' );
+    that.user = new testUser( 'Unit Test: User Bomb ' );
     that.test = function(){
         that.user.register( that.login );
     }
@@ -19,7 +19,7 @@ var Test = function(){
         that.user.verify( that.user.delete );
     }
 }
-
-var test = new Test();
-
-test.test();
+for(var i=0;i<10;i++){
+    var test = new Test();
+    test.test();
+}

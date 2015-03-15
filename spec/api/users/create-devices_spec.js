@@ -8,15 +8,18 @@ var testUser = require('../testUser');
 
 var Test = function(){
     var that = this;
-    that.user = new testUser( 'Unit Test: Verify User ' );
+    that.user = new testUser( 'Unit Test: Create Multiple User-Linked Devices ' );
     that.test = function(){
         that.user.register( that.login );
     }
     that.login = function(){
-        that.user.usernameLogin( that.verify );
+        that.user.usernameLogin( that.createDevices );
     }
-    that.verify = function(){
-        that.user.verify( that.user.delete );
+    that.createDevices = function(){
+        that.user.createDevices( 3, that.delete );
+    }
+    that.delete = function(){
+        that.user.delete; 
     }
 }
 
