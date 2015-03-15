@@ -1,5 +1,4 @@
 'use strict'
-var Q = require('q');
 var frisby = require('frisby');
 var h = require('./helper-functions');
 process.env.NODE_TLS_REJECT_UNAUTHORIZED = "0";
@@ -142,7 +141,8 @@ var TestUser = function(){
             })
             .toss()
     }          
-    that.createDevices = function(quantity, friendlyNames, callback){
+    that.createDevices = function(quantity, callback){
+        var friendlyNames = h.generateDeviceFriendlyNames( quantity );
         frisby.create('users/session-login-create-device_spec: Create User-Linked Device')
             .addHeader('cookie', that.cookie)
             .post( that.baseURL + that.createUserLinkedDevicesPath,

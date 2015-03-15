@@ -16,10 +16,10 @@ var Test = function(){
         that.user.usernameLogin( that.createDevices );
     }
     that.createDevices = function(){
-        that.user.createDevices( 1, ['BananaJoe'], that.delete );
+        that.user.createDevices( 1, that.delete );
     }
     that.delete = function(){
-        that.user.delete();
+        that.user.delete; 
     }
 }
 
