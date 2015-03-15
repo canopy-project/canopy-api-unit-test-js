@@ -2,7 +2,7 @@
 
 var Q = require('q');
 var testUser = require('../testUser');
-var async = require('async');
+
 /*
     Test: Create a test user
 */
@@ -11,12 +11,16 @@ var async = require('async');
 
 function test(callback){
     var user = testUser;
-    Q.when(user.register(), 
-        function(value){ 
+    Q.when(user.register(),
+        function(value){
             console.log(value);
-            callback(user);
-      });
+      }).then(user.login(),
+            function(value){
+              console.log(value);
+            }
+      );
 
 };
 
-test( function(user){ user.login()} );
+test();
+
