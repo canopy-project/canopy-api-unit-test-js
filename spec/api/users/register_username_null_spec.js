@@ -12,7 +12,7 @@ var Test = function(){
     that.email = undefined;
     that.password = undefined;
     that.expectStatus = 400;
-    that.user = new testUser( 'Unit Test: Register Email With Username that is Null' );
+    that.user = new testUser( 'Unit Test: Register Username that is Null' );
     that.test = function(){
         that.user.register( that.username, that.email, that.password, that.expectStatus);
     }

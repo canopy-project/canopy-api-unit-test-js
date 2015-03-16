@@ -24,7 +24,6 @@ var TestUser = function( testName ){
         email ? that.email = email : that.email = h.generateEmail();
         password ? that.password = password : that.password = h.generatePassword();
         expectStatus ? this.expectStatus = expectStatus : this.expectStatus = 200;
-
         console.log('registering: ' + that.username);
         console.log( 'expectStatus: ' + that.expectStatus );
         frisby.create(that.testName + ' *** REGISTERING USER ' + that.username)
@@ -72,24 +71,29 @@ var TestUser = function( testName ){
             })   
             .toss();
     };
-    that.emailLogin = function(callback){
-        console.log('logging in user: ' + that.email);
-        frisby.create(that.testName + ' *** LOGIN USER ' + that.email)
-            .post( that.baseURL + that.loginPath,
-                { "username" : that.email, "password" : that.password },
-                { json: true },
-                { headers: { "Content-Type":"application/json"}})
-            .expectStatus(200)
-            .expectHeaderContains('content-type', 'application/json')
-            .inspectJSON()
-            .expectJSON({
+    that.emailLogin = function( email, password, expectStatus, expectJSON, callback ){
+        email ? this.email = email : this.email = that.email;
+        password ? this.password = password : this.password = that.password;
+        expectStatus ? this.expectStatus = expectStatus : this.expectStatus = 200;
+        expectJSON ? this.expectJSON = expectJSON : this.expectJSON = {
                 "result" : "ok",
                 "username" : that.username,
                 "email" : that.email
-            })
+            }
+        console.dir( this.expectJSON );
+        console.log('logging in user: ' + this.email);
+        frisby.create(that.testName + ' *** LOGIN USER ' + this.email)
+            .post( that.baseURL + that.loginPath,
+                { "username" : this.email, "password" : this.password },
+                { json: true },
+                { headers: { "Content-Type":"application/json"}})
+            .expectStatus(this.expectStatus)
+            .expectHeaderContains('content-type', 'application/json')
+            .inspectJSON()
+            .expectJSON( this.expectJSON )
             .after(function(body, res){
-                that.cookie = res.headers['set-cookie'][0].split(';')[0];
-                console.log('COOKIE FROM LOGIN: ' + that.cookie);
+                res.headers['set-cookie'] ? that.cookie = res.headers['set-cookie'][0].split(';')[0] : null;
+                that.cookie ? console.log('COOKIE FROM LOGIN: ' + that.cookie) : null;
                 if(callback){
                     callback();
                 }

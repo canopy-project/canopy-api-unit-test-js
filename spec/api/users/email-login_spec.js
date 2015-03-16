@@ -12,12 +12,13 @@ var Test = function(){
     that.email = undefined;
     that.password = undefined;
     that.expectStatus= undefined;
+    that.expectJSON = undefined;
     that.user = new testUser( 'Unit Test: Login User with Email' );
     that.test = function(){
         that.user.register( that.username, that.email, that.password, that.expectStatus, that.login );
     }
     that.login = function(){
-        that.user.emailLogin( that.user.delete );
+        that.user.emailLogin( that.user.email, that.user.password, that.expectStatus, that.expectJSON, that.user.delete );
     }
 }
 
