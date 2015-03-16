@@ -3,8 +3,7 @@
 var testUser = require('../testUser');
 
 /*
-    Test: Create a test user with a too short Username,
-    expect fail with 500
+    Test: Create a test user with a too short Username
 */
   
 var Test = function(){
