@@ -17,7 +17,7 @@ var Test = function(){
         that.user.register( that.username, that.email, that.password, that.expectStatus, that.login );
     }
     that.login = function(){
-        that.user.usernameLogin( that.user.logout );
+        that.user.usernameLogin( that.username, that.password, that.expectStatus, that.expectJSON, that.user.logout );
     }
     that.logout = function(){
         that.user.logout( that.delete );

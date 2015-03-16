@@ -17,9 +17,9 @@ var Test = function(){
         that.user.register( that.username, that.email, that.password, that.expectStatus, that.login );
     }
     that.login = function(){
-        that.user.usernameLogin( that.createDevices );
+        that.user.usernameLogin( that.username, that.password, that.expectStatus, that.expectJSON, that.createDevice );
     }
-    that.createDevices = function(){
+    that.createDevice = function(){
         that.user.createDevice( that.delete );
     }
     that.delete = function(){

@@ -14,7 +14,7 @@ var Test = function(){
     that.expectStatus = 400;
     that.user = new testUser( 'Unit Test: Register Username that is an Empty String' );
     that.test = function(){
-        that.user.register( that.username, that.email, that.password, that.expectStatus);
+        that.user.register( that.username, that.email, that.password, that.expectJSON, that.expectStatus);
     }
 }
 

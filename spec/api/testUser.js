@@ -47,7 +47,15 @@ var TestUser = function( testName ){
             })
             .toss();
         };
-    that.usernameLogin = function(callback){
+    that.usernameLogin = function( username, password, expectStatus, expectJSON, callback ){
+        username ? this.username = username : this.username = that.username;
+        password ? this.password = password : this.password = that.password;
+        expectStatus ? this.expectStatus = expectStatus : this.expectStatus = 200;
+        expectJSON ? this.expectJSON = expectJSON : this.expectJSON = {
+                "result" : "ok",
+                "username" : that.username,
+                "email" : that.email
+            }        
         console.log('logging in user: ' + that.username);
         frisby.create(that.testName + ' *** LOGIN USER ' + that.username)
             .post( that.baseURL + that.loginPath,
@@ -57,14 +65,10 @@ var TestUser = function( testName ){
             .expectStatus(200)
             .expectHeaderContains('content-type', 'application/json')
             .inspectJSON()
-            .expectJSON({
-                "result" : "ok",
-                "username" : that.username,
-                "email" : that.email
-            })
+            .expectJSON(this.expectJSON)
             .after(function(body, res){
-                that.cookie = res.headers['set-cookie'][0].split(';')[0];
-                console.log('COOKIE FROM LOGIN: ' + that.cookie);
+                res.headers['set-cookie'] ? that.cookie = res.headers['set-cookie'][0].split(';')[0] : null;
+                that.cookie ? console.log('COOKIE FROM LOGIN: ' + that.cookie) : null;
                 if(callback){
                     callback();
                 }
@@ -82,7 +86,7 @@ var TestUser = function( testName ){
             }
         console.dir( this.expectJSON );
         console.log('logging in user: ' + this.email);
-        frisby.create(that.testName + ' *** LOGIN USER ' + this.email)
+        frisby.create( that.testName + ' *** LOGIN USER ' + this.email)
             .post( that.baseURL + that.loginPath,
                 { "username" : this.email, "password" : this.password },
                 { json: true },
