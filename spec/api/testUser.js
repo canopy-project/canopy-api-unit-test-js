@@ -23,15 +23,16 @@ var TestUser = function( testName ){
         username ? that.username = username : that.username = h.generateUsername();
         email ? that.email = email : that.email = h.generateEmail();
         password ? that.password = password : that.password = h.generatePassword();
-        expectStatus ? that.expectStatus = expectStatus : that.expectStatus = 200;
-        
+        expectStatus ? this.expectStatus = expectStatus : this.expectStatus = 200;
+
         console.log('registering: ' + that.username);
+        console.log( 'expectStatus: ' + that.expectStatus );
         frisby.create(that.testName + ' *** REGISTERING USER ' + that.username)
             .post( that.baseURL + that.createUserPath,
                 { "username" : that.username, "email" : that.email,  "password" : that.password, "skip-email" : true },
                 { json: true },
                 { headers: { "Content-Type":"application/json"}})  
-            .expectStatus(200)
+            .expectStatus( this.expectStatus)
             .expectHeaderContains('content-type', 'application/json')
             .inspectJSON()
             .expectJSON(  {
