@@ -19,27 +19,37 @@ var TestUser = function( testName ){
     that.cookie = null;
     that.testName = testName;
     that.testDevice = {};
-    that.register = function( username, email, password, expectStatus, expectJSON, callback ){
-        username ? that.username = username : that.username = h.generateUsername();
-        email ? that.email = email : that.email = h.generateEmail();
-        password ? that.password = password : that.password = h.generatePassword();
-        expectStatus ? this.expectStatus = expectStatus : this.expectStatus = 200;
-        expectJSON ? this.expectJSON = expectJSON : this.expectJSON = 
-            {
-                "result" : "ok",
-                "activated" : false,
-                "username" : that.username,
-                "email" : that.email
-            }
-        console.log('registering: ' + that.username);
-        console.log( 'expectStatus: ' + that.expectStatus );
+    that.register = function( username, email, password, expectStatus, expectJSON, skipDefaults, callback ){
+        if ( !skipDefaults ){
+            username ? that.username = username : that.username = h.generateUsername();
+            email ? that.email = email : that.email = h.generateEmail();
+            password ? that.password = password : that.password = h.generatePassword();
+            expectStatus ? this.expectStatus = expectStatus : this.expectStatus = 200;
+            expectJSON ? this.expectJSON = expectJSON : this.expectJSON = 
+                {
+                    "result" : "ok",
+                    "activated" : false,
+                    "username" : that.username,
+                    "email" : that.email
+                }
+        } else {
+            that.username = username;
+            that.email = email;
+            that.password = password;
+            that.expectStatus = expectStatus;
+            that.expectJSON = expectJSON;  
+        }
+        console.log('registering: ' + that.username );
+        console.dir( that.expectJSON ); 
         frisby.create(that.testName + ' *** REGISTERING USER ' + that.username)
             .post( that.baseURL + that.createUserPath,
                 { "username" : that.username, "email" : that.email,  "password" : that.password, "skip-email" : true },
                 { json: true },
                 { headers: { "Content-Type":"application/json"}})  
+            .expectJSON( this.expectJSON )
             .expectStatus( this.expectStatus)
             .expectHeaderContains('content-type', 'application/json')
+            .inspectJSON()
             .afterJSON(function(){
                 if(callback){
                     callback();
@@ -108,7 +118,7 @@ var TestUser = function( testName ){
         username ? this.username = username : this.username = that.username;
         email ? this.email = email : this.email = that.email;
         expectStatus ? this.expectStatus = expectStatus : this.expectStatus = that.expectStatus;
-        espectJSON ? this.expectJSON = expectJSON : this.expectJSON = {
+        expectJSON ? this.expectJSON = expectJSON : this.expectJSON = {
                "result" : "ok",
                "validated" : false,
                "username" : that.username,
