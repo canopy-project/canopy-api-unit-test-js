@@ -3,7 +3,7 @@
 var testUser = require('../testUser');
 
 /*
-    Test: Create a test user, register, login, verifies self, then deletes self 
+    Test: Create one user-linked Device
 */
 
 var Test = function(){

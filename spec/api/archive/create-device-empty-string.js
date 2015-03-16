@@ -3,7 +3,7 @@
 var testUser = require('../testUser');
 
 /*
-    Test: Create Multiple User-Linked Devices
+    Test: Create a test user, register, login, verifies self, then deletes self 
 */
 
 var Test = function(){
@@ -11,16 +11,16 @@ var Test = function(){
     that.username = undefined;
     that.email = undefined;
     that.password = undefined;
-    that.expectStatus= undefined;    
-    that.user = new testUser( 'Unit Test: Create Multiple User-Linked Devices ' );
+    that.expectStatus = undefined;
+    that.user = new testUser( 'Unit Test: Create One User-Linked Device ' );
     that.test = function(){
         that.user.register( that.username, that.email, that.password, that.expectStatus, that.login );
     }
     that.login = function(){
-        that.user.usernameLogin( that.username, that.password, that.expectStatus, that.expectJSON, that.createDevices );
+        that.user.usernameLogin( that.username, that.password, that.expectStatus, that.expectJSON, that.createDevice );
     }
-    that.createDevices = function(){
-        that.user.createDevices( 3, that.delete );
+    that.createDevice = function(){
+        that.user.createDevice( that.delete );
     }
     that.delete = function(){
         that.user.delete; 

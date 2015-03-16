@@ -19,11 +19,18 @@ var TestUser = function( testName ){
     that.cookie = null;
     that.testName = testName;
     that.testDevice = {};
-    that.register = function( username, email, password, expectStatus, callback ){
+    that.register = function( username, email, password, expectStatus, expectJSON, callback ){
         username ? that.username = username : that.username = h.generateUsername();
         email ? that.email = email : that.email = h.generateEmail();
         password ? that.password = password : that.password = h.generatePassword();
         expectStatus ? this.expectStatus = expectStatus : this.expectStatus = 200;
+        expectJSON ? this.expectJSON = expectJSON : this.expectJSON = 
+            {
+                "result" : "ok",
+                "activated" : false,
+                "username" : that.username,
+                "email" : that.email
+            }
         console.log('registering: ' + that.username);
         console.log( 'expectStatus: ' + that.expectStatus );
         frisby.create(that.testName + ' *** REGISTERING USER ' + that.username)
@@ -33,13 +40,7 @@ var TestUser = function( testName ){
                 { headers: { "Content-Type":"application/json"}})  
             .expectStatus( this.expectStatus)
             .expectHeaderContains('content-type', 'application/json')
-            .inspectJSON()
-            .expectJSON(  {
-                "result" : "ok",
-                "activated" : false,
-                "username" : that.username,
-                "email" : that.email
-            })
+            /*.inspectJSON()*/
             .afterJSON(function(){
                 if(callback){
                     callback();

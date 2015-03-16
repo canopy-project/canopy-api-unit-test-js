@@ -3,7 +3,7 @@
 var testUser = require('../testUser');
 
 /*
-    Test: Create a test user, register, login, verify self, then delete self 
+    Test: Create n users
 */
 
 var Test = function(){

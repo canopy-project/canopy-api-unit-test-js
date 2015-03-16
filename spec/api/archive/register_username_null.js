@@ -11,7 +11,12 @@ var Test = function(){
     that.username = null;
     that.email = undefined;
     that.password = undefined;
-    that.expectStatus = 400;
+    this.expectJSON = 
+            { 
+                error_type: 'internal_error',
+                result: 'error' 
+            }    
+    that.expectStatus = 500;
     that.user = new testUser( 'Unit Test: Register Username that is Null' );
     that.test = function(){
         that.user.register( that.username, that.email, that.password, that.expectStatus);

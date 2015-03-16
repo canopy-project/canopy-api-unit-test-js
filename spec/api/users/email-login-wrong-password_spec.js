@@ -3,8 +3,7 @@
 var testUser = require('../testUser');
 var h = require('../helper-functions');
 /*
-    Test: Create a test user, log in with the wrong password, expect to fail with 400,
-    login again with correct password and delete user
+    Test: Log in with wrong password
 */
 
 var Test = function(){
