@@ -17,7 +17,7 @@ var Test = function(){
                 error_type: 'internal_error',
                 result: 'error' 
             }    
-    that.user = new testUser( 'Unit Test: Register Email With No At Symbol' );
+    that.user = new testUser( '** FAIL TEST: REGISTER WITH EMAIL W/0 "@" SYMBOL **' );
     that.test = function(){
         that.user.register( that.username, that.email, that.password, that.expectStatus);
     }

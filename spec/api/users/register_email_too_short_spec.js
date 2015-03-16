@@ -17,7 +17,7 @@ var Test = function(){
                 error_type: 'internal_error',
                 result: 'error' 
             }
-    that.user = new testUser( 'Unit Test: Register with email that is too short' );
+    that.user = new testUser( '** FAIL TEST: REGISTER WITH TOO SHORT EMAIL **' );
     that.test = function(){
         that.user.register( that.username, that.email, that.password, that.expectStatus );
     }

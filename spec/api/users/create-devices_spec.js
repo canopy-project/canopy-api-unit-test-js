@@ -12,7 +12,7 @@ var Test = function(){
     that.email = undefined;
     that.password = undefined;
     that.expectStatus= undefined;    
-    that.user = new testUser( 'Unit Test: Create Multiple User-Linked Devices ' );
+    that.user = new testUser( '** CREATE MULTIPLE USER-LINKED DEVICES **' );
     that.test = function(){
         that.user.register( that.username, that.email, that.password, that.expectStatus, that.login );
     }

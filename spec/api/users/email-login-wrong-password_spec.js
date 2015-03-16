@@ -21,7 +21,7 @@ var Test = function(){
         result: 'error' 
     }
     console.log('this: ' + this);
-    that.user = new testUser( 'Unit Test: Login User with Email, wrong password' );
+    that.user = new testUser( '** FAIL TEST: LOG IN WITH WRONG PASSWORD **' );
     that.test = function(){
         that.user.register( that.username, that.email, that.password, that.expectStatus, that.login );
     }

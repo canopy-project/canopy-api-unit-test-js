@@ -3,7 +3,7 @@
 var testUser = require('../testUser');
 
 /*
-    Test: Create a test user, register, login, verifies self, then deletes self 
+    Test: Verify User
 */
 
 var Test = function(){
@@ -13,7 +13,7 @@ var Test = function(){
     that.password = undefined;
     that.expectStatus= undefined;
     that.expectJSON = undefined;
-    that.user = new testUser( 'Unit Test: Verify User ' );
+    that.user = new testUser( '** VERIFY USER **' );
     that.test = function(){
         that.user.register( that.username, that.email, that.password, that.expectStatus, that.login );
     }

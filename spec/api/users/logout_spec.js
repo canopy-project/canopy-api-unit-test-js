@@ -12,7 +12,7 @@ var Test = function(){
     that.email = undefined;
     that.password = undefined;
     that.expectStatus= undefined;
-    that.user = new testUser( 'Unit Test: Logout User' );
+    that.user = new testUser( '** LOGOUT **' );
     that.test = function(){
         that.user.register( that.username, that.email, that.password, that.expectStatus, that.login );
     }

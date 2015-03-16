@@ -19,7 +19,7 @@ var Test = function(){
                 error_type: 'internal_error',
                 result: 'error' 
             }
-    that.user = new testUser( 'Unit Test: Register with Username, Email, and Password that are a Empty Strings' );
+    that.user = new testUser( '** FAIL TEST: REGISTER USER WITH TOO SHORT USERNAME **' );
     that.test = function(){
         that.user.register( that.username, that.email, that.password, that.expectStatus );
     }

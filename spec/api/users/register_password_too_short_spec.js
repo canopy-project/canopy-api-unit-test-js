@@ -3,8 +3,7 @@
 var testUser = require('../testUser');
 
 /*
-    Test: Create a test user with a Username, Email and Password 
-    that are Empty Strings, expect to fail with 400 
+    Test: Create user with too short password
 */
   
 var Test = function(){
@@ -18,7 +17,7 @@ var Test = function(){
                 error_type: 'internal_error',
                 result: 'error' 
             }
-    that.user = new testUser( 'Unit Test: Register with Username, Email, and Password that are a Empty Strings' );
+    that.user = new testUser( '** FAIL TEST: CREATE USER WITH TOO SHORT PASSWORD **' );
     that.test = function(){
         that.user.register( that.username, that.email, that.password, that.expectStatus );
     }

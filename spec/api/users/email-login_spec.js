@@ -13,7 +13,7 @@ var Test = function(){
     that.password = undefined;
     that.expectStatus= undefined;
     that.expectJSON = undefined;
-    that.user = new testUser( 'Unit Test: Login User with Email' );
+    that.user = new testUser( '** LOG IN WITH EMAIL **' );
     that.test = function(){
         that.user.register( that.username, that.email, that.password, that.expectStatus, that.login );
     }
