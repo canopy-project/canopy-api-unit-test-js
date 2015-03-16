@@ -19,7 +19,7 @@ var Test = function(){
             }
     that.user = new testUser( '** FAIL TEST: REGISTER WITH TOO SHORT EMAIL **' );
     that.test = function(){
-        that.user.register( that.username, that.email, that.password, that.expectStatus );
+        that.user.register( that.username, that.email, that.password, that.expectStatus, that.expectJSON, false);
     }
 }
 

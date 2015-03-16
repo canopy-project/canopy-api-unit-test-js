@@ -13,12 +13,14 @@ var Test = function(){
     that.password = undefined;
     that.expectStatus = undefined;
     that.devicename = undefined;
+    that.expectRegisterJSON = undefined;
+    that.expectLoginJSON = undefined;
     that.user = new testUser( '*** CREATE ONE USER-LINKED DEVICE ***' );
     that.test = function(){
-        that.user.register( that.username, that.email, that.password, that.expectStatus, that.login );
+        that.user.register( that.username, that.email, that.password, that.expectStatus, that.expectRegisterJSON, false, that.login );
     }
     that.login = function(){
-        that.user.usernameLogin( that.username, that.password, that.expectStatus, that.expectJSON, that.createDevice );
+        that.user.usernameLogin( that.username, that.password, that.expectStatus, that.expectLoginJSON, that.createDevice );
     }
     that.createDevice = function(){
         that.user.createDevice( that.devicename, that.delete );

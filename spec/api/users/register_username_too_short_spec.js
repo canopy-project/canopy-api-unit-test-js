@@ -21,7 +21,7 @@ var Test = function(){
             }
     that.user = new testUser( '** FAIL TEST: REGISTER USER WITH TOO SHORT USERNAME **' );
     that.test = function(){
-        that.user.register( that.username, that.email, that.password, that.expectStatus );
+        that.user.register( that.username, that.email, that.password, that.expectStatus, that.expectJSON, false );
     }
 }
 

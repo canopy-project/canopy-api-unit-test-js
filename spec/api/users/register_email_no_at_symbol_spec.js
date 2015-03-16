@@ -19,7 +19,7 @@ var Test = function(){
             }    
     that.user = new testUser( '** FAIL TEST: REGISTER WITH EMAIL W/0 "@" SYMBOL **' );
     that.test = function(){
-        that.user.register( that.username, that.email, that.password, that.expectStatus);
+        that.user.register( that.username, that.email, that.password, that.expectStatus, that.expectJSON, false);
     }
 }
 
