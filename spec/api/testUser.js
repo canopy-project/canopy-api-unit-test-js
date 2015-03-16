@@ -184,15 +184,16 @@ var TestUser = function( testName ){
             })
             .toss()
     }
-    that.createDevice = function( callback ){
-        var deviceFriendlyNames = h.generateDeviceFriendlyNames( 1 );
-        console.log('CREATING DEVICE: ' + deviceFriendlyNames[0]);
-        frisby.create(that.testName + ' ***  CREATE USER-LINKED DEVICE: ' + deviceFriendlyNames[0])
+    that.createDevice = function( devicename, callback ){
+        var deviceFriendlyName = null;
+        devicename ? deviceFriendlyName = devicename : deviceFriendlyName = h.generateDeviceFriendlyNames( 1 );
+        console.log('CREATING DEVICE: ' + deviceFriendlyName[0]);
+        frisby.create(that.testName + ' ***  CREATE USER-LINKED DEVICE: ' + deviceFriendlyName )
             .addHeader('cookie', that.cookie)
             .post( that.baseURL + that.createUserLinkedDevicesPath,
                 {
                    "quantity" : 1,
-                   "friendly_names" : deviceFriendlyNames
+                   "friendly_names" : deviceFriendlyName
                 },
                 { json: true },
                 { headers: { "Content-Type":"application/json"}})

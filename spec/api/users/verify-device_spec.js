@@ -12,6 +12,7 @@ var Test = function( ){
     that.email = undefined;
     that.password = undefined;
     that.expectStatus= undefined;
+    that.devicename = undefined;
     that.user = new testUser( 'Unit Test: Verify User-Linked Device ' );
     that.test = function(){
         that.user.register( that.username, that.email, that.password, that.expectStatus, that.login );
@@ -20,7 +21,7 @@ var Test = function( ){
         that.user.usernameLogin( that.username, that.password, that.expectStatus, that.expectJSON, that.createDevices );
     }
     that.createDevices = function(){
-        that.user.createDevice( that.verifyDevice );
+        that.user.createDevice( that.devicename, that.verifyDevice );
     }
     that.verifyDevice= function(){
         that.user.verifyDevice( that.user.delete );
