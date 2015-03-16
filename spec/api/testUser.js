@@ -5,9 +5,9 @@ process.env.NODE_TLS_REJECT_UNAUTHORIZED = "0";
 
 var TestUser = function( testName ){
     var that = this;
-    that.username = h.generateUsername();
-    that.email = h.generateEmail();
-    that.password = h.generatePassword();
+    that.username = null;
+    that.email = null;
+    that.password = null;
     that.baseURL = 'https://dev02.canopy.link/api/';
     that.loginPath = 'login';
     that.logoutPath = 'logout';
@@ -19,7 +19,12 @@ var TestUser = function( testName ){
     that.cookie = null;
     that.testName = testName;
     that.testDevice = {};
-    that.register = function(callback){
+    that.register = function( username, email, password, expectStatus, callback ){
+        username ? that.username = username : that.username = h.generateUsername();
+        email ? that.email = email : that.email = h.generateEmail();
+        password ? that.password = password : that.password = h.generatePassword();
+        expectStatus ? that.expectStatus = expectStatus : that.expectStatus = 200;
+        
         console.log('registering: ' + that.username);
         frisby.create(that.testName + ' *** REGISTERING USER ' + that.username)
             .post( that.baseURL + that.createUserPath,
