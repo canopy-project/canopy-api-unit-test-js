@@ -3,7 +3,7 @@
 var testUser = require('../testUser');
 
 /*
-    Test: Create a test user, register, login, verifies self, then deletes self 
+    Test: Create a test user with an email w/o an @ symbol, expect to fail with 400
 */
 
 var Test = function(){
@@ -14,13 +14,7 @@ var Test = function(){
     that.expectStatus = 400;
     that.user = new testUser( 'Unit Test: Register Email With No At Symbol' );
     that.test = function(){
-        that.user.register( that.username, that.email, that.password, that.expectStatus, that.login );
-    }
-    that.login = function(){
-        that.user.usernameLogin( that.verify );
-    }
-    that.verify = function(){
-        that.user.verify( that.user.delete );
+        that.user.register( that.username, that.email, that.password, that.expectStatus);
     }
 }
 

@@ -3,16 +3,16 @@
 var testUser = require('../testUser');
 
 /*
-    Test: Create a test user with an Email that is an empty string, expect to fail with 400 
+    Test: Create a test user with an Email that is null, expect to fail with 400 
 */
-
+  
 var Test = function(){
     var that = this;
-    that.username = undefined;
-    that.email = '';
+    that.username = null;
+    that.email = undefined;
     that.password = undefined;
     that.expectStatus = 400;
-    that.user = new testUser( 'Unit Test: Register User With Email That is an Empty String' );
+    that.user = new testUser( 'Unit Test: Register Email With Username that is Null' );
     that.test = function(){
         that.user.register( that.username, that.email, that.password, that.expectStatus);
     }
