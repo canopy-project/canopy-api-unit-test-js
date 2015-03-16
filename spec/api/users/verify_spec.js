@@ -21,7 +21,7 @@ var Test = function(){
         that.user.usernameLogin( that.username, that.password, that.expectStatus, that.expectJSON, that.verify );
     }
     that.verify = function(){
-        that.user.verify( that.user.delete );
+        that.user.verify( that.username, that.email, that.expectStatus, that.expectJSON, that.user.delete );
     }
 }
 
