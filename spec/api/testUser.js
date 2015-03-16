@@ -39,8 +39,7 @@ var TestUser = function( testName ){
             that.expectStatus = expectStatus;
             that.expectJSON = expectJSON;  
         }
-        console.log('registering: ' + that.username );
-        console.dir( that.expectJSON ); 
+        console.log('registering: ' + that.username ); 
         frisby.create(that.testName + ' *** REGISTERING USER ' + that.username)
             .post( that.baseURL + that.createUserPath,
                 { "username" : that.username, "email" : that.email,  "password" : that.password, "skip-email" : true },
@@ -94,7 +93,6 @@ var TestUser = function( testName ){
                 "username" : that.username,
                 "email" : that.email
             }
-        console.dir( this.expectJSON );
         console.log('logging in user: ' + this.email);
         frisby.create( that.testName + ' *** LOGIN USER ' + this.email)
             .post( that.baseURL + that.loginPath,
