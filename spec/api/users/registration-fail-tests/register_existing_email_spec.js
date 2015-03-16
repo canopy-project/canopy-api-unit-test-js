@@ -1,10 +1,10 @@
 'use strict'
 
-var testUser = require('../testUser');
-var h = require('../helper-functions');
+var testUser = require('../../testUser');
+var h = require('../../helper-functions');
 
 /*
-    Test: REGISTER WITH EXISTING USERNAME
+    Test: REGISTER WITH EXISTING EMAIL
 */
 
 var Test = function(){
@@ -17,17 +17,17 @@ var Test = function(){
 
     that.expectReRegisterStatus = 400;
     that.expectReRegisterJSON = { 
-        error_type: 'username_not_available',
+        error_type: 'email_taken',
         result: 'error' 
     };
-    that.user = new testUser( '** FAIL TEST: REGISTER WITH EXISTING USERNAME **' );
+    that.user = new testUser( '** FAIL TEST: REGISTER WITH EXISTING EMAIL **' );
     that.test = function(){
         that.user.register( that.username, that.email, that.password, that.expectStatus, 
                             that.expectJSON, false, that.reRegister );
     }
     that.reRegister = function(){
-        var existingUser = new testUser( '** FAIL TEST: REGISTER WITH EXISTING USERNAME **');
-        existingUser.register( that.user.username, that.username, that.password, 
+        var existingUser = new testUser( '** FAIL TEST: REGISTER WITH EXISTING EMAIL **');
+        existingUser.register( that.username, that.user.email, that.password, 
                                     that.expectReRegisterStatus, that.expectReRegisterJSON, 
                                     false, that.login)
     }

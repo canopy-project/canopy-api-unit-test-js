@@ -1,6 +1,6 @@
 'use strict'
 
-var testUser = require('../testUser');
+var testUser = require('../../testUser');
 
 /*
     Test: Create a test user with an email w/o an @ symbol, expect to fail with 500

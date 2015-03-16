@@ -1,23 +1,23 @@
 'use strict'
 
-var testUser = require('../testUser');
+var testUser = require('../../testUser');
 
 /*
-    Test: Create user with too short password
+    Test: Create a test user with username that starts with number
 */
   
 var Test = function(){
     var that = this;
-    that.username = undefined;
+    that.username = '9m99999999';
     that.email = undefined;
-    that.password = ' ';
+    that.password = undefined;
     that.expectStatus = 500;
     that.expectJSON = 
-            {   error_msg: 'Problem Creating AccountPassword too short',
+            {
                 error_type: 'internal_error',
                 result: 'error' 
             }
-    that.user = new testUser( '** FAIL TEST: CREATE USER WITH TOO SHORT PASSWORD **' );
+    that.user = new testUser( '** FAIL TEST: REGISTER USER WITH USERNAME THAT STARTS WITH NUMBER **' );
     that.test = function(){
         that.user.register( that.username, that.email, that.password, that.expectStatus, that.expectJSON, false );
     }

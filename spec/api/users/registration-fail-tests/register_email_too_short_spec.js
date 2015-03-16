@@ -1,6 +1,6 @@
 'use strict'
 
-var testUser = require('../testUser');
+var testUser = require('../../testUser');
 
 /*
     Test: Create a test user with email too short, expect fail with 500

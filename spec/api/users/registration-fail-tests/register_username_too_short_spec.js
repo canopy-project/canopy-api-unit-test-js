@@ -1,6 +1,6 @@
 'use strict'
 
-var testUser = require('../testUser');
+var testUser = require('../../testUser');
 
 /*
     Test: Create a test user with a too short Username
@@ -8,7 +8,7 @@ var testUser = require('../testUser');
   
 var Test = function(){
     var that = this;
-    that.username = ' ';
+    that.username = 'abcd';
     that.email = undefined;
     that.password = undefined;
     that.expectStatus = 500;
