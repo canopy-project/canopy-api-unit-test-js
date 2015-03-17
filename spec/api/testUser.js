@@ -216,14 +216,10 @@ var TestUser = function( testName ){
                 "result" : "ok",
             })
             .after(function(res, body){
-                that.testDevice = new TestDevice( body.body.devices[0].device_id,
-                                                  body.body.devices[0].device_secret_key
-                                                 )
-/*                that.testDevice.deviceId = body.body.devices[0].device_id;
-                that.testDevice.SecretKey = body.body.devices[0].device_secret_key;
-                that.testDevice.auth = 
-                    new Buffer( that.testDevice.deviceId + ':' + that.testDevice.SecretKey ).toString("base64");
-            })*/
+                that.testDevice = new TestDevice( 
+                                        body.body.devices[0].device_id,
+                                        body.body.devices[0].device_secret_key
+                                    )
             })
             .after(function(){
                 if(callback){
