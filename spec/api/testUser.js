@@ -6,7 +6,7 @@ process.env.NODE_TLS_REJECT_UNAUTHORIZED = "0";
 
 var TestUser = function( testName ){
     var that = this;
-    that.username = null;
+    that.username = null; 
     that.email = null;
     that.password = null;
     that.baseURL = 'https://dev02.canopy.link/api/';
@@ -16,17 +16,17 @@ var TestUser = function( testName ){
     that.selfDevicesPath = 'user/self/devices'; 
     that.createUserPath = 'create_user';
     that.createUserLinkedDevicesPath = 'create_devices';
-    that.devicePath = 'device/'
+    that.devicePath = 'device/';
     that.cookie = null;
     that.testName = testName;
     that.testDevice = {};
-    that.register = function( username, email, password, expectStatus, expectJSON, skipDefaults, callback ){
-        if ( !skipDefaults ){
-            username ? that.username = username : that.username = h.generateUsername();
-            email ? that.email = email : that.email = h.generateEmail();
-            password ? that.password = password : that.password = h.generatePassword();
-            expectStatus ? this.expectStatus = expectStatus : this.expectStatus = 200;
-            expectJSON ? this.expectJSON = expectJSON : this.expectJSON = 
+    that.register = function( user, callback ){
+        if ( !user.skipDefaults ){
+            user.username ? that.username = user.username : that.username = h.generateUsername();
+            user.email ? that.email = user.email : that.email = h.generateEmail();
+            user.password ? that.password = user.password : that.password = h.generatePassword();
+            user.expectStatus ? this.expectStatus = user.expectStatus : this.expectStatus = 200;
+            user.expectJSON ? this.expectJSON = user.expectJSON : this.expectJSON = 
                 {
                     "result" : "ok",
                     "activated" : false,
@@ -34,11 +34,11 @@ var TestUser = function( testName ){
                     "email" : that.email
                 }
         } else {
-            that.username = username;
-            that.email = email;
-            that.password = password;
-            that.expectStatus = expectStatus;
-            that.expectJSON = expectJSON;  
+            that.username = user.username;
+            that.email = user.email;
+            that.password = user.password;
+            that.expectStatus = user.expectStatus;
+            that.expectJSON = user.expectJSON;  
         }
         console.log('registering: ' + that.username ); 
         frisby.create(that.testName + ' *** REGISTERING USER ' + that.username)
@@ -57,22 +57,33 @@ var TestUser = function( testName ){
             })
             .toss();
         };
-    that.usernameLogin = function( username, password, expectStatus, expectJSON, callback ){
-        username ? this.username = username : this.username = that.username;
-        password ? this.password = password : this.password = that.password;
-        expectStatus ? this.expectStatus = expectStatus : this.expectStatus = 200;
-        expectJSON ? this.expectJSON = expectJSON : this.expectJSON = {
-                "result" : "ok",
-                "username" : that.username,
-                "email" : that.email
-            }        
-        console.log('logging in user: ' + that.username);
-        frisby.create(that.testName + ' *** LOGIN USER ' + that.username)
+    that.usernameLogin = function( user, callback ){
+        console.log( 'user.skipDefaults: ' + user.skipDefaults );
+        if( user.skipDefaults === true ){
+            this.username = user.username;
+            this.password = user.password;
+            this.expectStatus = user.expectStatus;
+            this.expectJSON = user.expectJSON;
+        } else {
+            console.log('NOT SKIPPING DEFAULTS');
+            user ? console.dir(user): null;
+            user.username ? this.username = user.username : this.username = that.username;
+            user.password ? this.password = user.password : this.password = that.password;
+            user.expectStatus ? this.expectStatus = user.expectStatus : this.expectStatus = 200;
+            user.expectJSON ? this.expectJSON = user.expectJSON : this.expectJSON = {
+                    "result" : "ok",
+                    "username" : that.username,
+                    "email" : that.email
+                }            
+
+        }
+        console.log('logging in user: ' + this.username);
+        frisby.create(that.testName + ' *** LOGIN USER ' + this.username)
             .post( that.baseURL + that.loginPath,
-                { "username" : that.username, "password" : that.password },
+                { "username" : this.username, "password" : this.password },
                 { json: true },
                 { headers: { "Content-Type":"application/json"}})
-            .expectStatus(200)
+            .expectStatus(this.expectStatus)
             .expectHeaderContains('content-type', 'application/json')
             .inspectJSON()
             .expectJSON(this.expectJSON)
@@ -85,11 +96,11 @@ var TestUser = function( testName ){
             })   
             .toss();
     };
-    that.emailLogin = function( email, password, expectStatus, expectJSON, callback ){
-        email ? this.email = email : this.email = that.email;
-        password ? this.password = password : this.password = that.password;
-        expectStatus ? this.expectStatus = expectStatus : this.expectStatus = 200;
-        expectJSON ? this.expectJSON = expectJSON : this.expectJSON = {
+    that.emailLogin = function( user, callback ){
+        user.email ? this.email = user.email : this.email = that.email;
+        user.password ? this.password = user.password : this.password = that.password;
+        user.expectStatus ? this.expectStatus = user.expectStatus : this.expectStatus = 200;
+        user.expectJSON ? this.expectJSON = user.expectJSON : this.expectJSON = {
                 "result" : "ok",
                 "username" : that.username,
                 "email" : that.email
@@ -113,18 +124,18 @@ var TestUser = function( testName ){
             })   
             .toss();
     };    
-    that.verify = function( username, email, expectStatus, expectJSON, callback ){   
-        username ? this.username = username : this.username = that.username;
-        email ? this.email = email : this.email = that.email;
-        expectStatus ? this.expectStatus = expectStatus : this.expectStatus = that.expectStatus;
-        expectJSON ? this.expectJSON = expectJSON : this.expectJSON = {
+    that.verify = function( user, callback ){   
+        user.username ? this.username = user.username : this.username = that.username;
+        user.email ? this.email = user.email : this.email = that.email;
+        user.expectStatus ? this.expectStatus = user.expectStatus : this.expectStatus = that.expectStatus;
+        user.expectJSON ? this.expectJSON = user.expectJSON : this.expectJSON = {
                "result" : "ok",
                "validated" : false,
                "username" : that.username,
                "email" : that.email
               }; 
-        console.log('verifying user: ' + that.username);
-        frisby.create(that.testName + ' *** VERIFY USER: ' + that.username)
+        console.log('verifying user: ' + this.username);
+        frisby.create(that.testName + ' *** VERIFY USER: ' + this.username)
              .addHeader('cookie', that.cookie)
              .get( that.baseURL + that.selfPath )
              .expectStatus(200)
@@ -137,7 +148,7 @@ var TestUser = function( testName ){
               })   
               .toss();
         };
-    that.delete = function(callback){
+    that.delete = function( callback ){
         console.log('deleting user: ' + that.username);
         frisby.create(that.testName + ' *** DELETE USER: ' + that.username)
             .addHeader('cookie', that.cookie)             
