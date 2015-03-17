@@ -7,10 +7,9 @@ var TestDevice = function( UUID, secret_key, callback ){
     var that = this;
 
     that.friendlyName = null;
-    that.UUID = null;
-    that.secret_key = null;
+    that.UUID = UUID;
+    that.secret_key = secret_key;
     that.parameters = null;
-  f
     that.baseURL = 'https://dev02.canopy.link/api/';
     that.authString = function(){
         return new Buffer( that.UUID + ':' + that.secret_key ).toString("base64");

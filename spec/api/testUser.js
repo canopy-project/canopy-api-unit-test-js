@@ -216,10 +216,14 @@ var TestUser = function( testName ){
                 "result" : "ok",
             })
             .after(function(res, body){
-                that.testDevice.deviceId = body.body.devices[0].device_id;
+                that.testDevice = new TestDevice( body.body.devices[0].device_id,
+                                                  body.body.devices[0].device_secret_key
+                                                 )
+/*                that.testDevice.deviceId = body.body.devices[0].device_id;
                 that.testDevice.SecretKey = body.body.devices[0].device_secret_key;
                 that.testDevice.auth = 
                     new Buffer( that.testDevice.deviceId + ':' + that.testDevice.SecretKey ).toString("base64");
+            })*/
             })
             .after(function(){
                 if(callback){
@@ -230,7 +234,7 @@ var TestUser = function( testName ){
     }
     that.sessionVerifyDevice = function( callback ){
         frisby.create('VERIFY DEVICE ' + that.testDevice.deviceId)
-            .get( that.baseURL + that.devicePath +  that.testDevice.deviceId,
+            .get( that.baseURL + that.devicePath +  that.testDevice.UUID,
                 { headers: { "Content-Type":"application/json",
                               "cookie": that.cookie
                             }
@@ -246,9 +250,9 @@ var TestUser = function( testName ){
     }
     that.deviceSimpleAuthVerify = function( callback ){
         frisby.create('VERIFY DEVICE ' + that.testDevice.deviceId)
-            .get( that.baseURL + that.devicePath +  that.testDevice.deviceId,
+            .get( that.baseURL + that.devicePath +  that.testDevice.UUID,
                 { headers: { "Content-Type":"application/json", 
-                             "authorization": that.testDevice.auth
+                             "authorization": that.testDevice.authString
                             }
             })
             .expectStatus(200)
