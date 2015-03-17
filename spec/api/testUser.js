@@ -21,25 +21,17 @@ var TestUser = function( testName ){
     that.testName = testName;
     that.testDevice = {};
     that.register = function( user, callback ){
-        if ( !user.skipDefaults ){
-            user.username ? that.username = user.username : that.username = h.generateUsername();
-            user.email ? that.email = user.email : that.email = h.generateEmail();
-            user.password ? that.password = user.password : that.password = h.generatePassword();
-            user.expectStatus ? this.expectStatus = user.expectStatus : this.expectStatus = 200;
-            user.expectJSON ? this.expectJSON = user.expectJSON : this.expectJSON = 
-                {
-                    "result" : "ok",
-                    "activated" : false,
-                    "username" : that.username,
-                    "email" : that.email
-                }
-        } else {
-            that.username = user.username;
-            that.email = user.email;
-            that.password = user.password;
-            that.expectStatus = user.expectStatus;
-            that.expectJSON = user.expectJSON;  
-        }
+        user.username ? that.username = user.username : that.username = h.generateUsername();
+        user.email ? that.email = user.email : that.email = h.generateEmail();
+        user.password ? that.password = user.password : that.password = h.generatePassword();
+        user.expectStatus ? this.expectStatus = user.expectStatus : this.expectStatus = 200;
+        user.expectJSON ? this.expectJSON = user.expectJSON : this.expectJSON = 
+            {
+                "result" : "ok",
+                "activated" : false,
+                "username" : that.username,
+                "email" : that.email
+            }
         console.log('registering: ' + that.username ); 
         frisby.create(that.testName + ' *** REGISTERING USER ' + that.username)
             .post( that.baseURL + that.createUserPath,
@@ -58,25 +50,16 @@ var TestUser = function( testName ){
             .toss();
         };
     that.usernameLogin = function( user, callback ){
-        console.log( 'user.skipDefaults: ' + user.skipDefaults );
-        if( user.skipDefaults === true ){
-            this.username = user.username;
-            this.password = user.password;
-            this.expectStatus = user.expectStatus;
-            this.expectJSON = user.expectJSON;
-        } else {
-            console.log('NOT SKIPPING DEFAULTS');
-            user ? console.dir(user): null;
-            user.username ? this.username = user.username : this.username = that.username;
-            user.password ? this.password = user.password : this.password = that.password;
-            user.expectStatus ? this.expectStatus = user.expectStatus : this.expectStatus = 200;
-            user.expectJSON ? this.expectJSON = user.expectJSON : this.expectJSON = {
-                    "result" : "ok",
-                    "username" : that.username,
-                    "email" : that.email
-                }            
-
-        }
+        console.log( user );
+        user ? console.dir(user): null;
+        user.username ? this.username = user.username : this.username = that.username || h.generateUsername();
+        user.password ? this.password = user.password : this.password = that.password || h.generatePassword();
+        user.expectStatus ? this.expectStatus = user.expectStatus : this.expectStatus = 200;
+        user.expectJSON ? this.expectJSON = user.expectJSON : this.expectJSON = {
+                "result" : "ok",
+                "username" : that.username,
+                "email" : that.email
+            }        
         console.log('logging in user: ' + this.username);
         frisby.create(that.testName + ' *** LOGIN USER ' + this.username)
             .post( that.baseURL + that.loginPath,
@@ -97,8 +80,8 @@ var TestUser = function( testName ){
             .toss();
     };
     that.emailLogin = function( user, callback ){
-        user.email ? this.email = user.email : this.email = that.email;
-        user.password ? this.password = user.password : this.password = that.password;
+        user.email ? this.email = user.email : this.email = that.email || h.generateEmail();
+        user.password ? this.password = user.password : this.password = that.password || h.generatePassword();
         user.expectStatus ? this.expectStatus = user.expectStatus : this.expectStatus = 200;
         user.expectJSON ? this.expectJSON = user.expectJSON : this.expectJSON = {
                 "result" : "ok",
@@ -182,10 +165,12 @@ var TestUser = function( testName ){
             })
             .toss()
     }          
-    that.createDevices = function( quantity, callback ){
+    that.createDevices = function( devices, callback ){
+        var quantity = null;
+        devices.quantity ? quantity = devices.count : quantity = 5;
         var friendlyNames = h.generateDeviceFriendlyNames( quantity );
         console.log('FRIENDLY NAMES: ' + friendlyNames);
-        frisby.create(that.testName + ' *** CREATE ' + quantity + 'USER-LINKED DEVICES')
+        frisby.create(that.testName + ' *** CREATE ' +  + 'USER-LINKED DEVICES')
             .addHeader('cookie', that.cookie)
             .post( that.baseURL + that.createUserLinkedDevicesPath,
                 {
@@ -207,9 +192,9 @@ var TestUser = function( testName ){
             })
             .toss()
     }
-    that.createDevice = function( devicename, callback ){
+    that.createDevice = function( device, callback ){
         var deviceFriendlyName = null;
-        devicename ? deviceFriendlyName = devicename : deviceFriendlyName = h.generateDeviceFriendlyNames( 1 );
+        device.devicename ? deviceFriendlyName = devicename : deviceFriendlyName = h.generateDeviceFriendlyNames( 1 );
         console.log('CREATING DEVICE: ' + deviceFriendlyName[0]);
         frisby.create(that.testName + ' ***  CREATE USER-LINKED DEVICE: ' + deviceFriendlyName )
             .addHeader('cookie', that.cookie)

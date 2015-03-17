@@ -15,14 +15,14 @@ var Test = function(){
     that.badLogin = function(){
         var badUser = new testUser( '** FAIL TEST: LOG IN WITH WRONG PASSWORD **');
         badUser.usernameLogin( {
-            email: that.user.email,
+            username: that.user.username,
             expectStatus: 401,
             expectJSON: { error_type: 'incorrect_username_or_password',
                           result: 'error' }
         }, that.login);
     }
    that.login = function(){
-        that.user.emailLogin( {}, that.user.delete );
+        that.user.usernameLogin( {}, that.user.delete );
     }
 }
 

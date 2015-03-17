@@ -8,22 +8,15 @@ var testUser = require('../testUser');
 
 var Test = function(){
     var that = this;
-    that.username = undefined;
-    that.email = undefined;
-    that.password = undefined;
-    that.expectStatus = undefined;
-    that.devicename = undefined;
-    that.expectRegisterJSON = undefined;
-    that.expectLoginJSON = undefined;
     that.user = new testUser( '*** CREATE ONE USER-LINKED DEVICE ***' );
     that.test = function(){
-        that.user.register( that.username, that.email, that.password, that.expectStatus, that.expectRegisterJSON, false, that.login );
+        that.user.register( {}, that.login );
     }
     that.login = function(){
-        that.user.usernameLogin( that.username, that.password, that.expectStatus, that.expectLoginJSON, that.createDevice );
+        that.user.usernameLogin( {}, that.createDevice );
     }
     that.createDevice = function(){
-        that.user.createDevice( that.devicename, that.delete ); 
+        that.user.createDevice( {}, that.delete ); 
     }
     that.delete = function(){
         that.user.delete; 
