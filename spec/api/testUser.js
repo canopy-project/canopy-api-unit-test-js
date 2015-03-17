@@ -231,8 +231,7 @@ var TestUser = function( testName ){
     that.sessionVerifyDevice = function( callback ){
         frisby.create('VERIFY DEVICE ' + that.testDevice.deviceId)
             .get( that.baseURL + that.devicePath +  that.testDevice.deviceId,
-                { headers: { "Content-Type":"application/json", 
-                             // "authorization": that.testDevice.auth,
+                { headers: { "Content-Type":"application/json",
                               "cookie": that.cookie
                             }
             })
