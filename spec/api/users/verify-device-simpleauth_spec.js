@@ -3,7 +3,7 @@
 var testUser = require('../testUser');
 
 /*
-    Test: Verify user-linked device
+    Test: Verify user-linked device with device simple auth
 */
 
 var Test = function( ){
@@ -22,10 +22,10 @@ var Test = function( ){
         that.user.usernameLogin( that.username, that.password, that.expectStatus, that.expectJSON, that.createDevices );
     }
     that.createDevices = function(){
-        that.user.createDevice( that.devicename, that.verifyDevice );
+        that.user.createDevice( that.devicename, that.deviceSimpleAuthVerify);
     }
     that.verifyDevice= function(){
-        that.user.sessionVerifyDevice( that.user.delete );
+        that.user.verifyDevice( that.user.delete );
     }
 }
 

@@ -1,6 +1,7 @@
 'use strict'
 var frisby = require('frisby');
 var h = require('./helper-functions');
+var TestDevice = require('./testDevice');
 process.env.NODE_TLS_REJECT_UNAUTHORIZED = "0";
 
 var TestUser = function( testName ){
@@ -15,7 +16,7 @@ var TestUser = function( testName ){
     that.selfDevicesPath = 'user/self/devices'; 
     that.createUserPath = 'create_user';
     that.createUserLinkedDevicesPath = 'create_devices';
-    that.getDevicePath = 'device/'
+    that.devicePath = 'device/'
     that.cookie = null;
     that.testName = testName;
     that.testDevice = {};
@@ -218,7 +219,7 @@ var TestUser = function( testName ){
                 that.testDevice.deviceId = body.body.devices[0].device_id;
                 that.testDevice.SecretKey = body.body.devices[0].device_secret_key;
                 that.testDevice.auth = 
-                    new Buffer( that.testDeviceId + ':' + that.testDeviceSecretKey ).toString("base64");
+                    new Buffer( that.testDevice.deviceId + ':' + that.testDevice.SecretKey ).toString("base64");
             })
             .after(function(){
                 if(callback){
@@ -227,12 +228,28 @@ var TestUser = function( testName ){
             })
             .toss()
     }
-    that.verifyDevice = function( callback ){
+    that.sessionVerifyDevice = function( callback ){
         frisby.create('VERIFY DEVICE ' + that.testDevice.deviceId)
-            .get( that.baseURL + that.getDevicePath +  that.testDevice.deviceId,
+            .get( that.baseURL + that.devicePath +  that.testDevice.deviceId,
                 { headers: { "Content-Type":"application/json", 
-                             "authorization": that.testDevice.auth,
+                             // "authorization": that.testDevice.auth,
                               "cookie": that.cookie
+                            }
+            })
+            .expectStatus(200)
+            .inspectJSON()
+            .after(function(){
+                if(callback){
+                    callback();
+                }
+            })
+            .toss()
+    }
+    that.deviceSimpleAuthVerify = function( callback ){
+        frisby.create('VERIFY DEVICE ' + that.testDevice.deviceId)
+            .get( that.baseURL + that.devicePath +  that.testDevice.deviceId,
+                { headers: { "Content-Type":"application/json", 
+                             "authorization": that.testDevice.auth
                             }
             })
             .expectStatus(200)

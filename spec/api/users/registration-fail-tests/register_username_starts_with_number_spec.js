@@ -1,6 +1,7 @@
 'use strict'
 
 var testUser = require('../../testUser');
+var h = require('../../helper-functions');
 
 /*
     Test: Create a test user with username that starts with number
@@ -8,7 +9,7 @@ var testUser = require('../../testUser');
   
 var Test = function(){
     var that = this;
-    that.username = '9m99999999';
+    that.username = 9 + h.generateUsername();
     that.email = undefined;
     that.password = undefined;
     that.expectStatus = 500;
