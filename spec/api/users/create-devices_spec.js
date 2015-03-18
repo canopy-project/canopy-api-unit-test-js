@@ -17,10 +17,7 @@ var Test = function(){
         that.user.usernameLogin( {}, that.createDevices );
     }
     that.createDevices = function(){
-        that.user.createDevices( {}, that.delete );
-    }
-    that.delete = function(){
-        that.user.delete; 
+        that.user.createDevices( {}, that.user.delete );
     }
 }
 

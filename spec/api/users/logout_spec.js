@@ -17,9 +17,9 @@ var Test = function(){
         that.user.usernameLogin( {}, that.logout );
     }
     that.logout = function(){
-        that.user.logout( that.delete );
+        that.user.logout( that.loginAgain );
     }
-    that.delete = function(){
+    that.loginAgain = function(){
         that.user.usernameLogin( {}, that.user.delete );
     }
 }
