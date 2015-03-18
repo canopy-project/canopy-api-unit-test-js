@@ -225,7 +225,7 @@ var TestUser = function( testName ){
             .toss()
     }
     that.sessionVerifyDevice = function( callback ){
-        frisby.create('VERIFY DEVICE ' + that.testDevice.deviceId)
+        frisby.create('VERIFY DEVICE ' + that.testDevice.UUID)
             .get( that.baseURL + that.devicePath +  that.testDevice.UUID,
                 { headers: { "Content-Type":"application/json",
                               "cookie": that.cookie
@@ -240,11 +240,11 @@ var TestUser = function( testName ){
             })
             .toss()
     }
-    that.deviceSimpleAuthVerify = function( callback ){
+    that.deviceBasicAuthVerify = function( callback ){
         console.log('simple-auth verifying device');
         console.log(that.testDevice.UUID);
         console.log(that.testDevice.authString());
-        that.testDevice.verifySelf();
+        that.testDevice.basicAuthVerifySelf();
     }
 }
 

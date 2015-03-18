@@ -10,16 +10,20 @@ var Test = function( ){
     var that = this;
     that.user = new testUser( '** REGISTER USER-LINKED DEVICE **' );
     that.test = function(){
+        console.log('REGISTERING')
         that.user.register( {}, that.login );
     }
     that.login = function(){
-        that.user.usernameLogin( {}, that.createDevices );
+        console.log('LOGGING IN');
+        that.user.usernameLogin( {}, that.createDevice );
     }
-    that.createDevices = function(){
+    that.createDevice = function(){
+        console.log('CREATING DEVICE');
         that.user.createDevice( {}, that.verifyDevice);
     }
     that.verifyDevice= function(){
-        that.user.deviceSimpleAuthVerify( that.user.delete );
+        console.log('VERIFYING DEVICE');
+        that.user.deviceBasicAuthVerify( that.user.delete );
     }
 }
 

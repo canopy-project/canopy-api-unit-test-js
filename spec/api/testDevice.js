@@ -11,16 +11,18 @@ var TestDevice = function( UUID, secret_key, callback ){
     that.secret_key = secret_key;
     that.parameters = null;
     that.baseURL = 'https://dev02.canopy.link/api/';
+    that.devicePath = 'device/'
     that.authString = function(){
         return new Buffer( that.UUID + ':' + that.secret_key ).toString("base64");
     }
-    that.createCloudVariable = function( cloudVariableName ){};
-    that.updateCloudVariable = function( cloudVariableName, value ){};
-    that.verifySelf = function ( callback ){
+    that.createCloudVariable = function( cloudVariableName ){}
+    that.updateCloudVariable = function( cloudVariableName, value ){}
+    that.basicAuthVerifySelf = function ( callback ){
+        console.log('that.authString(): ' + that.authString() );
         frisby.create('VERIFY DEVICE ' + that.UUID)
             .get( that.baseURL + that.devicePath +  that.UUID,
                 { headers: { "Content-Type":"application/json", 
-                             "authorization": that.authString
+                             "Authorization": that.authString()
                             }
             })
             .expectStatus(200)
