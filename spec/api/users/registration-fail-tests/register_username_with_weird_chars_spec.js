@@ -8,20 +8,19 @@ var testUser = require('../../testUser');
   
 var Test = function(){
     var that = this;
-    that.username = '%$^#@&*(';
-    that.email = undefined;
-    that.password = undefined;
-    that.expectStatus = 500;
-    that.expectJSON = 
-        {
-            error_msg: 'Problem Creating AccountInvalid characters in username',
-            error_type: 'internal_error',
-            result: 'error' 
-        }
-
     that.user = new testUser( '** FAIL TEST: REGISTER USER WITH USERNAME THAT WITH WEIRD CHARACTERS **' );
+
     that.test = function(){
-        that.user.register( that.username, that.email, that.password, that.expectStatus, that.expectJSON, false );
+        that.user.register({
+            username: '%$^#@&*(',
+            expectStatus: 500,
+            expectJSON:
+            {
+                error_msg: 'Problem Creating AccountInvalid characters in username',
+                error_type: 'internal_error',
+                result: 'error' 
+            }
+        });
     }
 }
 

@@ -9,20 +9,18 @@ var h = require('../../helper-functions');
   
 var Test = function(){
     var that = this;
-    that.username = h.generateUsername();
-    that.email = h.generateEmail();
-    that.password = undefined;
-    that.expectStatus = 400;
-    that.expectJSON = 
-        { 
-            error_msg: 'String "password" expected',
-            error_type: 'bad_input',
-            result: 'error' 
-        }
-
     that.user = new testUser( '** FAIL TEST: REGISTER USER WITH UNDEFINED PASSWORD **' );
     that.test = function(){
-        that.user.register( that.username, that.email, that.password, that.expectStatus, that.expectJSON, true );
+        that.user.register( {
+            password: { forceUndefined: true },
+            expectStatus: 400,
+            expectJSON:
+                { 
+                    error_msg: 'String "password" expected',
+                    error_type: 'bad_input',
+                    result: 'error' 
+                } 
+        });
     }
 }
 

@@ -21,9 +21,9 @@ var TestUser = function( testName ){
     that.testName = testName;
     that.testDevice = {};
     that.register = function( user, callback ){
-        user.username ? that.username = user.username : that.username = h.generateUsername();
-        user.email ? that.email = user.email : that.email = h.generateEmail();
-        user.password ? that.password = user.password : that.password = h.generatePassword();
+        user.username ? ( user.username.forceUndefined ? that.username = undefined : that.username = user.username) : that.username = h.generateUsername(); 
+        user.email ? ( user.email.forceUndefined ? that.email = undefined : that.email = user.email) : that.email = h.generateEmail();
+        user.password ? ( user.password.forceUndefined ? that.password = undefined : that.password = user.password) : that.password = h.generatePassword();
         user.expectStatus ? this.expectStatus = user.expectStatus : this.expectStatus = 200;
         user.expectJSON ? this.expectJSON = user.expectJSON : this.expectJSON = 
             {
