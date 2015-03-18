@@ -241,20 +241,10 @@ var TestUser = function( testName ){
             .toss()
     }
     that.deviceSimpleAuthVerify = function( callback ){
-        frisby.create('VERIFY DEVICE ' + that.testDevice.deviceId)
-            .get( that.baseURL + that.devicePath +  that.testDevice.UUID,
-                { headers: { "Content-Type":"application/json", 
-                             "authorization": that.testDevice.authString
-                            }
-            })
-            .expectStatus(200)
-            .inspectJSON()
-            .after(function(){
-                if(callback){
-                    callback();
-                }
-            })
-            .toss()
+        console.log('simple-auth verifying device');
+        console.log(that.testDevice.UUID);
+        console.log(that.testDevice.authString());
+        that.testDevice.verifySelf();
     }
 }
 

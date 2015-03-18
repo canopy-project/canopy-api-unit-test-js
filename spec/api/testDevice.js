@@ -14,11 +14,11 @@ var TestDevice = function( UUID, secret_key, callback ){
     that.authString = function(){
         return new Buffer( that.UUID + ':' + that.secret_key ).toString("base64");
     }
-    that.createCloudVariable = function( cloudVariableName ){}
-    that.updateCloudVariable = function( cloudVariableName, value ){}
+    that.createCloudVariable = function( cloudVariableName ){};
+    that.updateCloudVariable = function( cloudVariableName, value ){};
     that.verifySelf = function ( callback ){
         frisby.create('VERIFY DEVICE ' + that.UUID)
-            .get( that.baseURL + that.devicePath +  that.testDevice.deviceId,
+            .get( that.baseURL + that.devicePath +  that.UUID,
                 { headers: { "Content-Type":"application/json", 
                              "authorization": that.authString
                             }
