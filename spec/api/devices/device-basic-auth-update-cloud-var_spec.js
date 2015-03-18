@@ -4,30 +4,30 @@ var testUser = require('../testUser');
 var h = require('../helper-functions');
 
 /*
-    Test: Update user-linked device properties with device basic auth
+    Test: Add/Update cloud var of user-linked device with device basic auth
 */
 
 var Test = function( ){
     var that = this;
-    that.user = new testUser( '** UPDATE DEVICE PROPERTIES BASIC AUTH **' );
+    that.user = new testUser( '** UPDATE CLOUD VAR **' );
     that.test = function(){
-        console.log('Registering');
+        console.log( 'Registering' );
         that.user.register( {}, that.login );
     }
     that.login = function(){
         that.user.usernameLogin( {}, that.createDevice );
     }
     that.createDevice = function(){
-        that.user.createDevice( {}, that.verifyDevice);
+        that.user.createDevice( {}, that.verifyDevice );
     }
     that.verifyDevice = function(){
-        that.user.testDevice.basicAuthVerifySelf( that.updateProperties );
+        that.user.testDevice.basicAuthVerifySelf( that.updateCloudVariable );
     }
-    that.updateProperties = function(){
-        that.user.testDevice.basicAuthUpdateProperties( that.verifyUpdate );
+    that.updateCloudVariable = function(){
+        that.user.testDevice.basicAuthUpdateCloudVariable( that.verifyUpdate );
     }
     that.verifyUpdate = function(){
-        console.log( '********Verifying Changes********' );
+        console.log('********Verifying Changes********');
         that.user.testDevice.basicAuthVerifySelf( that.delete );
     }
     that.delete = function(){

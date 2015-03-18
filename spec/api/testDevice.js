@@ -10,7 +10,7 @@ var TestDevice = function( device, callback ){
     that.friendlyName = device.friendlyName;
     that.baseURL = 'https://dev02.canopy.link/api/';
     that.devicePath = 'device/';
-    that.selfPath = that.baseURL + that.devicePath + 'self';
+    that.selfPath = that.baseURL + that.devicePath + that.UUID;
     that.authString = h.generateAuthString( that.UUID, that.secretKey );
     that.basicAuthHeaders = {"Content-Type":"application/json", "Authorization": that.authString}
 
@@ -47,9 +47,42 @@ var TestDevice = function( device, callback ){
             })
             .toss()
     }
+    that.basicAuthUpdateCloudVariable = function( callback ){
+        console.log('****Updating Cloud Var*****');
+/*
+                .post( that.baseURL + that.loginPath,
+                { "username" : this.username, "password" : this.password },
+                { json: true },
+                { headers: { "Content-Type":"application/json"}})*/
+        frisby.create('UPDATE CLOUD VAR')
+            .addHeader("Authorization", that.authString)
+            .addHeader("Content-Type", "application/json")
+            .post( that.selfPath, 
+                {"sddl" : {  "temperature" :{} }},
+                { json: true }
+            )
+            .expectStatus( 200 )
+            .inspectJSON()
+            .expectJSON( {"sddl" : {  "temperature" :{} }}
+            )
+            .after(function(){
+                if(callback){
+                    callback()
+                }
+            })
+            .toss()
+    }
 }
 module.exports = TestDevice;
 
+/*POST /api/device/<UUID>
+{
+    "sddl" : {
+        "full-replacement" : true,
+        <VAR_DECL> : <VAR_PROPERTIES>,
+        ...
+    }
+}*/
 /* friendly_name: 'devicej9nh6t9n'*/
 /*          POST /api/device/<UUID>
           {
@@ -57,8 +90,4 @@ module.exports = TestDevice;
               "location_note" : <NEW_LOCATION_NOTE>
           }
 
-
-                .post( that.baseURL + that.loginPath,
-                { "username" : this.username, "password" : this.password },
-                { json: true },
-                { headers: { "Content-Type":"application/json"}})*/
+*/

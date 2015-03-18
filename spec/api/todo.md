@@ -16,6 +16,8 @@ Update Device Properties:
               "friendly_name" : <NEW_FRIENDLY_NAME>,
               "location_note" : <NEW_LOCATION_NOTE>
           }
+
+          
 Add/Update Cloud Var Metadata:
 
           POST /api/device/<UUID>
