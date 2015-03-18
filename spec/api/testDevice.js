@@ -5,7 +5,6 @@ process.env.NODE_TLS_REJECT_UNAUTHORIZED = "0";
 
 var TestDevice = function( UUID, secret_key, callback ){
     var that = this;
-
     that.friendlyName = null;
     that.UUID = UUID;
     that.secret_key = secret_key;
@@ -13,7 +12,7 @@ var TestDevice = function( UUID, secret_key, callback ){
     that.baseURL = 'https://dev02.canopy.link/api/';
     that.devicePath = 'device/'
     that.authString = function(){
-        return new Buffer( that.UUID + ':' + that.secret_key ).toString("base64");
+        return 'Basic ' + new Buffer( that.UUID + ':' + that.secret_key ).toString("base64");
     }
     that.createCloudVariable = function( cloudVariableName ){}
     that.updateCloudVariable = function( cloudVariableName, value ){}
