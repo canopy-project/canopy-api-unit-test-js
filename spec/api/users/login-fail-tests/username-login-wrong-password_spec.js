@@ -1,7 +1,7 @@
 'use strict'
 
-var testUser = require('../testUser');
-var h = require('../helper-functions');
+var testUser = require('../../testUser');
+var h = require('../../helper-functions');
 /*
     Test: Log in with wrong password
 */

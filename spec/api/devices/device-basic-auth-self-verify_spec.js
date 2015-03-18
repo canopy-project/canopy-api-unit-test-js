@@ -10,6 +10,7 @@ var Test = function( ){
     var that = this;
     that.user = new testUser( '** BASIC-AUTH DEVICE SELF-VERIFY **' );
     that.test = function(){
+        console.log('Registering');
         that.user.register( {}, that.login );
     }
     that.login = function(){
@@ -19,7 +20,7 @@ var Test = function( ){
         that.user.createDevice( {}, that.verifyDevice);
     }
     that.verifyDevice= function(){
-        that.user.deviceBasicAuthVerify( that.user.delete );
+        that.user.testDevice.basicAuthVerifySelf( that.user.delete );
     }
 }
 

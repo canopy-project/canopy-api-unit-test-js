@@ -13,7 +13,9 @@ var generateEmail = function(){
 var generatePassword = function(){
     return 'password' + Math.floor( Math.random()*100000000 );
 }
-
+var generateAuthString = function( username, password ){
+        return 'Basic ' + new Buffer( username + ':' + password ).toString("base64");
+    }
 var generateDeviceFriendlyNames = function(deviceNumber){
     var deviceFriendlyNames = [];
     for(var i=0;i<deviceNumber;i++){
@@ -22,9 +24,9 @@ var generateDeviceFriendlyNames = function(deviceNumber){
           );
     }
     return deviceFriendlyNames;
-   
 }
 module.exports.generateUsername = generateUsername;
 module.exports.generateEmail = generateEmail;
 module.exports.generatePassword = generatePassword;
+module.exports.generateAuthString = generateAuthString;
 module.exports.generateDeviceFriendlyNames = generateDeviceFriendlyNames;

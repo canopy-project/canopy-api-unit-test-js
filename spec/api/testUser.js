@@ -212,10 +212,13 @@ var TestUser = function( testName ){
                 "result" : "ok",
             })
             .after(function(res, body){
-                that.testDevice = new TestDevice( 
-                                        body.body.devices[0].device_id,
-                                        body.body.devices[0].device_secret_key
-                                    )
+                that.testDevice = new TestDevice(
+                                      {
+                                          UUID: body.body.devices[0].device_id,
+                                          secretKey: body.body.devices[0].device_secret_key,
+                                          friendlyName: deviceFriendlyName
+                                      }
+                                    );
             })
             .after(function(){
                 if(callback){
@@ -223,6 +226,41 @@ var TestUser = function( testName ){
                 }
             })
             .toss()
+    }
+    that.basicAuthVerifySelf = function ( callback ){
+        that.authString ? null : that.authString = h.generateAuthString( that.username, that.password);
+        frisby.create('USER BASIC-AUTH SELF-VERIFY')
+            .get( that.baseURL + that.selfPath,
+                { headers: { "Content-Type":"application/json", 
+                             "Authorization": that.authString
+                            }
+            })
+            .expectStatus(200)
+            .inspectJSON()
+            .after(function(){
+                if(callback){
+                    callback();
+                }
+            })
+            .toss()
+    }
+    that.basicAuthDelete = function( callback ){
+        console.log('deleting user: ' + that.username);
+        that.authString ? null : that.authString = h.generateAuthString( that.username, that.password);        
+        frisby.create(that.testName + ' *** DELETE USER: ' + that.username)
+            .addHeader('Authorization', that.authString)          
+            .delete( that.baseURL + that.selfPath,
+                {'skip-email':true },
+                { json: true },
+                { headers: { "Content-Type":"application/json" }}
+            )
+           .expectStatus(200)
+           .expectHeaderContains('content-type', 'application/json')
+           .inspectJSON()
+           .expectJSON({
+              "result" : "ok"
+           })
+            .toss()          
     }
     that.sessionVerifyDevice = function( callback ){
         frisby.create( 'VERIFY DEVICE ' + that.testDevice.UUID )
@@ -239,9 +277,6 @@ var TestUser = function( testName ){
                 }
             })
             .toss()
-    }
-    that.deviceBasicAuthVerify = function( callback ){
-         that.testDevice.basicAuthVerifySelf();
     }
 }
 
