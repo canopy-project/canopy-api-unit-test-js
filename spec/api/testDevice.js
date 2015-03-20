@@ -40,6 +40,7 @@ var TestDevice = function( device, callback ){
             )
             .expectStatus(200)
             .inspectJSON()
+            .expectJSON({"location_note": "cobras here"})
             .after(function(){
                 if(callback){
                     callback()
