@@ -35,7 +35,7 @@ var TestDevice = function( device, callback ){
             .addHeader("Authorization", that.authString)
             .addHeader("Content-Type", "application/json")
             .post( that.selfPath,
-                { "location_note": "cobra" },
+                { "location_note": "cobras here" },
                 { json: true }
             )
             .expectStatus(200)
