@@ -20,7 +20,11 @@ var Test = function( ){
         that.user.createDevice( {}, that.verifyDevice);
     }
     that.verifyDevice= function(){
-        that.user.testDevice.basicAuthVerifySelf( that.user.delete );
+        that.user.testDevice.basicAuthVerifySelf( {
+            device_id: that.user.testDevice.device_id,
+            friendly_name: that.user.testDevice.friendly_name,
+            location_note: that.user.testDevice.location_note
+        }, that.user.delete );
     }
 }
 

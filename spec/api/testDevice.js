@@ -14,13 +14,15 @@ var TestDevice = function( device, callback ){
     that.authString = h.generateAuthString( that.UUID, that.secretKey );
     that.basicAuthHeaders = {"Content-Type":"application/json", "Authorization": that.authString}
 
-    that.basicAuthVerifySelf = function ( callback ){
+    that.basicAuthVerifySelf = function ( expectJSON, callback ){
+        console.log('********** Device Verifying Self *********');
         frisby.create('VERIFY DEVICE ' + that.UUID)
             .get( that.selfPath,
                 { headers: that.basicAuthHeaders }
             )
             .expectStatus(200)
             .inspectJSON()
+            .expectJSON( expectJSON )
             .after(function(){
                 if(callback){
                     callback();
@@ -28,19 +30,18 @@ var TestDevice = function( device, callback ){
             })
             .toss()
     }
-    that.basicAuthUpdateProperties = function( callback ){
+    that.basicAuthUpdateProperties = function( updateJSON, callback ){
         console.log('**********updating properties******** ');
 
         frisby.create('UPDATE DEVICE PROPERTIES FOR ' + that.UUID)
             .addHeader("Authorization", that.authString)
             .addHeader("Content-Type", "application/json")
             .post( that.selfPath,
-                { "location_note": "cobras here" },
+                updateJSON,
                 { json: true }
             )
             .expectStatus(200)
             .inspectJSON()
-            .expectJSON({"location_note": "cobras here"})
             .after(function(){
                 if(callback){
                     callback()
