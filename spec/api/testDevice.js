@@ -49,6 +49,25 @@ var TestDevice = function( device, callback ){
             })
             .toss()
     }
+    that.basicAuthDeclareCloudVariables = function( variableDeclarations, callback ){
+        console.log('**********updating properties******** ');
+
+        frisby.create('DECLARE VARIABLES FOR DEVICE ' + that.UUID)
+            .addHeader("Authorization", that.authString)
+            .addHeader("Content-Type", "application/json")
+            .post( that.selfPath,
+                variableDeclarations,
+                { json: true }
+            )
+            .expectStatus(200)
+            .inspectJSON()
+            .after(function(){
+                if(callback){
+                    callback()
+                }
+            })
+            .toss()
+    }    
     that.basicAuthUpdateCloudVariable = function( callback ){
         console.log('****Updating Cloud Var*****');
 /*

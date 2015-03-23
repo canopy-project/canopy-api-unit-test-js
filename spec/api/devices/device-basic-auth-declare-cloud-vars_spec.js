@@ -10,6 +10,14 @@ var h = require('../helper-functions');
 var Test = function( ){
     var that = this;
     that.user = new testUser( '** UPDATE CLOUD VAR **' );
+    that.variableDeclarationJSON =  {
+                "var_decls" : {
+                    "out float32 temperature" : { },
+                    "out float32 humidity" : { },
+                    "in int8 dimmer_brightness" : { },
+                    "in bool reboot_now" : { },
+                 }
+};
     that.test = function(){
         console.log( 'Registering' );
         that.user.register( {}, that.login );
@@ -21,21 +29,14 @@ var Test = function( ){
         that.user.createDevice( {}, that.verifyDevice );
     }
     that.verifyDevice = function(){
-        that.user.testDevice.basicAuthVerifySelf( {}, that.updateCloudVariable );
+        that.user.testDevice.basicAuthVerifySelf( {}, that.declareCloudVariables );
     }
-    that.updateCloudVariable = function(){
-        that.user.testDevice.basicAuthDeclareCloudVariables( {
-                "var_decls" : {
-                    "out float32 temperature" : { },
-                    "out float32 humidity" : { },
-                    "in int8 dimmer_brightness" : { },
-                    "in bool reboot_now" : { },
-                 }
-},  that.verifyUpdate );
+    that.declareCloudVariables = function(){
+        that.user.testDevice.basicAuthDeclareCloudVariables( that.variableDeclarationJSON,  that.verifyUpdate );
     }
     that.verifyUpdate = function(){
         console.log('********Verifying Changes********');
-        that.user.testDevice.basicAuthVerifySelf( that.delete );
+        that.user.testDevice.basicAuthVerifySelf( that.variableDeclarationJSON,that.delete );
     }
     that.delete = function(){
         that.user.usernameLogin( {}, that.user.delete )   
