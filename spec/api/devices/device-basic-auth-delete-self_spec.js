@@ -24,10 +24,10 @@ var Test = function( ){
             device_id: that.user.testDevice.device_id,
             friendly_name: that.user.testDevice.friendly_name,
             location_note: that.user.testDevice.location_note
-        }, that.delete );
+        }, that.deleteDeviceAndUser );
     }
-    that.delete = function(){
-        that.user.usernameLogin( {}, that.user.delete );
+    that.deleteDeviceAndUser = function(){
+        that.user.testDevice.basicAuthDelete( that.user.delete );
     }
 }
 

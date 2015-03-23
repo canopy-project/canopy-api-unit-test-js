@@ -146,6 +146,11 @@ var TestUser = function( testName ){
            .expectJSON({
               "result" : "ok"
            })
+           .after(function(){
+                if( callback ){
+                    callback();
+                }
+           })
             .toss()            
     };
     that.logout = function( callback ){

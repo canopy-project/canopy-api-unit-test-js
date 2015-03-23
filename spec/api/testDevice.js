@@ -16,7 +16,9 @@ var TestDevice = function( device, callback ){
 
     that.basicAuthVerifySelf = function ( expectJSON, callback ){
         console.log('********** Device Verifying Self *********');
-        frisby.create('VERIFY DEVICE ' + that.UUID)
+        console.log( '*** EXPECT JSON ***')
+        console.dir( expectJSON );
+        frisby.create('SELF-VERIFY DEVICE ' + that.UUID)
             .get( that.selfPath,
                 { headers: that.basicAuthHeaders }
             )
@@ -30,6 +32,24 @@ var TestDevice = function( device, callback ){
             })
             .toss()
     }
+    that.basicAuthDelete = function( callback ){
+        console.log( '**** Device Deleting Self with Basic Auth' );
+        frisby.create('SELF-DELETE DEVICE ' + that.UUID)
+            .addHeaders( that.basicAuthHeaders )
+            .delete( that.selfPath )
+           .expectStatus(200)
+           .expectHeaderContains('content-type', 'application/json')
+           .inspectJSON()
+           .expectJSON({
+              "result" : "ok"
+           })
+           .after(function(){
+                if( callback ){
+                    callback();
+                }
+           })
+            .toss()
+    } 
     that.basicAuthUpdateProperties = function( updateJSON, callback ){
         console.log('**********updating properties******** ');
 
@@ -50,7 +70,7 @@ var TestDevice = function( device, callback ){
             .toss()
     }
     that.basicAuthDeclareCloudVariables = function( variableDeclarations, callback ){
-        console.log('**********updating properties******** ');
+        console.log('\n\n**********  Declaring Cloud Variables ********\n\n');
 
         frisby.create('DECLARE VARIABLES FOR DEVICE ' + that.UUID)
             .addHeader("Authorization", that.authString)
@@ -68,24 +88,19 @@ var TestDevice = function( device, callback ){
             })
             .toss()
     }    
-    that.basicAuthUpdateCloudVariable = function( callback ){
-        console.log('****Updating Cloud Var*****');
-/*
-                .post( that.baseURL + that.loginPath,
-                { "username" : this.username, "password" : this.password },
-                { json: true },
-                { headers: { "Content-Type":"application/json"}})*/
-        frisby.create('UPDATE CLOUD VAR')
+    that.basicAuthSetCloudVariables = function( variableUpdates, callback ){
+        console.log('\n\n**** Updating Cloud Vars *****\n\n');
+        console.dir(variableUpdates);
+        frisby.create('SET CLOUD VARS FOR DEVICE ' + that.UUID)
             .addHeader("Authorization", that.authString)
             .addHeader("Content-Type", "application/json")
             .post( that.selfPath, 
-                {"sddl" : {  "temperature" :{} }},
+                variableUpdates,
                 { json: true }
             )
             .expectStatus( 200 )
             .inspectJSON()
-            .expectJSON( {"sddl" : {  "temperature" :{} }}
-            )
+            .expectJSON( variableUpdates )
             .after(function(){
                 if(callback){
                     callback()
@@ -95,20 +110,3 @@ var TestDevice = function( device, callback ){
     }
 }
 module.exports = TestDevice;
-
-/*POST /api/device/<UUID>
-{
-    "sddl" : {
-        "full-replacement" : true,
-        <VAR_DECL> : <VAR_PROPERTIES>,
-        ...
-    }
-}*/
-/* friendly_name: 'devicej9nh6t9n'*/
-/*          POST /api/device/<UUID>
-          {
-              "friendly_name" : <NEW_FRIENDLY_NAME>,
-              "location_note" : <NEW_LOCATION_NOTE>
-          }
-
-*/
