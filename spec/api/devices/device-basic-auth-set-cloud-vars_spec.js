@@ -17,9 +17,9 @@ var Test = function( ){
     };    
     that.setVariablesJSON =  {
                 "vars" : {
-                    "temperature" : {v:65},
-                    "humidity" : {v:32},
-                    "dimmer_brightness" : {v:99}
+                    "temperature" : 65,
+                    "humidity" : 32,
+                    "dimmer_brightness" : 99
                  }
     };
     that.test = function(){
