@@ -22,13 +22,13 @@ var Test = function( ){
                     "dimmer_brightness" : 99
                  }
     };
-/*    that.expectJSON = {
+    that.expectJSON = {
                 "vars":{
                     "temperature" : {v:65},
                     "humidity" : {v:32},
                     "dimmer_brightness": {v:99}
                 }
-    };*/
+    };
     that.test = function(){
         console.log( 'Registering' );
         that.user.register( {}, that.login );
