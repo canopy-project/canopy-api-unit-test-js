@@ -88,19 +88,19 @@ var TestDevice = function( device, callback ){
             })
             .toss()
     }    
-    that.basicAuthSetCloudVariables = function( variableUpdates, callback ){
+    that.basicAuthSetCloudVariables = function( update, callback ){
         console.log('\n\n**** Updating Cloud Vars *****\n\n');
-        console.dir(variableUpdates);
+        console.dir( update );
         frisby.create('SET CLOUD VARS FOR DEVICE ' + that.UUID)
             .addHeader("Authorization", that.authString)
             .addHeader("Content-Type", "application/json")
             .post( that.selfPath, 
-                variableUpdates,
+                device.variableUpdates,
                 { json: true }
             )
             .expectStatus( 200 )
             .inspectJSON()
-            .expectJSON( variableUpdates )
+            .expectJSON( device.expectJSON )
             .after(function(){
                 if(callback){
                     callback()

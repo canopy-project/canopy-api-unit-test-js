@@ -22,6 +22,13 @@ var Test = function( ){
                     "dimmer_brightness" : 99
                  }
     };
+/*    that.expectJSON = {
+                "vars":{
+                    "temperature" : {v:65},
+                    "humidity" : {v:32},
+                    "dimmer_brightness": {v:99}
+                }
+    };*/
     that.test = function(){
         console.log( 'Registering' );
         that.user.register( {}, that.login );
@@ -39,7 +46,9 @@ var Test = function( ){
         that.user.testDevice.basicAuthDeclareCloudVariables( that.variableDeclarationJSON,  that.setCloudVariables );
     }    
     that.setCloudVariables = function(){
-        that.user.testDevice.basicAuthSetCloudVariables( that.setVariablesJSON,  that.verifyUpdate );
+        that.user.testDevice.basicAuthSetCloudVariables( {  'variableUpdates': that.setVariablesJSON,
+                                                            'expectJSON': that.expectJSON 
+                                                        },  that.verifyUpdate );
     }
     that.verifyUpdate = function(){
         console.log('********Verifying Changes********');
