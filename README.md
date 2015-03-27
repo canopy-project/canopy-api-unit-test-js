@@ -7,9 +7,18 @@ Unit tests for the Canopy REST API written in Node.js
 export CANOPY_BASE_URL = "https://myserver.com/api/"
 ```
 
-# Install and Run
+# Install
 
 ```
-npm install && npm test
+npm install && sudo npm install -g jasmine-node
 ```
 
+# Run All Tests
+```
+npm test
+```
+
+# Run a Single Test
+```
+jasmine-node myTest.js --verbose
+```
