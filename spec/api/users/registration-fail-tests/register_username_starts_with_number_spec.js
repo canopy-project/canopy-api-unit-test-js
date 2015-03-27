@@ -14,10 +14,10 @@ var Test = function(){
     that.test = function(){
         that.user.register({
             username: 9 + h.generateUsername(),
-            expectStatus: 500,
+            expectStatus: 400,
             expectJSON:
                 {
-                    error_type: 'internal_error',
+                    error_type: 'bad_input',
                     result: 'error' 
                 }
         });

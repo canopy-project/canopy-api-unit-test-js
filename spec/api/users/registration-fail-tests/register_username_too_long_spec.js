@@ -13,11 +13,10 @@ var Test = function(){
     that.test = function(){
         that.user.register({
             username: 'abcdefghijklmnopqrstuvwxy',
-            expectStatus: 500,
+            expectStatus: 400,
             expectJSON: 
                 { 
-                    error_msg: 'Problem Creating AccountUsername too long',
-                    error_type: 'internal_error',
+                    error_type: 'bad_input',
                     result: 'error' 
                 }
         });

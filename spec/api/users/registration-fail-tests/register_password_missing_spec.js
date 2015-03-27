@@ -16,7 +16,6 @@ var Test = function(){
             expectStatus: 400,
             expectJSON:
                 { 
-                    error_msg: 'String "password" expected',
                     error_type: 'bad_input',
                     result: 'error' 
                 } 

@@ -12,11 +12,10 @@ var Test = function(){
     that.test = function(){
         that.user.register({
             password: ' ',
-            expectStatus: 500,
+            expectStatus: 400,
             expectJSON:
                 {   
-                    error_msg: 'Problem Creating AccountPassword too short',
-                    error_type: 'internal_error',
+                    error_type: 'bad_input',
                     result: 'error' 
                 }
         });

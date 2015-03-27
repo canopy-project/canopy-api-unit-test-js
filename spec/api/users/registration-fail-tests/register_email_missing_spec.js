@@ -17,7 +17,6 @@ var Test = function(){
             expectStatus: 400,
             expectJSON:
                 { 
-                    error_msg: 'String "email" expected',
                     error_type: 'bad_input',
                     result: 'error' 
                 } 

@@ -13,11 +13,10 @@ var Test = function(){
     that.test = function(){
         that.user.register({
             username: '%$^#@&*(',
-            expectStatus: 500,
+            expectStatus: 400,
             expectJSON:
             {
-                error_msg: 'Problem Creating AccountInvalid characters in username',
-                error_type: 'internal_error',
+                error_type: 'bad_input',
                 result: 'error' 
             }
         });

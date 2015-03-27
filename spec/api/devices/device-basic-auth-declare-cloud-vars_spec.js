@@ -29,6 +29,7 @@ var Test = function( ){
     }
     that.verifyDevice = function(){
         that.user.testDevice.basicAuthVerifySelf( {}, that.declareCloudVariables );
+
     }
     that.declareCloudVariables = function(){
         that.user.testDevice.basicAuthDeclareCloudVariables( that.variableDeclarationJSON,  that.verifyUpdate );

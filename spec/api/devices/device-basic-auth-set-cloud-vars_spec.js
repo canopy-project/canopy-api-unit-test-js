@@ -12,18 +12,16 @@ var Test = function( ){
                 "var_decls" : {
                     "out float32 temperature" : { },
                     "out float32 humidity" : { },
-                    "in int8 dimmer_brightness" : { },
-                    "in bool reboot_now" : { },
+                    "in int8 dimmer_brightness" : { }
                  }
-};    
+    };    
     that.setVariablesJSON =  {
                 "vars" : {
-                    "temperature" : 65,
-                    "humidity" : 32,
-                    "dimmer_brightness" : 99,
-                    "reboot_now" : 1
+                    "temperature" : {v:65},
+                    "humidity" : {v:32},
+                    "dimmer_brightness" : {v:99}
                  }
-};
+    };
     that.test = function(){
         console.log( 'Registering' );
         that.user.register( {}, that.login );
