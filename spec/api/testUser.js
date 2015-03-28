@@ -54,6 +54,80 @@ function frisbyPostJsonRequest(params) {
         });
 }
 
+function frisbyGetRequest(params) {
+    function dumpRequest(params) {
+        console.log("------------------------------------------------------");
+        console.log(params.testname);
+        console.log("------------------------------------------------------");
+        console.log("REQUEST: GET " + params.url);
+        if (params.headers) {
+            console.log("Headers: ");
+            console.log(JSON.stringify(params.headers, null, 4));
+        }
+    }
+    if (verbose) {
+        dumpRequest(params);
+    }
+    return frisby.create(params.testname)
+        .addHeaders(params.headers)
+        .get(params.url)
+        .expectStatus(params.expectStatus)
+        .after(function(err, resp, body) {
+            if (resp.statusCode != params.expectStatus || err || verbose) {
+                if (!verbose) {
+                    dumpRequest(params);
+                }
+                console.log("\nRESPONSE: " + resp.statusCode);
+                if (err) {
+                    console.log(err);
+                }
+                console.log(JSON.stringify(body, null, 4));
+            }
+            if (err) {
+                // TBD: Display expected
+            }
+        });
+}
+
+function frisbyDeleteJsonRequest(params) {
+    function dumpRequest(params) {
+        console.log("------------------------------------------------------");
+        console.log(params.testname);
+        console.log("------------------------------------------------------");
+        console.log("REQUEST: POST " + params.url);
+        if (params.headers) {
+            console.log("Headers: ");
+            console.log(JSON.stringify(params.headers, null, 4));
+            console.log("Body: ");
+        }
+        console.log(JSON.stringify(params.jsonBody, null, 4));
+    }
+    if (verbose) {
+        dumpRequest(params);
+    }
+    return frisby.create(params.testname)
+        .addHeaders(params.headers)
+        .delete(params.url, 
+            params.jsonBody,
+            { json: true })
+        .expectStatus(params.expectStatus)
+        .after(function(err, resp, body) {
+            if (resp.statusCode != params.expectStatus || err || verbose) {
+                if (!verbose) {
+                    dumpRequest(params);
+                }
+                console.log("\nRESPONSE: " + resp.statusCode);
+                if (err) {
+                    console.log(err);
+                }
+                console.log(JSON.stringify(body, null, 4));
+            }
+            if (err) {
+                // TBD: Display expected
+            }
+        });
+}
+
 var TestUser = function( testName ){
     var that = this;
     that.username = null; 
@@ -97,7 +171,6 @@ var TestUser = function( testName ){
         })
             .expectJSON( this.expectJSON )
             .expectHeaderContains('content-type', 'application/json')
-            //.inspectJSON()
             .afterJSON(function(){
                 if(callback){
                     callback();
@@ -107,8 +180,6 @@ var TestUser = function( testName ){
         };
 
     that.usernameLogin = function( user, callback ){
-        //console.log( user );
-        // user ? console.dir(user): null;
         user.username ? this.username = user.username : this.username = that.username || h.generateUsername();
         user.password ? this.password = user.password : this.password = that.password || h.generatePassword();
         user.expectStatus ? this.expectStatus = user.expectStatus : this.expectStatus = 200;
@@ -116,20 +187,21 @@ var TestUser = function( testName ){
                 "result" : "ok",
                 "username" : that.username,
                 "email" : that.email
-            }        
-        //console.log('logging in user: ' + this.username);
-        frisby.create(that.testName + ' *** LOGIN USER ' + this.username)
-            .post( that.baseURL + that.loginPath,
-                { "username" : this.username, "password" : this.password },
-                { json: true },
-                { headers: { "Content-Type":"application/json"}})
-            .expectStatus(this.expectStatus)
+            }
+        frisbyPostJsonRequest({
+            "testname" : that.testName + ' *** LOGIN USER ' + this.username,
+            "url" : that.baseURL + that.loginPath,
+            "jsonBody" : {
+                "username" : that.username,
+                "password" : that.password
+            },
+            "headers" : {"Content-Type" : "application/json"},
+            "expectStatus" : this.expectStatus
+        })
             .expectHeaderContains('content-type', 'application/json')
-            //.inspectJSON()
             .expectJSON(this.expectJSON)
             .after(function(body, res){
                 res.headers['set-cookie'] ? that.cookie = res.headers['set-cookie'][0].split(';')[0] : null;
-                // that.cookie ? console.log('COOKIE FROM LOGIN: ' + that.cookie) : null;
                 if(callback){
                     callback();
                 }
@@ -146,25 +218,27 @@ var TestUser = function( testName ){
                 "username" : that.username,
                 "email" : that.email
             }
-        // console.log('logging in user: ' + this.email);
-        frisby.create( that.testName + ' *** LOGIN USER ' + this.email)
-            .post( that.baseURL + that.loginPath,
-                { "username" : this.email, "password" : this.password },
-                { json: true },
-                { headers: { "Content-Type":"application/json"}})
-            .expectStatus(this.expectStatus)
+        frisbyPostJsonRequest({
+            "testname" : that.testName + ' ***  LOGIN USER ' + this.email,
+            "url" : that.baseURL + that.loginPath,
+            "jsonBody" : { 
+                "username" : this.email,   
+                "password" : this.password
+            },
+            "headers" : {"Content-Type": "application/json"},
+            "expectStatus" : this.expectStatus
+        })            
             .expectHeaderContains('content-type', 'application/json')
-            //.inspectJSON()
             .expectJSON( this.expectJSON )
             .after(function(body, res){
                 res.headers['set-cookie'] ? that.cookie = res.headers['set-cookie'][0].split(';')[0] : null;
-                // that.cookie ? console.log('COOKIE FROM LOGIN: ' + that.cookie) : null;
                 if(callback){
                     callback();
                 }
             })   
             .toss();
-    };    
+    };
+
     that.verify = function( user, callback ){   
         user.username ? this.username = user.username : this.username = that.username;
         user.email ? this.email = user.email : this.email = that.email;
@@ -174,12 +248,16 @@ var TestUser = function( testName ){
                "validated" : false,
                "username" : that.username,
                "email" : that.email
-              }; 
-        // console.log('verifying user: ' + this.username);
-        frisby.create(that.testName + ' *** VERIFY USER: ' + this.username)
-             .addHeader('cookie', that.cookie)
-             .get( that.baseURL + that.selfPath )
-             .expectStatus(200)
+              };
+        frisbyGetRequest({
+            "testname" : that.testName + ' ***  VERIFY USER ' + this.username,
+            "url" : that.baseURL + that.selfPath,
+            "headers" : {
+                "Content-Type": "application/json",
+                "cookie" : that.cookie
+            },
+            "expectStatus" : this.expectStatus
+        })             
              .expectHeaderContains('content-type', 'application/json')
              .expectJSON( this.expectJSON )
               .after(function(body, res){
@@ -189,18 +267,21 @@ var TestUser = function( testName ){
               })   
               .toss();
         };
+
     that.delete = function( callback ){
-        // console.log('deleting user: ' + that.username);
-        frisby.create(that.testName + ' *** DELETE USER: ' + that.username)
-            .addHeader('cookie', that.cookie)             
-            .delete( that.baseURL + that.selfPath,
-                {'skip-email':true },
-                { json: true },
-                { headers: { "Content-Type":"application/json"}}
-            )
-           .expectStatus(200)
+        frisbyDeleteJsonRequest({
+            "headers" : {
+                "Content-Type": "application/json",
+                "cookie" : that.cookie
+            },
+            "jsonBody" : {
+                "skip-email" : true
+            },                
+            "testname" : that.testName + ' ***  DELETE USER ' + that.username,
+            "url" : that.baseURL + that.selfPath,
+            "expectStatus" : that.expectStatus
+        })            
            .expectHeaderContains('content-type', 'application/json')
-           //.inspectJSON()
            .expectJSON({
               "result" : "ok"
            })
@@ -211,16 +292,17 @@ var TestUser = function( testName ){
            })
             .toss()            
     };
+
     that.logout = function( callback ){
-        // console.log('logging out user: ' + that.username);
-        frisby.create(that.testName + ' *** LOGOUT USER: ' + that.username)
-            .post( that.baseURL + that.logoutPath)
-            .expectStatus(200)
+        frisbyPostJsonRequest({
+            "testname" : that.testName + ' *** LOGOUT USER ' + that.username,
+            "url" : that.baseURL + that.logoutPath,
+            "expectStatus" : this.expectStatus
+        })
             .expectHeaderContains('content-type', 'application/json')
-            //.inspectJSON()
             .expectJSON({
                "result" : "ok"
-            })    
+            })            
             .after(function(){
                 if(callback){
                     callback();
@@ -228,16 +310,19 @@ var TestUser = function( testName ){
             })
             .toss()
     }
+
     that.basicAuthVerifySelf = function ( callback ){
-        that.authString ? null : that.authString = h.generateAuthString( that.username, that.password);
-        frisby.create('USER BASIC-AUTH SELF-VERIFY')
-            .get( that.baseURL + that.selfPath,
-                { headers: { "Content-Type":"application/json", 
-                             "Authorization": that.authString
-                            }
-            })
-            .expectStatus(200)
-            //.inspectJSON()
+        that.authString ? null : 
+            that.authString = h.generateAuthString( that.username, that.password );
+        frisbyGetRequest({
+            "headers" : {
+                "Content-Type" : "application/json",
+                "Authorization" : this.authString
+            },            
+            "testname" : that.testName + ' *** VERIFY USER, BASIC AUTH ' + that.username,
+            "url" : that.baseURL + that.selfPath,
+            "expectStatus" : this.expectStatus
+        })
             .after(function(){
                 if(callback){
                     callback();
@@ -245,24 +330,36 @@ var TestUser = function( testName ){
             })
             .toss()
     }
+
     that.basicAuthDelete = function( callback ){
-        // console.log('deleting user: ' + that.username);
-        that.authString ? null : that.authString = h.generateAuthString( that.username, that.password);        
-        frisby.create(that.testName + ' *** DELETE USER: ' + that.username)
+        that.authString ? null : 
+            that.authString = h.generateAuthString( that.username, that.password );
+/*        frisby.create(that.testName + ' *** DELETE USER: ' + that.username)
             .addHeader('Authorization', that.authString)          
             .delete( that.baseURL + that.selfPath,
                 {'skip-email':true },
                 { json: true },
                 { headers: { "Content-Type":"application/json" }}
-            )
-           .expectStatus(200)
+            )*/
+        frisbyDeleteJsonRequest({
+            "headers" : {
+                "Content-Type": "application/json",
+                "Authorization" : that.authString
+            },
+            "jsonBody" : {
+                "skip-email" : true
+            },            
+            "testname" : that.testName + ' ***  DELETE USER ' + that.username,
+            "url" : that.baseURL + that.selfPath,
+            "expectStatus" : that.expectStatus
+        })
            .expectHeaderContains('content-type', 'application/json')
-           //.inspectJSON()
            .expectJSON({
               "result" : "ok"
            })
             .toss()          
     }
+
     that.sessionVerifyDevice = function( callback ){
         frisby.create( 'VERIFY DEVICE ' + that.testDevice.UUID )
             .get( that.baseURL + that.devicePath +  that.testDevice.UUID,
@@ -271,7 +368,6 @@ var TestUser = function( testName ){
                             }
             })
             .expectStatus(200)
-            //.inspectJSON()
             .after(function(){
                 if(callback){
                     callback();
@@ -279,11 +375,11 @@ var TestUser = function( testName ){
             })
             .toss()
     }
+
     that.createDevices = function( devices, callback ){
         var quantity = null;
         devices.quantity ? quantity = devices.quantity : quantity = 5;
         var friendlyNames = h.generateDeviceFriendlyNames( quantity );
-        // console.log('FRIENDLY NAMES: ' + friendlyNames);
         frisby.create(that.testName + ' *** CREATE ' +  + 'USER-LINKED DEVICES')
             .addHeader('cookie', that.cookie)
             .post( that.baseURL + that.createUserLinkedDevicesPath,
@@ -306,10 +402,10 @@ var TestUser = function( testName ){
             })
             .toss()
     }
+
     that.createDevice = function( device, callback ){
         var deviceFriendlyName = null;
         device.devicename ? deviceFriendlyName = devicename : deviceFriendlyName = h.generateDeviceFriendlyNames( 1 );
-        // console.log('CREATING DEVICE: ' + deviceFriendlyName[0]);
         frisby.create(that.testName + ' ***  CREATE USER-LINKED DEVICE: ' + deviceFriendlyName )
             .addHeader('cookie', that.cookie)
             .post( that.baseURL + that.createUserLinkedDevicesPath,
@@ -321,7 +417,6 @@ var TestUser = function( testName ){
                 { headers: { "Content-Type":"application/json"}})
             .expectStatus(200)
             .expectHeaderContains('content-type', 'application/json')
-            //.inspectJSON()
             .expectJSON({
                 "result" : "ok",
             })
@@ -341,8 +436,8 @@ var TestUser = function( testName ){
             })
             .toss()
     }
+
     that.listDevices = function( callback ){
-        // console.log('Listing Devices');
         frisby.create(that.testName + ' *** LIST USER-LINKED DEVICES *** ')         
             .addHeader('cookie', that.cookie)
             .get( that.baseURL + that.selfDevicesPath )

@@ -13,6 +13,7 @@ var Test = function(){
     that.test = function(){
         that.user.register( {}, that.basicAuthVerify );
     }
+    
     that.basicAuthVerify = function(){
         that.user.basicAuthVerifySelf( that.user.basicAuthDelete );
     }
