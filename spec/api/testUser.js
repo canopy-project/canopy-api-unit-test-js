@@ -4,6 +4,56 @@ var h = require('./helper-functions');
 var TestDevice = require('./testDevice');
 process.env.NODE_TLS_REJECT_UNAUTHORIZED = "0";
 
+var verbose = (process.argv.indexOf("--verbose") >= 0);
+
+/*
+ * Creates a frisby test.
+ * <params> contains the following fields:
+ *      testname - Test name
+ *      url - Request URL
+ *      jsonBody - Request body
+ *      headers - Request headers
+ *      expectStatus - Expected response code
+ */
+function frisbyPostJsonRequest(params) {
+    function dumpRequest(params) {
+        console.log("------------------------------------------------------");
+        console.log(params.testname);
+        console.log("------------------------------------------------------");
+        console.log("REQUEST: POST " + params.url);
+        if (params.headers) {
+            console.log("Headers: ");
+            console.log(JSON.stringify(params.headers, null, 4));
+            console.log("Body: ");
+        }
+        console.log(JSON.stringify(params.jsonBody, null, 4));
+    }
+    if (verbose) {
+        dumpRequest(params);
+    }
+    return frisby.create(params.testname)
+        .post(params.url, 
+            params.jsonBody,
+            { json: true })
+        .addHeaders(params.headers)
+        .expectStatus(params.expectStatus)
+        .after(function(err, resp, body) {
+            if (resp.statusCode != params.expectStatus || err || verbose) {
+                if (!verbose) {
+                    dumpRequest(params);
+                }
+                console.log("\nRESPONSE: " + resp.statusCode);
+                if (err) {
+                    console.log(err);
+                }
+                console.log(JSON.stringify(body, null, 4));
+            }
+            if (err) {
+                // TBD: Display expected
+            }
+        });
+}
+
 var TestUser = function( testName ){
     var that = this;
     that.username = null; 
@@ -20,6 +70,7 @@ var TestUser = function( testName ){
     that.cookie = null;
     that.testName = testName;
     that.testDevice = {};
+
     that.register = function( user, callback ){
         user.username ? ( user.username.forceUndefined ? that.username = undefined : that.username = user.username) : that.username = h.generateUsername(); 
         user.email ? ( user.email.forceUndefined ? that.email = undefined : that.email = user.email) : that.email = h.generateEmail();
@@ -32,16 +83,21 @@ var TestUser = function( testName ){
                 "username" : that.username,
                 "email" : that.email
             }
-        console.log('registering: ' + that.username ); 
-        frisby.create(that.testName + ' *** REGISTERING USER ' + that.username)
-            .post( that.baseURL + that.createUserPath,
-                { "username" : that.username, "email" : that.email,  "password" : that.password, "skip-email" : true },
-                { json: true },
-                { headers: { "Content-Type":"application/json"}})  
+        frisbyPostJsonRequest({
+            "testname" : that.testName + ' *** REGISTERING USER ' + that.username,
+            "url" : that.baseURL + that.createUserPath,
+            "jsonBody" : { 
+                "username" : that.username, 
+                "email" : that.email,  
+                "password" : that.password, 
+                "skip-email" : true
+            },
+            "headers" : {"Content-Type": "application/json"},
+            "expectStatus" : this.expectStatus
+        })
             .expectJSON( this.expectJSON )
-            .expectStatus( this.expectStatus)
             .expectHeaderContains('content-type', 'application/json')
-            .inspectJSON()
+            //.inspectJSON()
             .afterJSON(function(){
                 if(callback){
                     callback();
@@ -49,9 +105,10 @@ var TestUser = function( testName ){
             })
             .toss();
         };
+
     that.usernameLogin = function( user, callback ){
-        console.log( user );
-        user ? console.dir(user): null;
+        //console.log( user );
+        // user ? console.dir(user): null;
         user.username ? this.username = user.username : this.username = that.username || h.generateUsername();
         user.password ? this.password = user.password : this.password = that.password || h.generatePassword();
         user.expectStatus ? this.expectStatus = user.expectStatus : this.expectStatus = 200;
@@ -60,7 +117,7 @@ var TestUser = function( testName ){
                 "username" : that.username,
                 "email" : that.email
             }        
-        console.log('logging in user: ' + this.username);
+        //console.log('logging in user: ' + this.username);
         frisby.create(that.testName + ' *** LOGIN USER ' + this.username)
             .post( that.baseURL + that.loginPath,
                 { "username" : this.username, "password" : this.password },
@@ -68,17 +125,18 @@ var TestUser = function( testName ){
                 { headers: { "Content-Type":"application/json"}})
             .expectStatus(this.expectStatus)
             .expectHeaderContains('content-type', 'application/json')
-            .inspectJSON()
+            //.inspectJSON()
             .expectJSON(this.expectJSON)
             .after(function(body, res){
                 res.headers['set-cookie'] ? that.cookie = res.headers['set-cookie'][0].split(';')[0] : null;
-                that.cookie ? console.log('COOKIE FROM LOGIN: ' + that.cookie) : null;
+                // that.cookie ? console.log('COOKIE FROM LOGIN: ' + that.cookie) : null;
                 if(callback){
                     callback();
                 }
             })   
             .toss();
     };
+
     that.emailLogin = function( user, callback ){
         user.email ? this.email = user.email : this.email = that.email || h.generateEmail();
         user.password ? this.password = user.password : this.password = that.password || h.generatePassword();
@@ -88,7 +146,7 @@ var TestUser = function( testName ){
                 "username" : that.username,
                 "email" : that.email
             }
-        console.log('logging in user: ' + this.email);
+        // console.log('logging in user: ' + this.email);
         frisby.create( that.testName + ' *** LOGIN USER ' + this.email)
             .post( that.baseURL + that.loginPath,
                 { "username" : this.email, "password" : this.password },
@@ -96,11 +154,11 @@ var TestUser = function( testName ){
                 { headers: { "Content-Type":"application/json"}})
             .expectStatus(this.expectStatus)
             .expectHeaderContains('content-type', 'application/json')
-            .inspectJSON()
+            //.inspectJSON()
             .expectJSON( this.expectJSON )
             .after(function(body, res){
                 res.headers['set-cookie'] ? that.cookie = res.headers['set-cookie'][0].split(';')[0] : null;
-                that.cookie ? console.log('COOKIE FROM LOGIN: ' + that.cookie) : null;
+                // that.cookie ? console.log('COOKIE FROM LOGIN: ' + that.cookie) : null;
                 if(callback){
                     callback();
                 }
@@ -117,7 +175,7 @@ var TestUser = function( testName ){
                "username" : that.username,
                "email" : that.email
               }; 
-        console.log('verifying user: ' + this.username);
+        // console.log('verifying user: ' + this.username);
         frisby.create(that.testName + ' *** VERIFY USER: ' + this.username)
              .addHeader('cookie', that.cookie)
              .get( that.baseURL + that.selfPath )
@@ -132,7 +190,7 @@ var TestUser = function( testName ){
               .toss();
         };
     that.delete = function( callback ){
-        console.log('deleting user: ' + that.username);
+        // console.log('deleting user: ' + that.username);
         frisby.create(that.testName + ' *** DELETE USER: ' + that.username)
             .addHeader('cookie', that.cookie)             
             .delete( that.baseURL + that.selfPath,
@@ -142,7 +200,7 @@ var TestUser = function( testName ){
             )
            .expectStatus(200)
            .expectHeaderContains('content-type', 'application/json')
-           .inspectJSON()
+           //.inspectJSON()
            .expectJSON({
               "result" : "ok"
            })
@@ -154,12 +212,12 @@ var TestUser = function( testName ){
             .toss()            
     };
     that.logout = function( callback ){
-        console.log('logging out user: ' + that.username);
+        // console.log('logging out user: ' + that.username);
         frisby.create(that.testName + ' *** LOGOUT USER: ' + that.username)
             .post( that.baseURL + that.logoutPath)
             .expectStatus(200)
             .expectHeaderContains('content-type', 'application/json')
-            .inspectJSON()
+            //.inspectJSON()
             .expectJSON({
                "result" : "ok"
             })    
@@ -179,7 +237,7 @@ var TestUser = function( testName ){
                             }
             })
             .expectStatus(200)
-            .inspectJSON()
+            //.inspectJSON()
             .after(function(){
                 if(callback){
                     callback();
@@ -188,7 +246,7 @@ var TestUser = function( testName ){
             .toss()
     }
     that.basicAuthDelete = function( callback ){
-        console.log('deleting user: ' + that.username);
+        // console.log('deleting user: ' + that.username);
         that.authString ? null : that.authString = h.generateAuthString( that.username, that.password);        
         frisby.create(that.testName + ' *** DELETE USER: ' + that.username)
             .addHeader('Authorization', that.authString)          
@@ -199,7 +257,7 @@ var TestUser = function( testName ){
             )
            .expectStatus(200)
            .expectHeaderContains('content-type', 'application/json')
-           .inspectJSON()
+           //.inspectJSON()
            .expectJSON({
               "result" : "ok"
            })
@@ -213,7 +271,7 @@ var TestUser = function( testName ){
                             }
             })
             .expectStatus(200)
-            .inspectJSON()
+            //.inspectJSON()
             .after(function(){
                 if(callback){
                     callback();
@@ -225,7 +283,7 @@ var TestUser = function( testName ){
         var quantity = null;
         devices.quantity ? quantity = devices.quantity : quantity = 5;
         var friendlyNames = h.generateDeviceFriendlyNames( quantity );
-        console.log('FRIENDLY NAMES: ' + friendlyNames);
+        // console.log('FRIENDLY NAMES: ' + friendlyNames);
         frisby.create(that.testName + ' *** CREATE ' +  + 'USER-LINKED DEVICES')
             .addHeader('cookie', that.cookie)
             .post( that.baseURL + that.createUserLinkedDevicesPath,
@@ -237,7 +295,7 @@ var TestUser = function( testName ){
                 { headers: { "Content-Type":"application/json"}})
             .expectStatus(200)
             .expectHeaderContains('content-type', 'application/json')
-            .inspectJSON()
+            //.inspectJSON()
             .expectJSON({
                  "result" : "ok"
             })
@@ -251,7 +309,7 @@ var TestUser = function( testName ){
     that.createDevice = function( device, callback ){
         var deviceFriendlyName = null;
         device.devicename ? deviceFriendlyName = devicename : deviceFriendlyName = h.generateDeviceFriendlyNames( 1 );
-        console.log('CREATING DEVICE: ' + deviceFriendlyName[0]);
+        // console.log('CREATING DEVICE: ' + deviceFriendlyName[0]);
         frisby.create(that.testName + ' ***  CREATE USER-LINKED DEVICE: ' + deviceFriendlyName )
             .addHeader('cookie', that.cookie)
             .post( that.baseURL + that.createUserLinkedDevicesPath,
@@ -263,7 +321,7 @@ var TestUser = function( testName ){
                 { headers: { "Content-Type":"application/json"}})
             .expectStatus(200)
             .expectHeaderContains('content-type', 'application/json')
-            .inspectJSON()
+            //.inspectJSON()
             .expectJSON({
                 "result" : "ok",
             })
@@ -284,7 +342,7 @@ var TestUser = function( testName ){
             .toss()
     }
     that.listDevices = function( callback ){
-        console.log('Listing Devices');
+        // console.log('Listing Devices');
         frisby.create(that.testName + ' *** LIST USER-LINKED DEVICES *** ')         
             .addHeader('cookie', that.cookie)
             .get( that.baseURL + that.selfDevicesPath )
