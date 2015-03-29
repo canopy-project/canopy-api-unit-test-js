@@ -1,4 +1,5 @@
 'use strict'
+var frisbyRequest = require('./frisbyRequest');
 var frisby = require('frisby');
 var h = require('./helper-functions');
 process.env.NODE_TLS_REJECT_UNAUTHORIZED = "0";
@@ -12,20 +13,31 @@ var TestDevice = function( device, callback ){
     that.devicePath = 'device/';
     that.selfPath = that.baseURL + that.devicePath + that.UUID;
     that.authString = h.generateAuthString( that.UUID, that.secretKey );
-    that.basicAuthHeaders = {"Content-Type":"application/json", "Authorization": that.authString}
+    that.basicAuthHeaders = {
+        "Content-Type":"application/json", 
+        "Authorization": that.authString
+    }
 
     that.basicAuthVerifySelf = function ( expectJSON, callback ){
-        console.log('********** Device Verifying Self *********');
-        console.log( '*** EXPECT JSON ***')
-        console.dir( expectJSON );
-        frisby.create('SELF-VERIFY DEVICE ' + that.UUID)
+/*        frisby.create('SELF-VERIFY DEVICE ' + that.UUID)
             .get( that.selfPath,
                 { headers: that.basicAuthHeaders }
             )
-            .expectStatus(200)
-            .inspectJSON()
+            .expectStatus(200)*/
+                console.log('that.UUID');
+                console.log(that.UUID);
+                console.log('that.secretKey');
+                console.log(that.secretKey);            
+        frisbyRequest.Get({
+            "testname" : that.testName + ' ***  SELF-VERIFY DEVICE ' + that.UUID,
+            "url" : that.selfPath,
+            "headers" : that.basicAuthHeaders,
+            "expectStatus" : 200
+        })             
+            .expectHeaderContains('content-type', 'application/json')
             .expectJSON( expectJSON )
             .after(function(){
+                console.log('that.authString: ' + that.authString);
                 if(callback){
                     callback();
                 }

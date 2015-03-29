@@ -1,11 +1,9 @@
 'use strict'
-var frisby = require('frisby');
+
 var h = require('./helper-functions');
 var TestDevice = require('./testDevice');
 var frisbyRequest = require('./frisbyRequest');
 process.env.NODE_TLS_REJECT_UNAUTHORIZED = "0";
-
-var verbose = (process.argv.indexOf("--verbose") >= 0);
 
 var TestUser = function( testName ){
     var that = this;
@@ -301,6 +299,10 @@ var TestUser = function( testName ){
             })
             .after(function(res, body){
                 //  Set this device as an object-scoped test device
+                console.log('body.body.devices[0].device_id');
+                console.log(body.body.devices[0].device_id);
+                console.log('body.body.devices[0].device_secret_key');
+                console.log(body.body.devices[0].device_secret_key);
                 that.testDevice = new TestDevice(
                                       {
                                           UUID: body.body.devices[0].device_id,
