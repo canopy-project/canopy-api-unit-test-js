@@ -9,7 +9,7 @@ var TestDevice = function( device, callback ){
     that.UUID = device.UUID;
     that.secretKey = device.secretKey;
     that.friendlyName = device.friendlyName;
-    that.baseURL = 'https://dev02.canopy.link/api/';
+    that.baseURL = process.env.CANOPY_BASE_URL;
     that.devicePath = 'device/';
     that.selfPath = that.baseURL + that.devicePath + that.UUID;
     that.authString = h.generateAuthString( that.UUID, that.secretKey );
@@ -18,16 +18,7 @@ var TestDevice = function( device, callback ){
         "Authorization": that.authString
     }
 
-    that.basicAuthVerifySelf = function ( expectJSON, callback ){
-/*        frisby.create('SELF-VERIFY DEVICE ' + that.UUID)
-            .get( that.selfPath,
-                { headers: that.basicAuthHeaders }
-            )
-            .expectStatus(200)*/
-                console.log('that.UUID');
-                console.log(that.UUID);
-                console.log('that.secretKey');
-                console.log(that.secretKey);            
+    that.basicAuthVerifySelf = function ( expectJSON, callback ){            
         frisbyRequest.Get({
             "testname" : that.testName + ' ***  SELF-VERIFY DEVICE ' + that.UUID,
             "url" : that.selfPath,
@@ -44,14 +35,15 @@ var TestDevice = function( device, callback ){
             })
             .toss()
     }
+
     that.basicAuthDelete = function( callback ){
-        console.log( '**** Device Deleting Self with Basic Auth' );
-        frisby.create('SELF-DELETE DEVICE ' + that.UUID)
-            .addHeaders( that.basicAuthHeaders )
-            .delete( that.selfPath )
-           .expectStatus(200)
+        frisbyRequest.Delete({
+            "headers" : that.basicAuthHeaders,                
+            "testname" : that.testName + ' ***  SELF-DELETE DEVICE ' + that.username,
+            "url" : that.selfPath,
+            "expectStatus" : 200
+        })
            .expectHeaderContains('content-type', 'application/json')
-           .inspectJSON()
            .expectJSON({
               "result" : "ok"
            })
@@ -61,19 +53,16 @@ var TestDevice = function( device, callback ){
                 }
            })
             .toss()
-    } 
-    that.basicAuthUpdateProperties = function( updateJSON, callback ){
-        console.log('**********updating properties******** ');
+    }
 
-        frisby.create('UPDATE DEVICE PROPERTIES FOR ' + that.UUID)
-            .addHeader("Authorization", that.authString)
-            .addHeader("Content-Type", "application/json")
-            .post( that.selfPath,
-                updateJSON,
-                { json: true }
-            )
-            .expectStatus(200)
-            .inspectJSON()
+    that.basicAuthUpdateProperties = function( updateJSON, callback ){
+        frisbyRequest.PostJson({
+            "testname" : that.testName + ' ***  UPDATE DEVICE PROPERTIES FOR ' + that.UUID,
+            "url" : that.selfPath,
+            "jsonBody" : updateJSON,
+            "headers" : that.basicAuthHeaders,
+            "expectStatus" : 200
+        })            
             .after(function(){
                 if(callback){
                     callback()
@@ -81,38 +70,31 @@ var TestDevice = function( device, callback ){
             })
             .toss()
     }
-    that.basicAuthDeclareCloudVariables = function( variableDeclarations, callback ){
-        console.log('\n\n**********  Declaring Cloud Variables ********\n\n');
 
-        frisby.create('DECLARE VARIABLES FOR DEVICE ' + that.UUID)
-            .addHeader("Authorization", that.authString)
-            .addHeader("Content-Type", "application/json")
-            .post( that.selfPath,
-                variableDeclarations,
-                { json: true }
-            )
-            .expectStatus(200)
-            .inspectJSON()
+    that.basicAuthDeclareCloudVariables = function( variableDeclarations, callback ){
+        frisbyRequest.PostJson({
+            "testname" : that.testName + ' ***  DECLARE VARIABLES FOR DEVICE ' + that.UUID,
+            "url" : that.selfPath,
+            "jsonBody" : variableDeclarations,
+            "headers" : that.basicAuthHeaders,
+            "expectStatus" : 200
+        })            
             .after(function(){
                 if(callback){
                     callback()
                 }
             })
             .toss()
-    }    
+    }
+
     that.basicAuthSetCloudVariables = function( update, callback ){
-        console.log('\n\n**** Updating Cloud Vars *****\n\n');
-        console.dir( update );
-        frisby.create('SET CLOUD VARS FOR DEVICE ' + that.UUID)
-            .addHeader("Authorization", that.authString)
-            .addHeader("Content-Type", "application/json")
-            .post( that.selfPath, 
-                device.variableUpdates,
-                { json: true }
-            )
-            .expectStatus( 200 )
-            .inspectJSON()
-            .expectJSON( device.expectJSON )
+        frisbyRequest.PostJson({
+            "testname" : that.testName + ' *** SET CLOUD VARIABLES FOR DEVICE ' + that.UUID,
+            "url" : that.selfPath,
+            "jsonBody" : update.variableUpdates,
+            "headers" : that.basicAuthHeaders,
+            "expectStatus" : 200
+        })
             .after(function(){
                 if(callback){
                     callback()
@@ -121,4 +103,5 @@ var TestDevice = function( device, callback ){
             .toss()
     }
 }
+
 module.exports = TestDevice;

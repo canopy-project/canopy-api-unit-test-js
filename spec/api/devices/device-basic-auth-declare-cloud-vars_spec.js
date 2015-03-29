@@ -18,7 +18,6 @@ var Test = function( ){
                  }
 };
     that.test = function(){
-        console.log( 'Registering' );
         that.user.register( {}, that.login );
     }
     that.login = function(){
@@ -29,13 +28,11 @@ var Test = function( ){
     }
     that.verifyDevice = function(){
         that.user.testDevice.basicAuthVerifySelf( {}, that.declareCloudVariables );
-
     }
     that.declareCloudVariables = function(){
         that.user.testDevice.basicAuthDeclareCloudVariables( that.variableDeclarationJSON,  that.verifyUpdate );
     }
     that.verifyUpdate = function(){
-        console.log('********Verifying Changes********');
         that.user.testDevice.basicAuthVerifySelf( that.variableDeclarationJSON, that.delete );
     }
     that.delete = function(){

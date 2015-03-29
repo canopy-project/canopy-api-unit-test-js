@@ -299,10 +299,6 @@ var TestUser = function( testName ){
             })
             .after(function(res, body){
                 //  Set this device as an object-scoped test device
-                console.log('body.body.devices[0].device_id');
-                console.log(body.body.devices[0].device_id);
-                console.log('body.body.devices[0].device_secret_key');
-                console.log(body.body.devices[0].device_secret_key);
                 that.testDevice = new TestDevice(
                                       {
                                           UUID: body.body.devices[0].device_id,

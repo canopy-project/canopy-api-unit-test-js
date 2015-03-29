@@ -10,7 +10,6 @@ var Test = function( ){
     var that = this;
     that.user = new testUser( '** BASIC-AUTH DEVICE SELF-VERIFY **' );
     that.test = function(){
-        console.log('Registering');
         that.user.register( {}, that.login );
     }
     that.login = function(){
