@@ -8,7 +8,7 @@ var testUser = require('../testUser');
 
 var Test = function( ){
     var that = this;
-    that.user = new testUser( '** VERIFY USER-LINKED DEVICE **' );
+    that.user = new testUser( __filename, '** VERIFY USER-LINKED DEVICE **' );
     that.test = function(){
         that.user.register( {}, that.login );
     }

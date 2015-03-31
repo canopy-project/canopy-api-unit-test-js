@@ -9,7 +9,7 @@ var testUser = require('../testUser');
 
 var Test = function( ){
     var that = this;
-    that.user = new testUser( '** UPDATE DEVICE FREINDLY NAME BASIC AUTH **' );
+    that.user = new testUser( __filename, '** UPDATE DEVICE FREINDLY NAME BASIC AUTH **' );
     that.updateJSON = { "friendly_name": "NEW FRIENDLY NAME" };
     that.test = function(){
         console.log('Registering');

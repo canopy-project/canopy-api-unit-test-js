@@ -8,7 +8,7 @@ var testUser = require('../testUser');
 
 var Test = function( ){
     var that = this;
-    that.user = new testUser( '** UPDATE DEVICE LOCATION NOTE BASIC AUTH **' );
+    that.user = new testUser( __filename, '** UPDATE DEVICE LOCATION NOTE BASIC AUTH **' );
     that.updateJSON = { "location_note": "NEW LOCATION NOTE" };
     that.test = function(){
         console.log('Registering');

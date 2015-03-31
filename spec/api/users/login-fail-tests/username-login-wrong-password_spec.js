@@ -8,12 +8,12 @@ var h = require('../../helper-functions');
 
 var Test = function(){
     var that = this;
-    that.user = new testUser( '** FAIL TEST: LOG IN WITH WRONG PASSWORD **' );
+    that.user = new testUser( __filename, '** FAIL TEST: LOG IN WITH WRONG PASSWORD **' );
     that.test = function(){
         that.user.register( {}, that.badLogin);
     }
     that.badLogin = function(){
-        var badUser = new testUser( '** FAIL TEST: LOG IN WITH WRONG PASSWORD **');
+        var badUser = new testUser( __filename, '** FAIL TEST: LOG IN WITH WRONG PASSWORD **');
         badUser.usernameLogin( {
             username: that.user.username,
             expectStatus: 401,

@@ -4,12 +4,13 @@ var frisby = require('frisby');
 var h = require('./helper-functions');
 process.env.NODE_TLS_REJECT_UNAUTHORIZED = "0";
 
-var TestDevice = function( device, callback ){
+var TestDevice = function( testFilename, device, callback ){
     var that = this;
     that.UUID = device.UUID;
     that.secretKey = device.secretKey;
     that.friendlyName = device.friendlyName;
     that.baseURL = process.env.CANOPY_BASE_URL;
+    that.testFilename = testFilename;
     that.devicePath = 'device/';
     that.selfPath = that.baseURL + that.devicePath + that.UUID;
     that.authString = h.generateAuthString( that.UUID, that.secretKey );
@@ -20,6 +21,7 @@ var TestDevice = function( device, callback ){
 
     that.basicAuthVerifySelf = function ( expectJSON, callback ){            
         frisbyRequest.Get({
+            "testFilename" : that.testFilename,
             "testname" : that.testName + ' ***  SELF-VERIFY DEVICE ' + that.UUID,
             "url" : that.selfPath,
             "headers" : that.basicAuthHeaders,
@@ -38,6 +40,7 @@ var TestDevice = function( device, callback ){
 
     that.basicAuthDelete = function( callback ){
         frisbyRequest.Delete({
+            "testFilename" : that.testFilename,
             "headers" : that.basicAuthHeaders,                
             "testname" : that.testName + ' ***  SELF-DELETE DEVICE ' + that.username,
             "url" : that.selfPath,
@@ -57,6 +60,7 @@ var TestDevice = function( device, callback ){
 
     that.basicAuthUpdateProperties = function( updateJSON, callback ){
         frisbyRequest.PostJson({
+            "testFilename" : that.testFilename,
             "testname" : that.testName + ' ***  UPDATE DEVICE PROPERTIES FOR ' + that.UUID,
             "url" : that.selfPath,
             "jsonBody" : updateJSON,
@@ -73,6 +77,7 @@ var TestDevice = function( device, callback ){
 
     that.basicAuthDeclareCloudVariables = function( variableDeclarations, callback ){
         frisbyRequest.PostJson({
+            "testFilename" : that.testFilename,
             "testname" : that.testName + ' ***  DECLARE VARIABLES FOR DEVICE ' + that.UUID,
             "url" : that.selfPath,
             "jsonBody" : variableDeclarations,
@@ -89,6 +94,7 @@ var TestDevice = function( device, callback ){
 
     that.basicAuthSetCloudVariables = function( update, callback ){
         frisbyRequest.PostJson({
+            "testFilename" : that.testFilename,
             "testname" : that.testName + ' *** SET CLOUD VARIABLES FOR DEVICE ' + that.UUID,
             "url" : that.selfPath,
             "jsonBody" : update.variableUpdates,

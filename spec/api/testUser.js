@@ -5,7 +5,7 @@ var TestDevice = require('./testDevice');
 var frisbyRequest = require('./frisbyRequest');
 process.env.NODE_TLS_REJECT_UNAUTHORIZED = "0";
 
-var TestUser = function( testName ){
+var TestUser = function( testFilename, testName ){
     var that = this;
     that.username = null; 
     that.email = null;
@@ -19,6 +19,7 @@ var TestUser = function( testName ){
     that.createUserLinkedDevicesPath = 'create_devices';
     that.devicePath = 'device/';
     that.cookie = null;
+    that.testFilename = testFilename;
     that.testName = testName;
     that.testDevice = {};
 
@@ -35,6 +36,7 @@ var TestUser = function( testName ){
                 "email" : that.email
             }
         frisbyRequest.PostJson({
+            "testFilename" : that.testFilename,
             "testname" : that.testName + ' *** REGISTERING USER ' + that.username,
             "url" : that.baseURL + that.createUserPath,
             "jsonBody" : { 
@@ -66,6 +68,7 @@ var TestUser = function( testName ){
                 "email" : that.email
             }
         frisbyRequest.PostJson({
+            "testFilename" : that.testFilename,
             "testname" : that.testName + ' *** LOGIN USER ' + this.username,
             "url" : that.baseURL + that.loginPath,
             "jsonBody" : {
@@ -96,6 +99,7 @@ var TestUser = function( testName ){
                 "email" : that.email
             }
         frisbyRequest.PostJson({
+            "testFilename" : that.testFilename,
             "testname" : that.testName + ' ***  LOGIN USER ' + this.email,
             "url" : that.baseURL + that.loginPath,
             "jsonBody" : { 
@@ -127,6 +131,7 @@ var TestUser = function( testName ){
                "email" : that.email
               };
         frisbyRequest.Get({
+            "testFilename" : that.testFilename,
             "testname" : that.testName + ' ***  VERIFY USER ' + this.username,
             "url" : that.baseURL + that.selfPath,
             "headers" : {
@@ -154,6 +159,7 @@ var TestUser = function( testName ){
             "jsonBody" : {
                 "skip-email" : true
             },                
+            "testFilename" : that.testFilename,
             "testname" : that.testName + ' ***  DELETE USER ' + that.username,
             "url" : that.baseURL + that.selfPath,
             "expectStatus" : that.expectStatus
@@ -172,6 +178,7 @@ var TestUser = function( testName ){
 
     that.logout = function( callback ){
         frisbyRequest.PostJson({
+            "testFilename" : that.testFilename,
             "testname" : that.testName + ' *** LOGOUT USER ' + that.username,
             "url" : that.baseURL + that.logoutPath,
             "expectStatus" : this.expectStatus
@@ -196,6 +203,7 @@ var TestUser = function( testName ){
                 "Content-Type" : "application/json",
                 "Authorization" : this.authString
             },            
+            "testFilename" : that.testFilename,
             "testname" : that.testName + ' *** VERIFY USER, BASIC AUTH ' + that.username,
             "url" : that.baseURL + that.selfPath,
             "expectStatus" : this.expectStatus
@@ -219,6 +227,7 @@ var TestUser = function( testName ){
             "jsonBody" : {
                 "skip-email" : true
             },            
+            "testFilename" : that.testFilename,
             "testname" : that.testName + ' ***  DELETE USER ' + that.username,
             "url" : that.baseURL + that.selfPath,
             "expectStatus" : that.expectStatus
@@ -236,6 +245,7 @@ var TestUser = function( testName ){
                 "Content-Type" : "application/json",
                 "cookie" : that.cookie
             },            
+            "testFilename" : that.testFilename,
             "testname" : that.testName + ' *** VERIFY DEVICE ' + that.testDevice.UUID,
             "url" : that.baseURL + that.devicePath +  that.testDevice.UUID,
             "expectStatus" : 200
@@ -253,6 +263,7 @@ var TestUser = function( testName ){
         devices.quantity ? quantity = devices.quantity : quantity = 5;
         var friendlyNames = h.generateDeviceFriendlyNames( quantity );
         frisbyRequest.PostJson({
+            "testFilename" : that.testFilename,
             "testname" : that.testName + ' ***  CREATING ' + quantity + ' USER-LINKED DEVICES',
             "url" : that.baseURL + that.createUserLinkedDevicesPath,
             "jsonBody" : { 
@@ -281,6 +292,7 @@ var TestUser = function( testName ){
         var deviceFriendlyName = null;
         device.devicename ? deviceFriendlyName = devicename : deviceFriendlyName = h.generateDeviceFriendlyNames( 1 );
         frisbyRequest.PostJson({
+            "testFilename" : that.testFilename,
             "testname" : that.testName + ' ***  CREATING ONE USER-LINKED DEVICE',
             "url" : that.baseURL + that.createUserLinkedDevicesPath,
             "jsonBody" : { 
@@ -326,6 +338,7 @@ var TestUser = function( testName ){
                 "Content-Type" : "application/json",
                 "cookie" : that.cookie
             },            
+            "testFilename" : that.testFilename,
             "testname" : that.testName + ' *** VERIFY DEVICE ' + that.testDevice.UUID,
             "url" : that.baseURL + that.selfDevicesPath,
             "expectStatus" : 200

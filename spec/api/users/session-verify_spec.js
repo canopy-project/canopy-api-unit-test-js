@@ -8,7 +8,7 @@ var testUser = require('../testUser');
 
 var Test = function(){
     var that = this;
-    that.user = new testUser( '** VERIFY USER **' );
+    that.user = new testUser( __filename, '** VERIFY USER **' );
 
     that.test = function(){
         that.user.register( {}, that.login);

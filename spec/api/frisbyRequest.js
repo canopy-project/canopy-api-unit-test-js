@@ -17,6 +17,7 @@ var verbose = (process.argv.indexOf("--verbose") >= 0);
  * Creates a frisby POST test.
  * <params> contains the following fields:
  *      testname - Test name
+ *      testFilename - Filename containing test
  *      url - Request URL
  *      jsonBody - Request body
  *      headers - Request headers
@@ -27,6 +28,9 @@ function PostJson(params) {
     function dumpRequest(params) {
         console.log("------------------------------------------------------");
         console.log(params.testname);
+        if (params.testFilename) {
+            console.log("(FROM " + params.testFilename + ")");
+        }
         console.log("------------------------------------------------------");
         console.log("REQUEST: POST " + params.url);
         if (params.headers) {
@@ -55,6 +59,7 @@ function PostJson(params) {
                     console.log(err);
                 }
                 console.log(JSON.stringify(body, null, 4));
+                console.log("");
             }
             if (err) {
                 // TBD: Display expected
@@ -66,6 +71,7 @@ function PostJson(params) {
  * Creates a frisby GET test.
  * <params> contains the following fields:
  *      testname - Test name
+ *      testFilename - Filename containing test
  *      url - Request URL
  *      headers - Request headers ( must contain either cookie or basic-auth header)
  *      expectStatus - Expected response code
@@ -75,6 +81,9 @@ function Get(params) {
     function dumpRequest(params) {
         console.log("------------------------------------------------------");
         console.log(params.testname);
+        if (params.testFilename) {
+            console.log("(FROM " + params.testFilename + ")");
+        }
         console.log("------------------------------------------------------");
         console.log("REQUEST: GET " + params.url);
         if (params.headers) {
@@ -99,6 +108,7 @@ function Get(params) {
                     console.log(err);
                 }
                 console.log(JSON.stringify(body, null, 4));
+                console.log("");
             }
             if (err) {
                 // TBD: Display expected
@@ -110,6 +120,7 @@ function Get(params) {
  * Creates a frisby DELETE test.
  * <params> contains the following fields:
  *      testname - Test name
+ *      testFilename - Filename containing test
  *      url - Request URL
  *      jsonBody - Request body (usually only pass in {"skip-email":true} ) 
  *      headers - Request headers ( must contain either cookie or basic-auth header)
@@ -120,6 +131,9 @@ function Delete(params) {
     function dumpRequest(params) {
         console.log("------------------------------------------------------");
         console.log(params.testname);
+        if (params.testFilename) {
+            console.log("(FROM " + params.testFilename + ")");
+        }
         console.log("------------------------------------------------------");
         console.log("REQUEST: POST " + params.url);
         if (params.headers) {
@@ -148,6 +162,7 @@ function Delete(params) {
                     console.log(err);
                 }
                 console.log(JSON.stringify(body, null, 4));
+                console.log("");
             }
             if (err) {
                 // TBD: Display expected

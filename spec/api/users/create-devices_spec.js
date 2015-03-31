@@ -9,7 +9,7 @@ var testUser = require('../testUser');
 var Test = function(){
     var that = this;
 
-    that.user = new testUser( '** CREATE MULTIPLE USER-LINKED DEVICES **' );
+    that.user = new testUser( __filename, '** CREATE MULTIPLE USER-LINKED DEVICES **' );
     that.test = function(){
         that.user.register( {}, that.login );
     }

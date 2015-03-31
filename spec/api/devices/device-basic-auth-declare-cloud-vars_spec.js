@@ -8,7 +8,7 @@ var testUser = require('../testUser');
 
 var Test = function( ){
     var that = this;
-    that.user = new testUser( '** DECLARE CLOUD VARS **' );
+    that.user = new testUser( __filename, '** DECLARE CLOUD VARS **' );
     that.variableDeclarationJSON =  {
                 "var_decls" : {
                     "out float32 temperature" : { },

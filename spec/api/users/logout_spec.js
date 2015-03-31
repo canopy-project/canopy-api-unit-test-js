@@ -8,7 +8,7 @@ var testUser = require('../testUser');
 
 var Test = function(){
     var that = this;
-    that.user = new testUser( '** LOGOUT **' );
+    that.user = new testUser( __filename, '** LOGOUT **' );
 
     that.test = function(){
         that.user.register( {}, that.login );

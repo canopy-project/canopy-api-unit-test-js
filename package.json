@@ -4,7 +4,7 @@
   "description": "api unit tests for canopy iot framework",
   "main": "app.js",
   "scripts": {
-    "test": "jasmine-node spec/api/ --verbose"
+    "test": "jasmine-node spec/api/"
   },
   "repository": {
     "type": "git",
