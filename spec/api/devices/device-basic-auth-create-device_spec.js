@@ -16,14 +16,7 @@ var Test = function( ){
         that.user.usernameLogin( {}, that.createDevice );
     }
     that.createDevice = function(){
-        that.user.createDevice( __filename, {}, that.verifyDevice );
-    }
-    that.verifyDevice = function(){
-        that.user.testDevice.basicAuthVerifySelf( {
-            device_id: that.user.testDevice.device_id,
-            friendly_name: that.user.testDevice.friendly_name,
-            location_note: that.user.testDevice.location_note
-        }, that.delete );
+        that.user.createDevice( {}, that.delete);
     }
     that.delete = function(){
         that.user.usernameLogin( {}, that.user.delete );

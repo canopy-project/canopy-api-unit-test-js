@@ -288,7 +288,7 @@ var TestUser = function( testFilename, testName ){
             .toss()
     }
 
-    that.createDevice = function( device, callback ){
+    that.createDevice = function( testFilename, device, callback ){
         var deviceFriendlyName = null;
         device.devicename ? deviceFriendlyName = devicename : deviceFriendlyName = h.generateDeviceFriendlyNames( 1 );
         frisbyRequest.PostJson({
@@ -312,12 +312,13 @@ var TestUser = function( testFilename, testName ){
             .after(function(res, body){
                 //  Set this device as an object-scoped test device
                 that.testDevice = new TestDevice(
-                                      {
-                                          UUID: body.body.devices[0].device_id,
-                                          secretKey: body.body.devices[0].device_secret_key,
-                                          friendlyName: deviceFriendlyName
-                                      }
-                                    );
+                    testFilename,
+                   {
+                       UUID: body.body.devices[0].device_id,
+                       secretKey: body.body.devices[0].device_secret_key,
+                       friendlyName: deviceFriendlyName
+                   }
+                 );
             })
             .after(function(){
                 if(callback){

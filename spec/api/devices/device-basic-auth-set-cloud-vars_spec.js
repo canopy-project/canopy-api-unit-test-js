@@ -44,7 +44,7 @@ var Test = function( ){
         that.user.usernameLogin( {}, that.createDevice );
     }
     that.createDevice = function(){
-        that.user.createDevice( {}, that.verifyDevice );
+        that.user.createDevice( __filename, {}, that.verifyDevice );
     }
     that.verifyDevice = function(){
         that.user.testDevice.basicAuthVerifySelf( {}, that.declareCloudVariables );
