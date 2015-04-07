@@ -44,10 +44,10 @@ function PostJson(params) {
         dumpRequest(params);
     }
     return frisby.create(params.testname)
+        .addHeaders(params.headers)
         .post(params.url, 
             params.jsonBody,
             { json: true })
-        .addHeaders(params.headers)
         .expectStatus(params.expectStatus)
         .after(function(err, resp, body) {
             if (resp.statusCode != params.expectStatus || err || verbose) {

@@ -67,6 +67,8 @@ var TestUser = function( testFilename, testName ){
                 "username" : that.username,
                 "email" : that.email
             }
+        user.expectResponse ? this.expectResponse = user.expectResponse : null;
+        user.expectHeader ? this.expectHeader = user.expectHeader : h.generateUsername();
         frisbyRequest.PostJson({
             "testFilename" : that.testFilename,
             "testname" : that.testName + ' *** LOGIN USER ' + this.username,
@@ -78,10 +80,11 @@ var TestUser = function( testFilename, testName ){
             "headers" : {"Content-Type" : "application/json"},
             "expectStatus" : this.expectStatus
         })
-            .expectHeaderContains('content-type', 'application/json')
+            .expectHeader('content-type','application/json')
             .expectJSON(this.expectJSON)
             .after(function(body, res){
                 res.headers['set-cookie'] ? that.cookie = res.headers['set-cookie'][0].split(';')[0] : null;
+                
                 if(callback){
                     callback();
                 }

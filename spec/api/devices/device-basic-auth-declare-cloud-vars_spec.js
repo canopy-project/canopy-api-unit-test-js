@@ -30,14 +30,14 @@ var Test = function( ){
         that.user.testDevice.basicAuthVerifySelf( {}, that.declareCloudVariables );
     }
     that.declareCloudVariables = function(){
-        that.user.testDevice.basicAuthDeclareCloudVariables( that.variableDeclarationJSON,  that.verifyUpdate );
+        that.user.testDevice.basicAuthDeclareCloudVariables( that.variableDeclarationJSON/*,  that.verifyUpdate */);
     }
-    that.verifyUpdate = function(){
+/*    that.verifyUpdate = function(){
         that.user.testDevice.basicAuthVerifySelf( that.variableDeclarationJSON, that.delete );
     }
     that.delete = function(){
-        that.user.usernameLogin( {}, that.user.delete )   
-    }
+        that.user.usernameLogin( {}, that.user.delete );
+    }*/
 }
 
 var test = new Test();

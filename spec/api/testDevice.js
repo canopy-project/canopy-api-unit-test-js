@@ -21,10 +21,10 @@ var TestDevice = function( testFilename, device, callback ){
 
     that.basicAuthVerifySelf = function ( expectJSON, callback ){            
         frisbyRequest.Get({
+            "headers" : that.basicAuthHeaders,            
             "testFilename" : that.testFilename,
             "testname" : that.testName + ' ***  SELF-VERIFY DEVICE ' + that.UUID,
             "url" : that.selfPath,
-            "headers" : that.basicAuthHeaders,
             "expectStatus" : 200
         })             
             .expectHeaderContains('content-type', 'application/json')
@@ -40,8 +40,8 @@ var TestDevice = function( testFilename, device, callback ){
 
     that.basicAuthDelete = function( callback ){
         frisbyRequest.Delete({
+            "headers" : that.basicAuthHeaders,     
             "testFilename" : that.testFilename,
-            "headers" : that.basicAuthHeaders,                
             "testname" : that.testName + ' ***  SELF-DELETE DEVICE ' + that.username,
             "url" : that.selfPath,
             "expectStatus" : 200
@@ -89,6 +89,7 @@ var TestDevice = function( testFilename, device, callback ){
                     callback()
                 }
             })
+            .inspectJSON()
             .toss()
     }
 
