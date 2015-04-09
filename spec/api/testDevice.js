@@ -19,16 +19,19 @@ var TestDevice = function( testFilename, device, callback ){
         "Authorization": that.authString
     }
 
-    that.basicAuthVerifySelf = function ( expectJSON, callback ){            
+    that.basicAuthVerifySelf = function ( device, callback ){
+        this.expectJSON =  device.expectJSON;
+        this.expectStatus = device.expectStatus ? device.expectStatus : 200;
+        this.headers = device.headers ? device.headers : that.basicAuthHeaders;
         frisbyRequest.Get({
-            "headers" : that.basicAuthHeaders,            
+            "headers" : this.headers,            
             "testFilename" : that.testFilename,
             "testname" : that.testName + ' ***  SELF-VERIFY DEVICE ' + that.UUID,
             "url" : that.selfPath,
-            "expectStatus" : 200
+            "expectStatus" : this.expectStatus
         })             
             .expectHeaderContains('content-type', 'application/json')
-            .expectJSON( expectJSON )
+            .expectJSON( this.expectJSON )
             .after(function(){
                 console.log('that.authString: ' + that.authString);
                 if(callback){

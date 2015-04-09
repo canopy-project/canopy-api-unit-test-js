@@ -69,14 +69,15 @@ var TestUser = function( testFilename, testName ){
             }
         user.expectResponse ? this.expectResponse = user.expectResponse : null;
         user.expectHeader ? this.expectHeader = user.expectHeader : h.generateUsername();
+        user.jsonBody ? this.jsonBody = user.jsonBody : this.jsonBody = {
+                "username" : that.username,
+                "password" : that.password
+            }
         frisbyRequest.PostJson({
             "testFilename" : that.testFilename,
             "testname" : that.testName + ' *** LOGIN USER ' + this.username,
             "url" : that.baseURL + that.loginPath,
-            "jsonBody" : {
-                "username" : that.username,
-                "password" : that.password
-            },
+            "jsonBody" : this.jsonBody,
             "headers" : {"Content-Type" : "application/json"},
             "expectStatus" : this.expectStatus
         })
@@ -84,7 +85,6 @@ var TestUser = function( testFilename, testName ){
             .expectJSON(this.expectJSON)
             .after(function(body, res){
                 res.headers['set-cookie'] ? that.cookie = res.headers['set-cookie'][0].split(';')[0] : null;
-                
                 if(callback){
                     callback();
                 }
@@ -100,7 +100,7 @@ var TestUser = function( testFilename, testName ){
                 "result" : "ok",
                 "username" : that.username,
                 "email" : that.email
-            }
+        }
         frisbyRequest.PostJson({
             "testFilename" : that.testFilename,
             "testname" : that.testName + ' ***  LOGIN USER ' + this.email,
@@ -133,13 +133,15 @@ var TestUser = function( testFilename, testName ){
                "username" : that.username,
                "email" : that.email
               };
+        this.cookie = user.cookie ? user.cookie : that.cookie;
+        console.log('cookie: ' + this.cookie );
         frisbyRequest.Get({
             "testFilename" : that.testFilename,
             "testname" : that.testName + ' ***  VERIFY USER ' + this.username,
             "url" : that.baseURL + that.selfPath,
             "headers" : {
                 "Content-Type": "application/json",
-                "cookie" : that.cookie
+                "cookie" : this.cookie
             },
             "expectStatus" : this.expectStatus
         })             
@@ -197,19 +199,46 @@ var TestUser = function( testFilename, testName ){
             })
             .toss()
     }
-
-    that.basicAuthVerifySelf = function ( callback ){
+    that.basicAuthLogin = function( user, callback ){
         that.authString ? null : 
             that.authString = h.generateAuthString( that.username, that.password );
+        this.authString = user.authString ? user.authString : that.authString;
+        this.expectJSON = user.expectJSON ? user.expectJSON : {};
+        this.expectStatus = user.expectStatus ? user.expectStatus : 200;
+        frisbyRequest.PostJson({
+            "headers" : {
+                "Content-Type" : "application/json",
+                "Authorization" : this.authString
+            },
+            "testFilename" : that.testFilename,
+            "testname" : that.testName + ' *** LOGIN, BASIC AUTH ' + that.username,
+            "url" : that.baseURL + that.selfPath,
+            "expectJSON" : this.expectJSON,
+            "expectStatus" : this.expectStatus
+        })
+            .after(function(){
+                if(callback){
+                    callback();
+                }
+            })
+            .toss()              
+    }
+    that.basicAuthVerifySelf = function ( device, callback ){
+        that.authString ? null : 
+            that.authString = h.generateAuthString( that.username, that.password );
+        this.authString = device.authString ? device.authString : that.authString;
+        this.expectJSON = user.expectJSON ? user.expectJSON : {};
+        this.expectStatus = user.expectStatus ? user.expectStatus : 200;       
         frisbyRequest.Get({
             "headers" : {
                 "Content-Type" : "application/json",
                 "Authorization" : this.authString
-            },            
+            },
             "testFilename" : that.testFilename,
             "testname" : that.testName + ' *** VERIFY USER, BASIC AUTH ' + that.username,
             "url" : that.baseURL + that.selfPath,
-            "expectStatus" : this.expectStatus
+            "expectStatus" : this.expectStatus,
+            "expectJSON" : this.expectJSON
         })
             .after(function(){
                 if(callback){
