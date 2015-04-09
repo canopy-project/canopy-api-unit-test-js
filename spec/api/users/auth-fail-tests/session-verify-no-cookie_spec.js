@@ -22,7 +22,8 @@ var Test = function(){
             "cookie": "canopy-login-session=BADCOOKIESADCOOKIENSeWFXNW5EQlFBRW14dloyZGxaRjlwYmw5MWMyVnlibUZ0WlFaemRISnBibWNNRGdBTWRYTmxjalEwTnpBME1qWTF8aH1x4sbLbYltZyUG6TS4dezRe6Ex7wB2dsSaaX7lAxA=",
             "expectStatus" : 401,
             "expectJSON": {
-                "error_type": "not_authenticated"
+                "error_type": "not_authenticated",
+                "result": 'error'                 
             } 
         }, that.user.delete );
     }

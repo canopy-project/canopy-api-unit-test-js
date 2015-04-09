@@ -134,7 +134,6 @@ var TestUser = function( testFilename, testName ){
                "email" : that.email
               };
         this.cookie = user.cookie ? user.cookie : that.cookie;
-        console.log('cookie: ' + this.cookie );
         frisbyRequest.Get({
             "testFilename" : that.testFilename,
             "testname" : that.testName + ' ***  VERIFY USER ' + this.username,
@@ -200,11 +199,10 @@ var TestUser = function( testFilename, testName ){
             .toss()
     }
     that.basicAuthLogin = function( user, callback ){
-        that.authString ? null : 
-            that.authString = h.generateAuthString( that.username, that.password );
-        this.authString = user.authString ? user.authString : that.authString;
+        this.authString = user.authString ? user.authString : h.generateAuthString( that.username, that.password );
         this.expectJSON = user.expectJSON ? user.expectJSON : {};
         this.expectStatus = user.expectStatus ? user.expectStatus : 200;
+        user.jsonBody ? this.jsonBody = user.jsonBody : this.jsonBody = {};        
         frisbyRequest.PostJson({
             "headers" : {
                 "Content-Type" : "application/json",
@@ -214,19 +212,18 @@ var TestUser = function( testFilename, testName ){
             "testname" : that.testName + ' *** LOGIN, BASIC AUTH ' + that.username,
             "url" : that.baseURL + that.selfPath,
             "expectJSON" : this.expectJSON,
-            "expectStatus" : this.expectStatus
+            "expectStatus" : this.expectStatus,
+            "jsonBody" : this.jsonBody,            
         })
             .after(function(){
                 if(callback){
                     callback();
                 }
             })
-            .toss()              
+            .toss()
     }
-    that.basicAuthVerifySelf = function ( device, callback ){
-        that.authString ? null : 
-            that.authString = h.generateAuthString( that.username, that.password );
-        this.authString = device.authString ? device.authString : that.authString;
+    that.basicAuthVerifySelf = function ( user, callback ){
+        this.authString = user.authString ? user.authString : h.generateAuthString( that.username, that.password );
         this.expectJSON = user.expectJSON ? user.expectJSON : {};
         this.expectStatus = user.expectStatus ? user.expectStatus : 200;       
         frisbyRequest.Get({
@@ -248,13 +245,14 @@ var TestUser = function( testFilename, testName ){
             .toss()
     }
 
-    that.basicAuthDelete = function( callback ){
-        that.authString ? null : 
-            that.authString = h.generateAuthString( that.username, that.password );
+    that.basicAuthDelete = function( user, callback ){
+        
+        this.authString = user.authString ? user.authString : h.generateAuthString( that.username, that.password );
+        this.expectStatus = user.expectStatus ? user.expectStatus : 200;
         frisbyRequest.Delete({
             "headers" : {
                 "Content-Type": "application/json",
-                "Authorization" : that.authString
+                "Authorization" : this.authString
             },
             "jsonBody" : {
                 "skip-email" : true
