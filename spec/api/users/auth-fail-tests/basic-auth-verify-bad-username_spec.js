@@ -17,7 +17,7 @@ var Test = function(){
     
     that.login = function(){
         that.user.basicAuthVerifySelf({
-            authString: h.generateAuthString(h.generateUsername(), that.user.password),
+            authString: h.generateAuthString( h.generateUsername(), that.user.password ),
             expectStatus: 401,
             expectJSON: { 
                 error_type: 'incorrect_username_or_password',

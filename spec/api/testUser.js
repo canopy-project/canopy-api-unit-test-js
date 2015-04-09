@@ -154,6 +154,36 @@ var TestUser = function( testFilename, testName ){
               .toss();
         };
 
+    that.update = function( user, callback ){   
+        user.username ? this.username = user.username : this.username = that.username;
+        user.email ? this.email = user.email : this.email = that.email;
+        user.expectStatus ? this.expectStatus = user.expectStatus : this.expectStatus = 200;
+        user.expectJSON ? this.expectJSON = user.expectJSON : this.expectJSON = {
+               "result" : "ok"
+        };
+        this.jsonBody = user.jsonBody ? user.jsonBody : {},              
+        this.cookie = user.cookie ? user.cookie : that.cookie;
+        frisbyRequest.PostJson({
+            "testFilename" : that.testFilename,
+            "testname" : that.testName + ' ***  VERIFY USER ' + this.username,
+            "url" : that.baseURL + that.selfPath,
+            "headers" : {
+                "Content-Type": "application/json",
+                "cookie" : this.cookie
+            },
+            "expectStatus" : this.expectStatus,
+            "jsonBody" : this.jsonBody 
+        })             
+             .expectHeaderContains('content-type', 'application/json')
+             .expectJSON( this.expectJSON )
+              .after(function(body, res){
+                  if(callback){
+                      callback();
+                  }
+              })   
+              .toss();
+        };        
+
     that.delete = function( callback ){
         frisbyRequest.Delete({
             "headers" : {
@@ -198,6 +228,7 @@ var TestUser = function( testFilename, testName ){
             })
             .toss()
     }
+
     that.basicAuthLogin = function( user, callback ){
         this.authString = user.authString ? user.authString : h.generateAuthString( that.username, that.password );
         this.expectJSON = user.expectJSON ? user.expectJSON : {};
@@ -222,6 +253,7 @@ var TestUser = function( testFilename, testName ){
             })
             .toss()
     }
+
     that.basicAuthVerifySelf = function ( user, callback ){
         this.authString = user.authString ? user.authString : h.generateAuthString( that.username, that.password );
         this.expectJSON = user.expectJSON ? user.expectJSON : {};
@@ -245,8 +277,30 @@ var TestUser = function( testFilename, testName ){
             .toss()
     }
 
+    that.basicAuthUpdate = function( user, callback ){
+        this.authString = user.authString ? user.authString : h.generateAuthString( that.username, that.password );
+        this.expectJSON = user.expectJSON ? user.expectJSON : {
+            "result" : "ok"
+        };
+        this.expectStatus = user.expectStatus ? user.expectStatus : 200;
+        this.jsonBody = user.jsonBody ? user.jsonBody : {},
+        frisbyRequest.PostJson({
+            "headers" : {
+                "Content-Type": "application/json",
+                "Authorization" : this.authString
+            },
+            "testFilename" : that.testFilename,
+            "testname" : that.testName + ' ***  DELETE USER ' + that.username,
+            "url" : that.baseURL + that.selfPath,
+            "expectStatus" : that.expectStatus,
+            "jsonBody" : this.jsonBody
+        })
+           .expectHeaderContains('content-type', 'application/json')
+           .expectJSON( this.expectJSON )
+        .toss()
+    }
+
     that.basicAuthDelete = function( user, callback ){
-        
         this.authString = user.authString ? user.authString : h.generateAuthString( that.username, that.password );
         this.expectStatus = user.expectStatus ? user.expectStatus : 200;
         frisbyRequest.Delete({
