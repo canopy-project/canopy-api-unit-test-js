@@ -22,6 +22,7 @@ var TestUser = function( testFilename, testName ){
     that.testFilename = testFilename;
     that.testName = testName;
     that.testDevice = {};
+    that.testDeviceURL = null;
 
     that.register = function( user, callback ){
         user.username ? ( user.username.forceUndefined ? that.username = undefined : that.username = user.username) : that.username = h.generateUsername(); 
@@ -323,25 +324,6 @@ var TestUser = function( testFilename, testName ){
             .toss()          
     }
 
-    that.sessionVerifyDevice = function( callback ){
-        frisbyRequest.Get({
-            "headers" : {
-                "Content-Type" : "application/json",
-                "cookie" : that.cookie
-            },            
-            "testFilename" : that.testFilename,
-            "testname" : that.testName + ' *** VERIFY DEVICE ' + that.testDevice.UUID,
-            "url" : that.baseURL + that.devicePath +  that.testDevice.UUID,
-            "expectStatus" : 200
-        })            
-            .after(function(){
-                if(callback){
-                    callback();
-                }
-            })
-            .toss()
-    }
-
     that.createDevices = function( devices, callback ){
         var quantity = null;
         devices.quantity ? quantity = devices.quantity : quantity = 5;
@@ -403,6 +385,9 @@ var TestUser = function( testFilename, testName ){
                        friendlyName: deviceFriendlyName
                    }
                  );
+                // Set this device's self-path as testDeviceURL for 
+                // user session-auth interactions
+                that.testDeviceURL = that.baseURL + that.devicePath +  that.testDevice.UUID;
             })
             .after(function(){
                 if(callback){
@@ -434,7 +419,89 @@ var TestUser = function( testFilename, testName ){
                 }
             })
             .toss()
-    }  
+    }
+
+
+    that.sessionVerifyDevice = function( device, callback ){
+        frisbyRequest.Get({
+            "headers" : {
+                "Content-Type" : "application/json",
+                "cookie" : that.cookie
+            },            
+            "testFilename" : that.testFilename,
+            "testname" : that.testName + ' *** VERIFY DEVICE ' + that.testDevice.UUID,
+            "url" : that.testDeviceURL,
+            "expectStatus" : 200
+        })            
+            .after(function(){
+                if(callback){
+                    callback();
+                }
+            })
+            .toss()
+    }
+
+
+    that.sessionUpdateDeviceProperties = function( updateJSON, callback ){
+        frisbyRequest.PostJson({
+            "headers" : {
+                "Content-Type" : "application/json",
+                "cookie" : that.cookie
+            },
+            "testFilename" : that.testFilename,
+            "testname" : that.testName + ' ***  SESSION UPDATE DEVICE PROPERTIES FOR ' + that.testDevice.UUID,
+            "url" : that.testDeviceURL,
+            "jsonBody" : updateJSON,
+            "expectStatus" : 200            
+        })
+            .after( function(){
+                if( callback ){
+                    callback();
+                }
+            })
+            .toss()            
+    }
+
+    that.sessionDeclareCloudVariables = function( variableDeclarations, callback ){
+        frisbyRequest.PostJson({
+            "headers" : {
+                "Content-Type" : "application/json",
+                "cookie" : that.cookie
+            },
+            "testFilename" : that.testFilename,
+            "testname" : that.testName + ' ***  SESSION DECLARE VARIABLES FOR DEVICE ' + that.UUID,
+            "url" : that.testDeviceURL,
+            "jsonBody" : variableDeclarations,
+            "expectStatus" : 200
+        })            
+            .after(function(){
+                if(callback){
+                    callback()
+                }
+            })
+            .toss()
+    }
+
+
+    that.sessionSetCloudVariables = function( update, callback ){
+        frisbyRequest.PostJson({
+            "headers" : {
+                "Content-Type" : "application/json",
+                "cookie" : that.cookie
+            },
+            "testFilename" : that.testFilename,
+            "testname" : that.testName + ' *** SESSION AUTH SET CLOUD VARIABLES FOR DEVICE ' + that.UUID,
+            "url" : that.testDeviceURL,
+            "jsonBody" : update.variableUpdates,
+            "expectStatus" : 200
+        })
+            .after(function(){
+                if(callback){
+                    callback()
+                }
+            })
+            .toss()
+    }    
 }
 
 module.exports = TestUser;

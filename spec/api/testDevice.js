@@ -20,7 +20,7 @@ var TestDevice = function( testFilename, device, callback ){
     }
 
     that.basicAuthVerifySelf = function ( device, callback ){
-        this.expectJSON =  device.expectJSON;
+        this.expectJSON =  device.expectJSON ? device.expectJSON : {};
         this.expectStatus = device.expectStatus ? device.expectStatus : 200;
         this.headers = device.headers ? device.headers : that.basicAuthHeaders;
         frisbyRequest.Get({
@@ -33,7 +33,6 @@ var TestDevice = function( testFilename, device, callback ){
             .expectHeaderContains('content-type', 'application/json')
             .expectJSON( this.expectJSON )
             .after(function(){
-                console.log('that.authString: ' + that.authString);
                 if(callback){
                     callback();
                 }
@@ -72,7 +71,7 @@ var TestDevice = function( testFilename, device, callback ){
         })            
             .after(function(){
                 if(callback){
-                    callback()
+                    callback();
                 }
             })
             .toss()
@@ -92,7 +91,6 @@ var TestDevice = function( testFilename, device, callback ){
                     callback()
                 }
             })
-            .inspectJSON()
             .toss()
     }
 

@@ -12,7 +12,6 @@ var Test = function( ){
     that.user = new testUser( __filename, '** UPDATE DEVICE FREINDLY NAME BASIC AUTH **' );
     that.updateJSON = { "friendly_name": "NEW FRIENDLY NAME" };
     that.test = function(){
-        console.log('Registering');
         that.user.register( {}, that.login );
     }
     that.login = function(){

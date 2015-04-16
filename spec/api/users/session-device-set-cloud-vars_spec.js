@@ -3,18 +3,20 @@
 var testUser = require('../testUser');
 
 /*
- *   Test: Set cloud variables of user-linked device with device basic auth
- */
+    Test: Set cloud variables using session auth
+*/
+
 var Test = function( ){
     var that = this;
-    that.user = new testUser( __filename, '** SET CLOUD VARS **' );
+    that.user = new testUser( __filename, '** SESSION AUTH SET CLOUD VARS FOR DEVICE**' );
     that.variableDeclarationJSON =  {
-        "var_decls" : {
-            "out float32 temperature" : { },
-            "out float32 humidity" : { },
-            "in int8 dimmer_brightness" : { }
-         }
-    };  
+                "var_decls" : {
+                    "out float32 temperature" : { },
+                    "out float32 humidity" : { },
+                    "in int8 dimmer_brightness" : { },
+                    "in bool reboot_now" : { }
+                 }
+    }
       
     that.setVariablesJSON =  {
         "vars" : {
@@ -47,23 +49,23 @@ var Test = function( ){
     that.createDevice = function(){
         that.user.createDevice( __filename, {}, that.verifyDevice );
     }
-    that.verifyDevice = function(){
-        that.user.testDevice.basicAuthVerifySelf( {}, that.declareCloudVariables );
+    that.verifyDevice= function(){
+        that.user.sessionVerifyDevice( {}, that.declareCloudVariables ); 
     }
     that.declareCloudVariables = function(){
-        that.user.testDevice.basicAuthDeclareCloudVariables( that.variableDeclarationJSON,  that.setCloudVariables );
-    }    
-    that.setCloudVariables = function(){
-        that.user.testDevice.basicAuthSetCloudVariables({  
-                'variableUpdates': that.setVariablesJSON,
-                'expectJSON': that.expectJSON 
-        },  that.verifyUpdate );
+        that.user.sessionDeclareCloudVariables( that.variableDeclarationJSON, that.setCloudVariables );
     }
-    that.verifyUpdate = function(){
-        that.user.testDevice.basicAuthVerifySelf( that.expectJSON, that.delete );
+    that.setCloudVariables = function(){
+        that.user.sessionSetCloudVariables( {
+                'variableUpdates': that.setVariablesJSON,
+                'expectJSON': that.expectJSON
+            }, that.verifyDeviceUpdate )
+    }
+    that.verifyDeviceUpdate = function(){
+        that.user.sessionVerifyDevice( that.expectJSON, that.delete )
     }
     that.delete = function(){
-        that.user.usernameLogin( {}, that.user.delete )   
+        that.user.delete();
     }
 }
 
