@@ -23,7 +23,6 @@ var Test = function( ){
         that.user.sessionVerifyDevice( {}, that.updateDeviceProperties ); 
     }
     that.updateDeviceProperties = function(){
-        // write sessionUpdateDeviceProperties in user.js
         that.user.sessionUpdateDeviceProperties( that.updateJSON, that.verifyDeviceUpdate );
     }
     that.verifyDeviceUpdate = function(){

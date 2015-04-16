@@ -482,7 +482,6 @@ var TestUser = function( testFilename, testName ){
             .toss()
     }
 
-
     that.sessionSetCloudVariables = function( update, callback ){
         frisbyRequest.PostJson({
             "headers" : {
@@ -501,7 +500,30 @@ var TestUser = function( testFilename, testName ){
                 }
             })
             .toss()
-    }    
+    }
+
+    that.sessionDeleteDevice = function( device, callback ){
+        frisbyRequest.Delete({
+            "headers" : {
+                "Content-Type" : "application/json",
+                "cookie" : that.cookie
+            },   
+            "testFilename" : that.testFilename,
+            "testname" : that.testName + ' ***  SESSION AUTH DELETE DEVICE ' + that.testDevice.UUID,
+            "url" : that.testDeviceURL,
+            "expectStatus" : 200
+        })
+           .expectHeaderContains('content-type', 'application/json')
+           .expectJSON({
+              "result" : "ok"
+           })
+           .after(function(){
+                if( callback ){
+                    callback();
+                }
+           })
+            .toss()
+    }
 }
 
 module.exports = TestUser;
