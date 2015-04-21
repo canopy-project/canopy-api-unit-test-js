@@ -110,6 +110,22 @@ var TestDevice = function( testFilename, device, callback ){
             })
             .toss()
     }
+
+    that.getHistoricCloudVarData = function( cloudVariable, callback ){
+        frisbyRequest.Get({
+            "headers" : that.basicAuthHeaders,
+            "testFilename" : that.testFilename,
+            "testname" : that.testName + ' *** GET HISTORIC CLOUD VAR DATA ' + that.UUID,
+            "url" : that.selfPath + '/' + cloudVariable,
+            "expectStatus" : 200
+        })
+            .after(function(){
+                if(callback){
+                    callback()
+                }
+            })
+            .toss()
+    }    
 }
 
 module.exports = TestDevice;
