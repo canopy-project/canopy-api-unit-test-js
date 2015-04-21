@@ -31,7 +31,7 @@ var Test = function(){
             "expectJSON" : {
                 "email" : newEmail,
                 "password" : newPassword
-            } 
+            }
         }, that.user.basicAuthDelete);
     }
 }

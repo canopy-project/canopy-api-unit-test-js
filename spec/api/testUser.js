@@ -213,6 +213,10 @@ var TestUser = function( testFilename, testName ){
 
     that.logout = function( callback ){
         frisbyRequest.PostJson({
+            "headers" : {
+                "Content-Type": "application/json",
+                "cookie" : that.cookie
+            },            
             "testFilename" : that.testFilename,
             "testname" : that.testName + ' *** LOGOUT USER ' + that.username,
             "url" : that.baseURL + that.logoutPath,

@@ -8,9 +8,10 @@ var h = require('../../helper-functions');
 
 var Test = function(){
     var that = this;
-    var longPassword = '';
+    var goodPassword = '';
+    var newPassword = '';
     for(var i=0;i<10;i++){
-        longPassword += h.generatePassword();
+        newPassword += h.generatePassword();
     }    
     that.user = new testUser( __filename, '** UPDATE PASSWORD WITH TOO LONG PASSWORD USING SESSION AUTH **' );
 
@@ -21,17 +22,40 @@ var Test = function(){
         that.user.usernameLogin( {}, that.update );
     }
     that.update = function(){
+        // store the good password to use later
+        goodPassword = that.user.password;
+
         that.user.update( {
             "jsonBody" : {
-                "password" : longPassword                
+                "password" : newPassword                
             },
             "expectJSON" : {
                 "error_type": "bad_input",
                 "result": 'error'              
             },
             "expectStatus": 400
-        }, that.user.delete );
+        }, that.logout );
     }
+
+    that.logout = function(){
+        console.log(' logging out');
+        that.user.logout( that.failLogin );
+    }
+
+    that.failLogin = function(){
+        console.log('attempting to log in with bad pw')
+        that.user.usernameLogin( {
+            "password" : newPassword,
+            "expectStatus" : 401
+        }, that.delete );
+    }
+
+    that.delete = function(){
+        that.user.usernameLogin({
+            "password": goodPassword
+        }, that.user.delete);
+    }
+
 }
 
 var test = new Test();
