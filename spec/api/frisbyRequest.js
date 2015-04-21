@@ -135,7 +135,7 @@ function Delete(params) {
             console.log("(FROM " + params.testFilename + ")");
         }
         console.log("------------------------------------------------------");
-        console.log("REQUEST: POST " + params.url);
+        console.log("REQUEST: DELETE " + params.url);
         if (params.headers) {
             console.log("Headers: ");
             console.log(JSON.stringify(params.headers, null, 4));

@@ -9,6 +9,8 @@ var h = require('../helper-functions');
 
 var Test = function(){
     var that = this;
+    var newEmail = h.generateEmail();
+    var newPassword = h.generatePassword();
     that.user = new testUser( __filename, '** BASIC AUTH UPDATE EMAIL & Password**' );
 
     that.test = function(){
@@ -18,10 +20,19 @@ var Test = function(){
     that.update = function(){
         that.user.basicAuthUpdate( {
             "jsonBody" : {
-                "email" : h.generateEmail(),
-                "password" : h.generatePassword()
+                "email" : newEmail,
+                "password" : newPassword
             }
-        }, that.user.basicAuthDelete );
+        }, that.verify );
+    }
+
+    that.verify = function(){
+        that.user.basicAuthVerify({
+            "expectJSON" : {
+                "email" : newEmail,
+                "password" : newPassword
+            } 
+        }, that.user.basicAuthDelete);
     }
 }
 

@@ -156,10 +156,10 @@ var TestUser = function( testFilename, testName ){
         };
 
     that.update = function( user, callback ){   
-        user.username ? this.username = user.username : this.username = that.username;
-        user.email ? this.email = user.email : this.email = that.email;
-        user.expectStatus ? this.expectStatus = user.expectStatus : this.expectStatus = 200;
-        user.expectJSON ? this.expectJSON = user.expectJSON : this.expectJSON = {
+        this.username = user.username ? user.username : that.username;
+        this.email = user.email ? user.email : that.email;
+        this.expectStatus = user.expectStatus ? user.expectStatus : 200;
+        this.expectJSON = user.expectJSON ? user.expectJSON : {
                "result" : "ok"
         };
         this.jsonBody = user.jsonBody ? user.jsonBody : {},              
@@ -291,7 +291,7 @@ var TestUser = function( testFilename, testName ){
                 "Authorization" : this.authString
             },
             "testFilename" : that.testFilename,
-            "testname" : that.testName + ' ***  DELETE USER ' + that.username,
+            "testname" : that.testName + ' ***  USER BASIC AUTH UPDATE ' + that.username,
             "url" : that.baseURL + that.selfPath,
             "expectStatus" : that.expectStatus,
             "jsonBody" : this.jsonBody

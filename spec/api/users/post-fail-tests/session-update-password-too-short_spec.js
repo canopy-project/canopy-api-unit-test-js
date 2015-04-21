@@ -19,7 +19,7 @@ var Test = function(){
     that.update = function(){
         that.user.update( {
             "jsonBody" : {
-                "password" : ''                
+                "password" : 'lol'                
             },
             "expectJSON" : {
                 "error_type": "bad_input",
